@@ -23,16 +23,16 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.php">Accueil</a>
+                            <a class="nav-link" href="accueil">Accueil</a>
                     </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Blog</a>
+                            <a class="nav-link" href="blog">Blog</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Contact</a>
+                            <a class="nav-link" href="contact">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Authentification</a>
+                            <a class="nav-link" href="authentification">Authentification</a>
                         </li>
                     </ul>
                 </div>
