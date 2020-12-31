@@ -24,12 +24,9 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="accueil">Accueil</a>
-                    </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="blog">Blog</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact">Contact</a>
+                            <a class="nav-link" href="blog">Blog</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="authentification">Authentification</a>
@@ -40,7 +37,7 @@
         </nav>
 
         <!-- Page Header -->
-        <header class="masthead" style="background-image: url('public/img/home-bg.jpg')">
+        <header class="masthead" style="background-image: url('<?= $image ?>')">
             <div class="overlay"></div>
             <div class="container">
             <div class="row">
@@ -62,12 +59,37 @@
         <!-- Footer -->
         <footer>
             <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                
-                <p class="copyright text-muted">Copyright &copy; Your Website 2020</p>
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            </li>
+                            <li class="list-inline-item">
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            </li>
+                            <li class="list-inline-item">
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                            </li>
+                        </ul>
+                        <p class="copyright text-muted">Copyright &copy; Hansen Pierre 2020</p>
+                    </div>
                 </div>
-            </div>
             </div>
         </footer>
 

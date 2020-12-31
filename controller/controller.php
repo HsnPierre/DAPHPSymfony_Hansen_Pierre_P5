@@ -10,10 +10,6 @@ function blog(){
     require('view/viewBlog.php');
 }
 
-function contact(){
-    require('view/viewContact.php');
-}
-
 function auth(){
     require('view/viewAuth.php');
 }

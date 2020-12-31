@@ -11,9 +11,7 @@ if(isset($_GET['url'])) {
 if($url == '' || $url[0] == 'accueil' ) {
     index();
 } elseif($url[0] == 'blog') {
-    blog();
-} elseif($url[0] == 'contact') {
-    contact();   
+    blog();   
 } elseif($url[0] == 'authentification') {
     auth();
 } 
