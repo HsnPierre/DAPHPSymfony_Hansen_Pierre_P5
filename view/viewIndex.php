@@ -2,6 +2,82 @@
 <?php $subtitle ="Phrase d'accroche à trouver"; ?>
 <?php $image ="public/img/home-bg.jpg"; ?>
 
+<?php
+
+if(!empty($_POST)){
+    extract($_POST);
+    $valid = true;
+
+    if(isset($_POST['contact'])){
+        $nom = (String) htmlentities(trim($nom));
+        $prenom = (String) htmlentities(trim($prenom));
+        $mail = (String) htmlentities(strtolower(trim($mail)));
+        $objet = (String) htmlentities(trim($objet));
+        $message = (String) htmlentities(trim($message));
+
+        if(empty($nom)){
+            $valid = false;
+            $er_nom = ("Le champs nom ne peut pas être vide");
+        }
+
+        if(empty($prenom)){
+            $valid = false;
+            $er_prenom = ("Le champs prenom ne peut pas être vide");
+        }
+
+        if(empty($mail)){
+            $valid = false;
+            $er_mail = ("Le champs adresse mail ne peut pas être vide");
+        } elseif(!preg_match("/^[a-z0-9\-_.]+@[a-z]+\.[a-z]{2,3}$/i", $mail)) {
+            $valid = false;
+            $er_mail = ("L'adresse mail n'est pas valide");
+        }
+
+        if(empty($objet)){
+            $valid = false;
+            $er_objet = ("Le champs sujet ne peut pas être vide");
+        }
+
+        if(empty($message)){
+            $valid = false;
+            $er_message = ("Le champs message ne peut pas être vide");
+        }
+
+        if($valid){
+
+            $to = 'pierre.hsn@gmail.com';
+
+            $header = "MIME-Version: 1.0\r\n";
+            $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+
+            $header .= 'To: Vous <' . $to . '>' . "\r\n";
+            $header .= 'From:' . $nom . ' ' . $prenom . ' <' . $mail . '>' . "\r\n";
+
+            $message = "<html>
+                            <head>
+                            </head>
+                            <body>
+                                <p>" .
+                                    $nom . ' ' . $prenom . ',<br>
+                                    Sujet : ' . $objet . ',<br>
+                                    Message : ' . $message . "
+                                </p>
+                            </body>
+                        </html>";
+
+            if(mail($to, $objet, $message, $header)){
+                echo 'Le formulaire a bien été envoyé';
+            } else {
+                echo "Une erreur est survenue lors de l'envoi du formulaire";
+            }
+
+        }
+
+    }
+}
+
+?>
+
 <?php ob_start(); ?>
 
 <br>
@@ -102,27 +178,71 @@
     <br>
     <h2 class="text-center">Me contacter</h2>
     <br>
-    <form>
+    <form method="post">
         <div class="row g-3 align-items-center">
-            <div class="mb-3 col">
-                <label for="name" class="form-label">Nom</label>
-                <input type="text" class="form-control" id="name">
+            <div class="form-group col">
+                <label for="nom" class="form-label">Nom</label>
+                <input class="form-control" type="text" name="nom" value="<?php if(isset($nom)){ echo $nom; }?>">
             </div>
-            <div class="mb-3 col">
-                <label for="surname" class="form-label">Prénom</label>
-                <input type="text" class="form-control" id="surname">
+            <?php
+                if(isset($er_nom)){
+                ?>
+                    <div class="er-msg"><?= $er_nom ?></div>
+                <?php
+                }
+            ?>
+            
+            <div class="form-group col">
+                <label for="prenom" class="form-label">Prenom</label>
+                <input class="form-control" type="text" name="prenom" value="<?php if(isset($prenom)){ echo $prenom; }?>">
             </div>
+            <?php
+                if(isset($er_prenom)){
+                ?>
+                    <div class="er-msg"><?= $er_prenom ?></div>
+                <?php
+                }
+            ?>
         </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Adresse mail</label>
-            <input type="email" class="form-control" id="email" placeholder="name@example.fr">
+        
+        <div class="form-group">
+            <label for="mail" class="form-label">Adresse mail</label>
+            <input class="form-control" type="email" placeholder="exemple@domaine.fr" name="mail" value="<?php if(isset($mail)){ echo $mail; }?>">
         </div>
-        <div class="mb-3">
+        <?php
+            if(isset($er_mail)){
+            ?>
+                <div class="er-msg"><?= $er_mail ?></div>
+            <?php
+            }
+        ?>
+        
+        <div class="form-group">
+            <label for="objet" class="form-label">Sujet</label>
+            <input class="form-control" type="text" name="objet" value="<?php if(isset($objet)){ echo $objet; }?>">
+        </div>
+        <?php
+            if(isset($er_objet)){
+            ?>
+                <div class="er-msg"><?= $er_objet ?></div>
+            <?php
+            }
+        ?>
+        
+        <div class="form-group">
             <label for="message" class="form-label">Message</label>
-            <textarea class="form-control" id="message" rows="3"></textarea>
+            <textarea class="form-control" name="message"><?php if(isset($message)){ echo $message; }?></textarea>
         </div>
-        <div class="button">
-            <button type="submit">Envoyer</button>
+        <?php
+            if(isset($er_message)){
+            ?>
+                <div class="er-msg"><?= $er_message ?></div>
+            <?php
+            }
+        ?>
+
+        <div class="form-group text-center">
+            <button class="btn btn-primary" type="submit" name="contact">Envoyer</button>
         </div>
     </form>
 </div>
