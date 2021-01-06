@@ -29,6 +29,11 @@ h6 {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+h1,
+h2{
+  padding: 30px 0;
+}
+
 a {
   color: #212529;
   transition: all 0.2s;
