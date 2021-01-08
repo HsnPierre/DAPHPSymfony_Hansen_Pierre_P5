@@ -41,7 +41,7 @@
         </nav>
 
         <div id="login">
-            <form method="post">
+            <form method="post" id="log">
                     <div class="form-group">
                         <label for="pseudo" class="form-label">Pseudonyme</label>
                         <input class="form-control" type="text" name="pseudo" value="<?php if(isset($pseudo)){ echo $pseudo; }?>">
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="form-group text-center">
-                        <button class="btn btn-primary" type="submit" name="contact">Se connecter</button>
+                        <button class="btn btn-primary" type="submit" name="log">Se connecter</button>
                     </div>
             </form>
         </div>

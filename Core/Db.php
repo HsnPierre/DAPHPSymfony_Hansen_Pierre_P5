@@ -23,7 +23,7 @@ class Db extends PDO
         
             $this->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
             $this->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-            $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMOD_EXCPETION);
+            $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMOD_EXCEPTION);
         }catch(PDOException $e){
             die($e->getMessage());
         }

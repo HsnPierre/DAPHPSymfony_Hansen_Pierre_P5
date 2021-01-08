@@ -6,12 +6,12 @@ if(!empty($_POST)){
     extract($_POST);
     $valid = true;
 
-    if(isset($_POST['contact'])){
+    if(isset($_POST['inscription'])){
         $nom = (String) htmlentities(trim($nom));
         $prenom = (String) htmlentities(trim($prenom));
         $mail = (String) htmlentities(strtolower(trim($mail)));
-        $objet = (String) htmlentities(trim($objet));
-        $message = (String) htmlentities(trim($message));
+        $pseudo = (String) htmlentities(trim($pseudo));
+        $pass = (String) htmlentities(trim($pass));
 
         if(empty($nom)){
             $valid = false;
@@ -43,31 +43,7 @@ if(!empty($_POST)){
 
         if($valid){
 
-            $to = 'pierre.hsn@gmail.com';
-
-            $header = "MIME-Version: 1.0\r\n";
-            $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-
-            $header .= 'To: Vous <' . $to . '>' . "\r\n";
-            $header .= 'From:' . $nom . ' ' . $prenom . ' <' . $mail . '>' . "\r\n";
-
-            $message = "<html>
-                            <head>
-                            </head>
-                            <body>
-                                <p>" .
-                                    $nom . ' ' . $prenom . ',<br>
-                                    Sujet : ' . $objet . ',<br>
-                                    Message : ' . $message . "
-                                </p>
-                            </body>
-                        </html>";
-
-            if(mail($to, $objet, $message, $header)){
-                echo 'Le formulaire a bien été envoyé';
-            } else {
-                echo "Une erreur est survenue lors de l'envoi du formulaire";
-            }
+        } else {
 
         }
 
@@ -78,7 +54,7 @@ if(!empty($_POST)){
 
 <div class="container">
     <h2 class="text-center">Inscription</h2>
-    <form method="post">
+    <form method="post" id="inscription">
         <div class="row g-3 align-items-center">
             <div class="form-group col">
                 <label for="nom" class="form-label">Nom</label>
@@ -140,7 +116,7 @@ if(!empty($_POST)){
         </div>
 
         <div class="form-group text-center">
-            <button class="btn btn-primary" type="submit" name="contact">S'inscrire</button>
+            <button class="btn btn-primary" type="submit" name="inscription">S'inscrire</button>
         </div>
     </form>
 </div>

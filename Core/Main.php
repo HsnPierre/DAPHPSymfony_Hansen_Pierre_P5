@@ -34,9 +34,8 @@ class Main
                 (isset($params[0])) ? $controller->$action($params) : $controller->$action();
 
             }else{
-
                 http_response_code(404);
-                echo "Non";
+                echo "Cette page n'existe pas";
             }
 
         }else{
