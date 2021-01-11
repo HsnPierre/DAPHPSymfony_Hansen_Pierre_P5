@@ -7,12 +7,11 @@ class Model extends Db
 {
     protected $table;
 
-    private $db;
-
+    private $datab;
 
     public function findAll()
     {
-        return $this->requete('SELECT * FROM'.$this->table)->fetchAll();
+        return $this->requete('SELECT * FROM '.$this->table)->fetchAll();
     }
 
     public function findBy(array $criteres)
@@ -27,7 +26,7 @@ class Model extends Db
 
         $liste_champs = implode(' AND ', $champs);
 
-        return $this->requete('SELECT * FROM '.$this->table.' WHERE '.$liste_champs,$valeurs)->fetchAll();
+        return $this->requete('SELECT * FROM '.$this->table.' WHERE '.$liste_champs, $valeurs)->fetchAll();
     }
 
     public function find(int $id)
@@ -35,15 +34,15 @@ class Model extends Db
         return $this->requete('SELECT * FROM'.$this->table.' WHERE id = '.$id)->fetch();
     }
 
-    public function create(Model $model)
+    public function create()
     {
         $champs = [];
         $inter = [];
         $valeurs = [];
 
-        foreach($model as $champ => $valeur){
+        foreach($this as $champ => $valeur){
 
-            if($valeur !== null && $champ != 'db' && $champ != 'table'){
+            if($valeur !== null && $champ != 'datab' && $champ != 'table'){
                 $champs[] = $champ;
                 $inter[] = "?";
                 $valeurs[] = $valeur;
@@ -53,21 +52,21 @@ class Model extends Db
         $liste_champs = implode(', ', $champs);
         $liste_inter = implode(', ', $inter);
 
-        return $this->requete('INSERT INTO'.$this->table.' ('.$liste_champs.')VALUES('.$liste_inter.')',$valeurs);
+        return $this->requete('INSERT INTO '.$this->table.' ('.$liste_champs.')VALUES('.$liste_inter.')', $valeurs);
     }
 
-    public function update(int $id, Model $model)
+    public function update()
     {
         $champs = [];
         $valeurs = [];
 
-        foreach($model as $champ => $valeur){
+        foreach($this as $champ => $valeur){
             if($valeur !== null && $champ != 'db' && $champ != 'table'){
                 $champs[] = "$champ = ?";
                 $valeurs[] = $valeur;
             }
         }
-        $valeurs[] = $id;
+        $valeurs[] = $this->id;
 
         $liste_champs = implode(', ', $champs);
 
@@ -81,19 +80,19 @@ class Model extends Db
 
     public function requete(string $sql, array $attributs = null)
     {
-        $this->db = Db::getInstance();
-
+        $this->datab = Db::getInstance();
+        
         if($attributs !== null){
-                $query = $this->db->prepare($sql);
+                $query = $this->datab->prepare($sql);
                 $query->execute($attributs);
                 return $query;
         }else{
-            return $this->db->query($sql);
+            return $this->datab->query($sql);
         }
 
     }
 
-    public function hydrate(array $donnees)
+    public function hydrate($donnees)
     {
         foreach($donnees as $key => $value){
             $method = 'set'.ucfirst($key);

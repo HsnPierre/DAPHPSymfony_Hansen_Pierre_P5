@@ -11,10 +11,17 @@ class UserModel extends Model
     protected $surname;
     protected $email;
     protected $role;
+    protected $rgpd;
+    protected $date;
 
     public function __construct()
     {
         $this->table = 'user';
+    }
+
+    public function findAllBy(string $donnee)
+    {
+        return $this->requete('SELECT '.$donnee.' FROM '.$this->table)->fetchAll();
     }
 
     public function getIdUser()
@@ -97,6 +104,30 @@ class UserModel extends Model
     public function setRole($role)
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    public function getRgpd()
+    {
+        return $this->rgpd;
+    }
+
+    public function setRgpd($rgpd)
+    {
+        $this->rgpd = $rgpd;
+
+        return $this;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    public function setDate($date)
+    {
+        $this->date = $date;
 
         return $this;
     }
