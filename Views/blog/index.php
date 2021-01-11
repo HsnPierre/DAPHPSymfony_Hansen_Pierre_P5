@@ -1,7 +1,3 @@
-<?php $title = 'Blog';
-$subtitle ='Ceci est mon blog'; 
-$image ="img/blog-bg.jpg"; ?>
-
 <div class="container">
     <br>
     <h2 class="text-center">Mes actualités</h2>

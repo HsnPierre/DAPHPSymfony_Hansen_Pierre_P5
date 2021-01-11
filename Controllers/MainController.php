@@ -6,6 +6,8 @@ class MainController extends Controller
 {
     public function index()
     {
-        $this->render('main/index');
+        $donnees = array ("title" => "Welcome !", "subtitle" => "Lorem ipsum dolor sit amet", "image" => "img/home-bg.jpg");
+
+        $this->render('main/index', $donnees);
     }
 }

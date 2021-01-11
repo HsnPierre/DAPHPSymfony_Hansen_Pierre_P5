@@ -5,6 +5,8 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $this->render('blog/index');
+        $donnees = array ("title" => "Blog", "subtitle" => "Ceci est mon blog", "image" => "img/blog-bg.jpg");
+
+        $this->render('blog/index', $donnees);
     }
 }
