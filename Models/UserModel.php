@@ -7,6 +7,7 @@ class UserModel extends Model
     protected $idUser;
     protected $username;
     protected $password;
+    protected $pic;
     protected $name;
     protected $surname;
     protected $email;
@@ -25,6 +26,7 @@ class UserModel extends Model
             'idUser' => $this->idUser,
             'username' => $this->username,
             'password' => $this->password,
+            'pic' => $this->pic,
             'name' => $this->name,
             'surname' => $this->surname,
             'email' => $this->email,
@@ -76,6 +78,18 @@ class UserModel extends Model
     public function setPassword($password)
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPic()
+    {
+        return $this->pic;
+    }
+
+    public function setPic($pic)
+    {
+        $this->pic = $pic;
 
         return $this;
     }

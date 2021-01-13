@@ -29,7 +29,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="blog">Blog</a>
                         </li>
-                        <?php if(isset($_SESSION['user']) && !empty($_SESSION['user']['id'])): ?>
+                        <?php if(isset($_SESSION['user']) && !empty($_SESSION['user']['idUser'])): ?>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="profile">Mon profil</a>
@@ -38,7 +38,7 @@
                                 <a class="nav-link" href="admin">Administration</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="">Deconnexion</a>
+                                <a class="nav-link" href="main/logout">Deconnexion</a>
                             </li>
 
                         <?php else: ?>
@@ -130,6 +130,7 @@
         <!-- Custom scripts for this template -->
         <script src="js/clean-blog.min.js"></script>
         <script src="js/script.js"></script>
+        <script src="js/delete.js"></script>
 
     </body>
 </html>

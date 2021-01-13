@@ -17,6 +17,8 @@ class MainController extends Controller
                 $main->contactform();
             }
         }
+
+        
         
         $donnees = array ("title" => "Welcome !", "subtitle" => "Lorem ipsum dolor sit amet", "image" => "img/home-bg.jpg", "loc" => "main");
 
@@ -132,7 +134,12 @@ class MainController extends Controller
     }
 
     public function logout(){
+        $tab = explode('/', $_SERVER['HTTP_REFERER']);
         unset($_SESSION['user']);
-        header('Location: '. $_SERVER['HTTP_REFERER']);
+        if($tab[3] == 'profile' || $tab[3] == 'admin'){
+            header('Location: /');
+        } else {
+            header('Location: '. $_SERVER['HTTP_REFERER']);
+        }
     }
 }

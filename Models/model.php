@@ -66,16 +66,22 @@ class Model extends Db
                 $valeurs[] = $valeur;
             }
         }
-        $valeurs[] = $this->id;
+        
+        $table = $this->table;
+        $nomId = 'id'.ucfirst($this->table);
+
+        $id = $_SESSION["$table"]["$nomId"];
+
+        $valeurs[] = $id;
 
         $liste_champs = implode(', ', $champs);
 
-        return $this->requete('UPDATE '.$this->table.' SET '.$liste_champs.' WHERE id = ?', $valeurs);
+        return $this->requete('UPDATE '.$this->table.' SET '.$liste_champs.' WHERE id'.ucfirst($this->table).' = ?', $valeurs);
     }
 
     public function delete(int $id)
     {
-        return $this->requete('DELETE FROM '.$this->table.' WHERE id = ?', [$id]);
+        return $this->requete('DELETE FROM '.$this->table.' WHERE id'.ucfirst($this->table).' = ?', [$id]);
     }
 
     public function requete(string $sql, array $attributs = null)

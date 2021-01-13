@@ -42,7 +42,7 @@
 
         <div class="form-check">
             <input class="form-check-input" type="checkbox" id="rgpd" required>
-            <label class="form-check-label" for="rgpd">J'autorise ce site à conserver mes données personnelles transmises via ce formulaire. Aucun exploitation commerciale ne sera faite des données conservées.</label>
+            <label class="form-check-label" for="rgpd">J'autorise ce site à conserver mes données personnelles transmises via ce formulaire. Aucune exploitation commerciale ne sera faite des données conservées.</label>
         </div>
 
         <div class="form-group text-center">

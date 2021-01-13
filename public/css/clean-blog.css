@@ -60,6 +60,19 @@ blockquote {
   opacity: 90%;
 }
 
+#delete-form {
+	position: fixed;
+	z-index: 2;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: none;
+	background: #fff;
+  width: 40%;
+  padding: 30px;
+	box-shadow: 0 0 8px rgba(0,0,0,0.4); 
+}
+
 #log {
   padding-top: 50px;
   width: 95%;
