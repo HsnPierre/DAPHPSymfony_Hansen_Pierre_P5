@@ -1,9 +1,11 @@
 var container = document.getElementById('login');
+container.style.display = 'none';
 
-function openPopup(){
-	container.style.display = 'block';
-}
+function Popup(){
 
-function closePopup(){
-	container.style.display = 'none';
+	if(container.style.display == 'none'){
+		container.style.display = 'block';
+	} else {
+		container.style.display = 'none';
+	}
 }

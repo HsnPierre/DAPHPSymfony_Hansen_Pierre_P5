@@ -1,11 +1,17 @@
 <div class="container">
     <h2 class="text-center">Inscription</h2>
-    <form method="post" id="inscription">
+    <form action="#" method="post" id="inscription">
+        <?php if(isset($_SESSION['erreur'])): ?>
+        <div class="alert alert-danger text-center" role="alert">
+            <?= $error; unset($_SESSION['erreur']); ?>
+        </div>
+        <?php endif; ?>
         <div class="row g-3 align-items-center">
             <div class="form-group col">
                 <label for="nom" class="form-label">Nom</label>
                 <input class="form-control" type="text" name="nom">
             </div>
+            
             
             <div class="form-group col">
                 <label for="prenom" class="form-label">Prenom</label>
@@ -15,7 +21,7 @@
         </div>
 
         <div class="form-group">
-            <label for="pseudo" class="form-label">Pseudonyme</label>
+            <label for="pseudonyme" class="form-label">Pseudonyme</label>
             <input class="form-control" type="text" name="pseudonyme">
         </div>
          
@@ -25,12 +31,12 @@
         </div>
         
         <div class="form-group">
-            <label for="mdp" class="form-label">Mot de passe</label>
+            <label for="password" class="form-label">Mot de passe</label>
             <input class="form-control" type="password" placeholder="" name="password">
         </div>
 
         <div class="form-group">
-            <label for="" class="form-label">Confirmer mot de passe</label>
+            <label for="password2" class="form-label">Confirmer mot de passe</label>
             <input class="form-control" type="password" placeholder="" name="password2">
         </div>
 

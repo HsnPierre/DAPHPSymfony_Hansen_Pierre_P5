@@ -19,9 +19,29 @@ class UserModel extends Model
         $this->table = 'user';
     }
 
+    public function setSession()
+    {
+        $_SESSION['user'] = [
+            'idUser' => $this->idUser,
+            'username' => $this->username,
+            'password' => $this->password,
+            'name' => $this->name,
+            'surname' => $this->surname,
+            'email' => $this->email,
+            'role' => $this->role,
+            'rgpd' => $this->rgpd,
+            'date' => $this->date
+        ];
+    }
+
     public function findAllBy(string $donnee)
     {
         return $this->requete('SELECT '.$donnee.' FROM '.$this->table)->fetchAll();
+    }
+
+    public function findOneBy(string $donnee, string $valeur)
+    {
+        return $this->requete('SELECT * FROM '.$this->table.' WHERE '.$donnee.' = ?', [$valeur])->fetch();
     }
 
     public function getIdUser()

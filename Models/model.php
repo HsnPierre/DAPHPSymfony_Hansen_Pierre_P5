@@ -31,7 +31,7 @@ class Model extends Db
 
     public function find(int $id)
     {
-        return $this->requete('SELECT * FROM'.$this->table.' WHERE id = '.$id)->fetch();
+        return $this->requete('SELECT * FROM '.$this->table.' WHERE id'.ucfirst($this->table).' = '.$id)->fetch();
     }
 
     public function create()

@@ -9,7 +9,7 @@ class AuthController extends Controller
     {
         $auth = new AuthController;
 
-        if($auth->validate($_POST, ['nom', 'prenom', 'pseudonyme', 'mail', 'password', 'password2'])){
+        if(!empty($_POST) && $auth->validate($_POST, ['nom', 'prenom', 'pseudonyme', 'mail', 'password', 'password2'])){
             $mail = strip_tags($_POST['mail']);
             $pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
             $nom = $_POST['nom'];
@@ -30,23 +30,30 @@ class AuthController extends Controller
                 $user->setRgpd(1);
 
                 $user->create();
+
+                $_SESSION['valide'] = "L'inscription a bien été prise en compte, vous pouvez dorénavant vous connecter";
+                header('Location: /login');
             }        
         }
 
-        $this->render('auth/index', [], 'auth');
+        $error = $_POST['erreur'];
+
+        $donnees = array ("error" => $error);
+
+        $this->render('auth/index', $donnees, 'auth');
     }
 
     public function validate(array $donnees, array $champs)
     {
         foreach($champs as $champ){
             if(!isset($donnees[$champ]) || empty($donnees[$champ])){
-                echo "Le champ ".ucfirst($champ)." ne peut pas être vide.";
+                $_POST['erreur'] = "Le champ ".$champ." ne peut pas être vide.";
                 return false;
             } else if(!filter_var($donnees["mail"], FILTER_VALIDATE_EMAIL)){
-                echo "L'adresse mail ".'"'.$donnees["mail"].'"'." n'est pas valide";
+                $_POST['erreur'] = "L'adresse mail n'est pas valide.";
                 return false;
             } else if ($donnees["password"] != $donnees["password2"]){
-                echo "Les deux mots de passe ne se correspondent pas.";
+                $_POST['erreur'] = "Les deux mots de passe ne se correspondent pas.";
                 return false;
             }
         }

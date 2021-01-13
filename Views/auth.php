@@ -29,12 +29,29 @@
                         <li class="nav-item">
                             <a class="nav-link" href="blog">Blog</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="auth">S'inscrire</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="openPopup()">Se connecter</a>
-                        </li>
+                        <?php if(isset($_SESSION['user']) && !empty($_SESSION['user']['id'])): ?>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="profile">Mon profil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="admin">Administration</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">Deconnexion</a>
+                            </li>
+
+                        <?php else: ?>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="auth">S'inscrire</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="login">Se connecter</a>
+                            </li>
+
+                        <?php endif; ?>
+                        
                     </ul>
                 </div>
             </div>

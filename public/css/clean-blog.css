@@ -16,7 +16,7 @@ p {
 }
 
 p a {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 h1,
@@ -40,7 +40,8 @@ a {
 }
 
 a:focus, a:hover {
-  color: #0085A1;
+  color: #004e5e;
+  text-decoration: none;
 }
 
 blockquote {
@@ -56,7 +57,27 @@ blockquote {
   height: 100%;
   display: none;
   background-color: #6f7275;
-  opacity: 85%;
+  opacity: 90%;
+}
+
+#log {
+  padding-top: 50px;
+  width: 95%;
+}
+
+#log2{
+  width: 55%;
+  margin-left: 25%;
+}
+
+.error{
+  padding-bottom: 10px;
+  color:red;
+}
+
+.valide{
+  padding-bottom: 10px;
+  color:green;
 }
 
 .section-heading {
