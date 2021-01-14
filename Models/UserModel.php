@@ -46,6 +46,11 @@ class UserModel extends Model
         return $this->requete('SELECT * FROM '.$this->table.' WHERE '.$donnee.' = ?', [$valeur])->fetch();
     }
 
+    public function findOneById(string $donnee, int $id)
+    {
+        return $this->requete('SELECT '.$donnee.' FROM '.$this->table.' WHERE id'.ucfirst($this->table).' = ?', [$id])->fetch();
+    }
+
     public function getIdUser()
     {
         return $this->idUser;

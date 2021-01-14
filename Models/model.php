@@ -61,7 +61,7 @@ class Model extends Db
         $valeurs = [];
 
         foreach($this as $champ => $valeur){
-            if($valeur !== null && $champ != 'db' && $champ != 'table'){
+            if($valeur !== null && $champ != 'datab' && $champ != 'table'){
                 $champs[] = "$champ = ?";
                 $valeurs[] = $valeur;
             }

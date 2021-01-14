@@ -29,8 +29,17 @@
                         <li class="nav-item">
                             <a class="nav-link" href="blog">Blog</a>
                         </li>
-                        <?php if(isset($_SESSION['user']) && !empty($_SESSION['user']['idUser'])): ?>
+                        <?php if(isset($_SESSION['user']) && !empty($_SESSION['user']['idUser']) && stristr($_SESSION['user']['role'], "Administrateur") == false): ?>
 
+                            <li class="nav-item">
+                                <a class="nav-link" href="profile">Mon profil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="main/logout">Deconnexion</a>
+                            </li>
+
+                        <?php elseif(stristr($_SESSION['user']['role'], "Administrateur") != false): ?>
+                            
                             <li class="nav-item">
                                 <a class="nav-link" href="profile">Mon profil</a>
                             </li>
