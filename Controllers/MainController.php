@@ -18,9 +18,7 @@ class MainController extends Controller
             }
         }
 
-        
-        
-        $donnees = array ("title" => "Welcome !", "subtitle" => "Lorem ipsum dolor sit amet", "image" => "img/home-bg.jpg", "loc" => "main");
+        $donnees = array ("title" => "Welcome !", "subtitle" => "Lorem ipsum dolor sit amet", "image" => "img/home-bg.jpg");
 
         $this->render('main/index', $donnees);
     }
@@ -59,17 +57,13 @@ class MainController extends Controller
                         </html>";
 
             if(mail($to, $objet, $message, $header)){
-                $_POST['valide'] = "Le formulaire a bien été envoyé";
+                $_SESSION['valide'] = "Le formulaire a bien été envoyé";
             } else {
-                $_POST['erreur'] = "Une erreur est survenue lors de l'envoi du formulaire";
+                $_SESSION['erreur'] = "Une erreur est survenue lors de l'envoi du formulaire";
             }
         }
 
-        $error = $_POST['erreur'];
-
-        $valide = $_POST['valide'];
-
-        $donnees = array ("title" => "Welcome !", "subtitle" => "Lorem ipsum dolor sit amet", "image" => "img/home-bg.jpg", "error" => $error, "valide" => $valide);
+        $donnees = array ("title" => "Welcome !", "subtitle" => "Lorem ipsum dolor sit amet", "image" => "img/home-bg.jpg");
 
         $this->render('main/index', $donnees);
     }
@@ -127,7 +121,7 @@ class MainController extends Controller
     public function validateMail(string $mail)
     {
         if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
-            $_POST['erreur'] = "L'adresse mail n'est pas valide.";
+            $_SESSION['erreur'] = "L'adresse mail n'est pas valide.";
             return false;
         }
         return true;

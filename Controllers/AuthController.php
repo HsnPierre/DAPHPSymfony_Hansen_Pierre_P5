@@ -38,7 +38,7 @@ class AuthController extends Controller
 
         $error = $_POST['erreur'];
 
-        $donnees = array ("error" => $error);
+        $donnees = array ("error" => $error, "title" => 'Inscription');
 
         $this->render('auth/index', $donnees, 'auth');
     }

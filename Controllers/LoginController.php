@@ -37,7 +37,7 @@ class LoginController extends Controller
         $error = $_SESSION['erreur'];
         $valide = $_SESSION['valide'];
 
-        $donnees = array ("error" => $error, "valide" => $valide);
+        $donnees = array ("error" => $error, "valide" => $valide, "title" => 'Connexion');
 
         $this->render('login/index', $donnees, 'auth');
     }

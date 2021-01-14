@@ -118,7 +118,6 @@
                 <button class="btn btn-danger" type="submit" name="delete">Supprimer le compte</button>
                 <button class="btn btn-secondary" onclick="closeDelete()">Annuler</button>
             </div>
-        </div>
 	</form>
 </div>
 

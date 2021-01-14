@@ -89,12 +89,16 @@
 <div class="container" id="contactform">
     <h2 class="text-center">Me contacter</h2>
     <form action="#contactform" method="post" id="contact">
-        <div class="error text-center">
-            <?= $error ?>
-        </div>
-        <div class="valide text-center">
-            <?= $valide ?>
-        </div>
+        <?php if(isset($_SESSION['erreur'])): ?>
+            <div class="alert alert-danger text-center" role ="alert">
+                <?= $_SESSION['erreur']; unset($_SESSION['erreur']); ?>
+            </div>
+        <?php endif; ?>
+        <?php if(isset($_SESSION['erreur'])): ?>
+            <div class="alert alert-danger text-center" role ="alert">
+                <?= $_SESSION['erreur']; unset($_SESSION['erreur']); ?>
+            </div>
+        <?php endif; ?>
         <div class="row g-3 align-items-center">
             <div class="form-group col">
                 <label for="nom" class="form-label">Nom</label>

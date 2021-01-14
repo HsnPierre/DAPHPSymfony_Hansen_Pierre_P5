@@ -21,7 +21,7 @@ class ProfileController extends Controller
             $profile->delete();
         }
 
-        $donnees = array ("role" => $role);
+        $donnees = array ("role" => $role, "title" => 'Mon profil');
 
         $this->render('profile/index', $donnees, 'auth');
     }
