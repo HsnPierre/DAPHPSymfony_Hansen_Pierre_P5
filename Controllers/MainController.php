@@ -9,16 +9,21 @@ class MainController extends Controller
     public function index()
     {
         $main = new MainController;
+        $login = new LoginController;
+        $blog = new BlogController;
 
         if(isset($_POST)){
             if(isset($_POST['pseudo'])){
-                $main->login();
+                $login->login();
             } else if(isset($_POST['nom'])){
                 $main->contactform();
             }
         }
 
-        $donnees = array ("title" => "Welcome !", "subtitle" => "Lorem ipsum dolor sit amet", "image" => "img/home-bg.jpg");
+        $tmp = $blog->showPost('date', 'DESC');
+        extract($tmp);
+
+        $donnees = array ("title" => "Home", "subtitle" => "Apprenti développeur d'application web", "image" => "https://www.heberger-image.fr/images/2021/01/21/home-bg.jpg", "valeurs" => $valeurs, "user" => $user);
 
         $this->render('main/index', $donnees);
     }
@@ -62,41 +67,6 @@ class MainController extends Controller
                 $_SESSION['erreur'] = "Une erreur est survenue lors de l'envoi du formulaire";
             }
         }
-
-        $donnees = array ("title" => "Welcome !", "subtitle" => "Lorem ipsum dolor sit amet", "image" => "img/home-bg.jpg");
-
-        $this->render('main/index', $donnees);
-    }
-
-    public function login()
-    {
-        $main = new MainController;
-
-        if(!empty($_POST) && $main->validate($_POST, ['pseudo', 'mdp'])){
-
-            $userModel = new UserModel;
-
-            $userArray = $userModel->findOneBy('username', $_POST['pseudo']);
-
-            if(!$userArray){
-               $_SESSION['erreur'] = "Le pseudonyme et/ou le mot de passe est incorrect";
-               header('Location: /login');
-            }
-
-            $user = $userModel->hydrate($userArray);
-
-            if(password_verify($_POST['mdp'], $user->getPassword())){
-                $user->setSession();
-                header('Location: '. $_SERVER['HTTP_REFERER']);
-                exit;
-            }else{
-                $_SESSION['erreur'] = "Le pseudonyme et/ou le mot de passe est incorrect";
-                header('Location: /login');
-            }
-
-        }
-
-        header('Location: /login');
 
         $donnees = array ("title" => "Welcome !", "subtitle" => "Lorem ipsum dolor sit amet", "image" => "img/home-bg.jpg");
 

@@ -7,7 +7,7 @@
 body {
   font-size: 20px;
   color: #212529;
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family: 'Lora';
 }
 
 p {
@@ -23,8 +23,7 @@ h1,
 h2,
 h3,
 h4,
-h5,
-h6 {
+h5 {
   font-weight: 800;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -34,13 +33,24 @@ h2{
   padding: 30px 0;
 }
 
+h6 {
+  font-weight: 600;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#pseudocomment {
+  padding-top: 4%;
+}
+
 a {
-  color: #212529;
+  color: #000000;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 500;
   transition: all 0.2s;
 }
 
 a:focus, a:hover {
-  color: #004e5e;
+  color: #02819b;
   text-decoration: none;
 }
 
@@ -71,6 +81,16 @@ blockquote {
   width: 40%;
   padding: 30px;
 	box-shadow: 0 0 8px rgba(0,0,0,0.4); 
+}
+
+#commentaire {
+  width: 70%;
+  box-shadow: 0 0 8px rgba(0,0,0,0.4); 
+  opacity: 90%;
+}
+
+#home-pic{
+  width: 150px;
 }
 
 #log {
@@ -440,12 +460,17 @@ footer .copyright {
 
 .btn {
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   padding: 15px 25px;
   letter-spacing: 1px;
   text-transform: uppercase;
   border-radius: 0;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.btn:hover, .btn:focus, .btn:active {
+  color: #fff;
+  background-color: #6b7679 !important;
+  border-color: #6b7679 !important;
 }
 
 .btn-primary {
@@ -457,6 +482,17 @@ footer .copyright {
   color: #fff;
   background-color: #00657b !important;
   border-color: #00657b !important;
+}
+
+.btn-danger {
+  background-color: #ff0000;
+  border-color: #ff0000;
+}
+
+.btn-danger:hover, .btn-danger:focus, .btn-danger:active {
+  color: #fff;
+  background-color: #7b0000 !important;
+  border-color: #7b0000 !important;
 }
 
 .btn-lg {
