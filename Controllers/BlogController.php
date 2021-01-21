@@ -1,71 +1,77 @@
 <?php
 namespace App\Controllers;
 
-use App\Controllers\MainController;
 use App\Models\UserModel;
 use App\Models\PostModel;
+use App\Models\CommentModel;
 
 class BlogController extends Controller
 {
     public function index()
     {
+        $login = new LoginController;
+        $blog = new BlogController;
+
+        if(isset($_POST['pseudo'])){
+            $login->login();
+        }
+        
+        $tmp = $blog->showPost('date', 'DESC');
+        extract($tmp);
+
+        $donnees = array ("title" => "Blog", "subtitle" => "Mes différentes actualités", "image" => "https://zupimages.net/up/21/03/t0tn.jpg", "valeurs" => $valeurs, "user" => $user);
+
+        $this->render('blog/index', $donnees);
+        
+    }
+
+    public function post($id)
+    {
         $main = new MainController;
         $blog = new BlogController;
+        $comment = new CommentController;
+        $post = new PostModel;
+        $user = new UserModel;
+        $idPost = (int) $id[0];
 
         if(isset($_POST['pseudo'])){
             $main->login();
         }
 
-        $blog->showPost();
+        $infopost = $post->find($idPost);
+        $infouser = $user->find($infopost['idUser']);
+        $date = date('d.m.y, \à H:i', strtotime($infopost['date']));
 
-        $donnees = array ("title" => "Blog", "subtitle" => "Ceci est mon blog", "image" => "img/blog-bg.jpg");
+        if($infopost['editor'] != null && $infopost['dateEdit'] != null){
+            $dateEdit = date('\M\i\s \à \j\o\u\r \l\e d.m.y, \à H:i', strtotime($infopost['dateEdit']));
+            $auteur = $infouser['surname'].' '.$infouser['name'].' (modifié par '.$infopost['editor'].')';
+            $date = $date.' ('.$dateEdit.')';
+        } else {
+            $auteur = $infouser['surname'].' '.$infouser['name'];
+        }
+        $_SESSION['postTitle'] = $infopost['title'];
+        $_SESSION['postDesc'] = $infopost['description'];
+        $_SESSION['postContent'] = $infopost['content'];
+        $_SESSION['postAuteur'] = $auteur;
+        $_SESSION['postDate'] = $date;
 
-        $this->render('blog/index', $donnees);
+        $comment->showComment($idPost);
+        if(isset($_POST['submit']) && !isset($_POST['cancel'])){
+            $comment->addComment($idPost);
+        }
+
+        $this->render('blog/post', [], 'post');
     }
 
-    public function showPost()
+    public function showPost(string $type, string $order)
     {
         $post = new PostModel;
         $user = new UserModel;
-        $valeurs = $post->findAll();
-        $_SESSION['content'] = [];
 
-        
-        foreach($valeurs as $valeur){
+        $valeurs = $post->findOrderBy($type, $order);
 
-            $nom = $user->findOneById('name', $valeur['idUser']);
-            $prenom = $user->findOneById('surname', $valeur['idUser']);
-            $date = date('\P\o\s\t\é \l\e d.m.y, \à H:i', strtotime($valeur['date']));
-            $id = $valeur['idPost'];
+        $result = array ("valeurs" => $valeurs, "user" => $user);
 
-            if(isset($valeur['editor']) && isset($valeur['dateEdit'])){
-                $dateEdit = date('\M\i\s \à \j\o\u\r \l\e d.m.y, \à H:i', strtotime($valeur['dateEdit']));
-                $_SESSION['content'][] =
-                "
-                <div id='post".$id."'>
-                <p class='text-center'>".$date." (".$dateEdit.")</p>
-                <div class='text-center'><a href=''><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
-                <h3 class='post-title text-center'><a href=''>".$valeur['title']."</a></h3>
-                <h5 class='post-subtitle text-center'>".$valeur['description']."</h5>
-                <p class='text-center'>".$prenom['surname']." ".$nom['name']." (édité par ".$valeur['editor'].")</p>
-                <hr>
-                "
-                ;
-            } else {
-
-                $_SESSION['content'][] =
-                "
-                <div id='post".$id."'>
-                <p class='text-center'>".$date."</p>
-                <div class='text-center'><a href=''><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
-                <h3 class='post-title text-center'><a href=''>".$valeur['title']."</a></h3>
-                <h5 class='post-subtitle text-center'>".$valeur['description']."</h5>
-                <p class='text-center'>".$prenom['surname']." ".$nom['name']."</p>
-                <hr>
-                "
-                ;
-            }
-        }
-
+        return $result;
     }
 }
