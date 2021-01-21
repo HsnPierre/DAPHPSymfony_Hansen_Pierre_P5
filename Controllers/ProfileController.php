@@ -21,6 +21,14 @@ class ProfileController extends Controller
             $profile->delete();
         }
 
+        if(isset($_POST['pic'])){
+            $profile->updatePic();
+        }
+
+        if(isset($_POST['password']) || isset($_SESSION['password'])){
+            $profile->updatePassword();
+        }
+
         $donnees = array ("role" => $role, "title" => 'Mon profil');
 
         $this->render('profile/index', $donnees, 'auth');
@@ -30,6 +38,7 @@ class ProfileController extends Controller
     {
         $profile = new ProfileController;
         $_SESSION['update'] = '';
+        $_SESSION['idUser'] = $_SESSION['user']['idUser'];
 
 
         if(isset($_POST['modif']) && $profile->validate($_POST, ['nom', 'prenom', 'pseudo', 'mail']) && $profile->validateMail($_POST['mail'])){
@@ -87,13 +96,80 @@ class ProfileController extends Controller
         $this->render('profile/index', $donnees, 'auth');
     }
 
+    public function updatePic()
+    {
+        $profile = new ProfileController;
+        $user = new UserModel;
+
+        if($_FILES['picture']['name'] != ""){
+            var_dump($_FILES);
+            if($profile->validatePic($_FILES['picture'])){
+                $fileExt = ".".strtolower(substr(strrchr($_FILES['picture']['name'], '.'), 1));
+                $tmpName = $_FILES['picture']['tmp_name'];
+                $uniqueName = md5(uniqid(rand(), true));
+                $fileName = "img/".$uniqueName.$fileExt;
+                echo $fileName;
+                if(move_uploaded_file($tmpName, $fileName)){
+                    $_SESSION['user']['pic'] = $fileName;
+                    $_SESSION['idUser'] = $_SESSION['user']['idUser'];
+                    $user->setPic($fileName);
+                    $user->update();                    
+                    header('Location: /profile');
+                } else {
+                    $_SESSION['erreur'] = "Une erreur est survenue lors du téléchargement de l'image.";
+                }
+            }
+        } else {
+            $_SESSION['erreur'] = "Le fichier ne peut pas être vide.";
+        }
+    }
+
+    public function updatePassword()
+    {
+        $profile = new ProfileController;
+        $auth = new AuthController;
+        $user = new UserModel;
+        $_SESSION['password'] = '';
+
+        if(isset($_POST['back'])){
+            unset($_SESSION['password']);
+            header('Location: /profile');
+            exit;
+        }
+
+        if(isset($_POST['pass']) && $profile->validate($_POST, ['old', 'new', 'new2']) && $auth->validatePassword($_POST['new'])){
+        
+            if(password_verify($_POST['old'], $_SESSION['user']['password'])){
+            
+                if($_POST['new'] == $_POST['new2']){
+                    $pass = password_hash($_POST['new'], PASSWORD_BCRYPT);
+                    $user->setPassword($pass);
+                    $_SESSION['idUser'] = $_SESSION['user']['idUser'];
+                    $user->update();
+
+                    $main = new MainController;
+
+                    $_SESSION['valide'] = 'Les modifications ont bien été prises en compte. Veuillez vous reconnecter pour mettre à jour les informations';
+                    $main->logout();
+                    header('Location: /login');
+                    unset($_SESSION['password']);
+                    exit;
+                } else {
+                    $_SESSION['erreur'] = 'Les deux mots de passe ne se correspondent pas';
+                }
+            } else {
+                $_SESSION['erreur'] = 'Mot de passe incorrect';
+            }
+        }
+    }
+
     public function delete()
     {
         if(isset($_POST['delete'])){
             
             $user = new UserModel;
 
-            if(password_verify($_POST['password'], $_SESSION['user']['password'])){
+            if(password_verify($_POST['mdp'], $_SESSION['user']['password'])){
                 $user->delete($_SESSION['user']['idUser']);
             
                 $main = new MainController;
@@ -114,9 +190,44 @@ class ProfileController extends Controller
                     $_SESSION['erreur'] = 'Le champ mot de passe ne peut pas être vide';
                     return false;
                 }
+                if($champ == 'old'){
+                    $_SESSION['erreur'] = 'Le champ ancien mot de passe ne peut pas être vide';
+                    return false;
+                }
+                if($champ == 'new'){
+                    $_SESSION['erreur'] = 'Le champ nouveau mot de passe ne peut pas être vide';
+                    return false;
+                }
+                if($champ == 'new2'){
+                    $_SESSION['erreur'] = 'Le champ confirmer mot de passe ne peut pas être vide';
+                    return false;
+                }
                 $_SESSION['erreur'] = "Le champ ".$champ." ne peut pas être vide.";
                 return false;
             }
+        }
+        return true;
+    }
+
+    public function validatePic(array $donnees)
+    {
+        $maxSize = 500000;
+        $validExt = array('.jpg', '.jpeg', '.png');
+
+        if($donnees['error'] > 0){
+            $_SESSION['erreur'] = 'Une erreur est survenue durant le transfert du fichier.';
+            return false;
+        }
+        if($donnees['size'] > $maxSize){
+            $_SESSION['erreur'] = 'Le fichier envoyé est trop volumineux.';
+            return false;
+        }
+        
+        $fileExt = ".".strtolower(substr(strrchr($donnees['name'], '.'), 1));
+
+        if(!in_array($fileExt, $validExt)){
+            $_SESSION['erreur'] = 'Seuls les fichiers ".jpg", ".jpeg", ".png" sont acceptés';
+            return false;
         }
         return true;
     }

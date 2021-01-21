@@ -1,4 +1,4 @@
-<?php if(!isset($_POST['update']) && !isset($_SESSION['update'])): ?>
+<?php if(!isset($_POST['update']) && !isset($_SESSION['update']) && !isset($_POST['password']) && !isset($_SESSION['password'])): ?>
 <div class="container" id="profil">
     <div class="main-body">
 
@@ -21,7 +21,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="">Changer le mot de passe</a>
+                            <form method='post'><button class='btn' name="password">Changer le mot de passe</button></form>
                         </li>                      
                     </ul>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="<?= $_SESSION['user']['pic']; ?>" alt="Photo de profil" class="rounded-circle" width="150">
+                            <img src="<?= $_SESSION['user']['pic']; ?>" alt="Photo de profil" class="rounded-circle" width="150">                           
                             <div class="mt-3">
                                 <h4><?= $_SESSION['user']['surname'].' '.$_SESSION['user']['name']; ?></h4>
                                 <p class="text-secondary mb-1"><?= $role; ?></p>
@@ -112,7 +112,7 @@
             </p>
             <div class="form-group">
                 <label for="password" class="form-label">Mot de passe</label>
-                <input class="form-control" type="password" name="password">
+                <input class="form-control" type="password" name="mdp">
             </div>
             <div class="d-flex justify-content-end">
                 <button class="btn btn-danger" type="submit" name="delete">Supprimer le compte</button>
@@ -121,7 +121,7 @@
 	</form>
 </div>
 
-<? else: ?>
+<? elseif(isset($_POST['update']) || isset($_SESSION['update'])): ?>
 
 <div class="container" id="profil-update">
     <div class="main-body">
@@ -134,25 +134,35 @@
             </div>
         <?php endif; ?>
     
-        <form method="post" id="modif">
+        
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
-                                <img src="<?= $_SESSION['user']['pic']; ?>" alt="Photo de profil" class="rounded-circle" width="150">
-                                <div class="mt-3">
-                                    <h4><?= $_SESSION['user']['surname'].' '.$_SESSION['user']['name']; ?></h4>
-                                    <p class="text-secondary mb-1"><?= $role; ?></p>
+                            <img src="<?= $_SESSION['user']['pic']; ?>" alt="Photo de profil" class="rounded-circle" width="150">
+                            
+                            <form method='post' enctype="multipart/form-data">
+                                <div class="container">
+                                    <input class="form-control" type="file" id="formFile" name='picture'>
+                                    <button class='btn btn-secondary' name="pic">Envoyer</button>
                                 </div>
+                            </form>
+                            
+                            <div class="mt-3">
+                                <h4><?= $_SESSION['user']['surname'].' '.$_SESSION['user']['name']; ?></h4>
+                                <p class="text-secondary mb-1"><?= $role; ?></p>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-md-8">
-                    <div class="card mb-3">
-                        <div class="card-body">
+            </div>
+
+            
+            <div class="col-md-8">
+            <form method="post" id="modif">
+                <div class="card mb-3">
+                    <div class="card-body">
 
                             <div class="row">
                                 <div class="col-sm-3">
@@ -197,11 +207,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="rgpd" required>
-                <label class="form-check-label" for="rgpd">J'autorise ce site à conserver mes données personnelles transmises via ce formulaire. Aucune exploitation commerciale ne sera faite des données conservées.</label>
-            </div>
         
             <div class="form-group text-center">
                 <button class="btn btn-primary" type="submit" name="modif" id="modif">Modifier</button>
@@ -210,5 +215,44 @@
         </form>
     </div>
 </div>
+
+<? elseif(isset($_POST['password']) || isset($_SESSION['password'])): ?>
+
+<h2 class='text-center'>Changer le mot de passe</h2>
+
+    <?php if(isset($_SESSION['erreur'])): ?>
+        <div class="alert alert-danger text-center" role ="alert">
+            <?= $_SESSION['erreur']; unset($_SESSION['erreur']); ?>
+        </div>
+    <?php endif; ?>
+
+<form method="post">
+
+    <div class="row form-group justify-content-end">
+        <button class="btn btn-danger col-2 justify-content-end" type="submit" name="back">Annuler</button>
+    </div> 
+
+    <div class="container">
+        <div class="form-group">
+            <label for="password" class="form-label">Ancien mot de passe</label>
+            <input class="col form-control" type="password" placeholder="" name="old">
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="form-label">Nouveau mot de passe</label>
+            <input class="col form-control" type="password" placeholder="" name="new">
+        </div>
+
+        <div class="form-group">
+            <label for="password2" class="form-label">Confirmer mot de passe</label>
+            <input class="col form-control" type="password" placeholder="" name="new2">
+        </div>
+
+        <div class="form-group text-center">
+            <button class="btn btn-primary" type="submit" name="pass" id="pass">Envoyer</button>
+        </div>
+    </div>
+
+</form>
 
 <? endif; ?>
