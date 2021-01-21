@@ -2,6 +2,7 @@
 namespace App\Core;
 
 use App\Controllers\MainController;
+use App\Controllers\ErrorController;
 
 class Main
 {
@@ -25,18 +26,27 @@ class Main
             $params = explode('/', $_GET['p']);
 
         if($params[0] != ''){
-            
+
             $controller = '\\App\\Controllers\\'.ucfirst(array_shift($params)).'Controller';
-            $controller = new $controller();
-            $action = (isset($params[0])) ? array_shift($params) : 'index';
 
-            if(method_exists($controller, $action)){
+            if(method_exists($controller, 'index')){
+                $controller = new $controller();
+                $action = (isset($params[0])) ? array_shift($params) : 'index';
 
-                (isset($params[0])) ? $controller->$action($params) : $controller->$action();
+                if($controller != null)
+                if(method_exists($controller, $action)){
 
-            }else{
+                    (isset($params[0])) ? $controller->$action($params) : $controller->$action();
+
+                }else{
+                    http_response_code(404);
+                    $error = new ErrorController;
+                    $error->index();
+                }
+            } else {
                 http_response_code(404);
-                echo "Cette page n'existe pas";
+                $error = new ErrorController;
+                $error->index();
             }
 
         }else{
