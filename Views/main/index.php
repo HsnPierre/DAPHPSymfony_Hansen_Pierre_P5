@@ -75,7 +75,7 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
             <img src="https://zupimages.net/up/21/03/km3m.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
+            <div class="carousel-caption d-none d-md-block bg-light">
                 <a href="https://chaletscaviar.pierrehansen.com">
                     <h5>Projet 1</h5>
                     <p>Dans le cadre de la formation OpenClassroom, voici un site de vente et de location de chalet fictif réalisé sur WordPress</p>
