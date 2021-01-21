@@ -2,8 +2,13 @@
     <h1 class="text-center">Qui suis-je ?</h1>
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!</p>
+
+            <div class="d-flex flex-column align-items-center text-center">
+                <img id='home-pic' src="https://www.heberger-image.fr/images/2021/01/21/7056391b5bd1923887d11d471b25c293.png" alt="Pierre Hansen" class="rounded">
+            </div>
+
+            <p>Pierre Hansen, 21 ans. Passioné par l'informatique depuis très jeune je me suis très vite dirigé vers des études adéquates en licence informatique. Durant ces études, j'ai trouvé une vocation pour le développment web PHP, suite à quoi j'ai quitté la licence afin de m'orienter vers une formation spécialisée sur OpenClassroom. Formation dont je suis actuellement l'étudiant.</p>
+            <p>Ce blog me permet de me présenter moi, mes qualifications, ainsi que les différents projets que j'ai mené ou auxquels j'ai participé, vous y trouverez mes actualités et un formulaire pour pouvoir me contacter.</p>
         </div>
     </div>
 </div>
@@ -11,52 +16,73 @@
 <div class="container">
     <h2 class="text-center">Mes actualités</h2>
     <div class="row align-items-start text-center">
-        <div class="post-preview col">
-            <a href="">
-                <h5 class="post-title"><small>Article récent 1</small></h5>
-                <h6 class="post-subtitle">Lorem ipsum dolor sit amet</h6>
-            </a>
-            <p class="post-meta">Posté par <a href="#">AUTEUR</a> le DATE</p>
-        </div>
-        <div class="post-preview col">
-            <a href="">
-                <h5 class="post-title"><small>Article récent 2</small></h5>
-                <h6 class="post-subtitle">Lorem ipsum dolor sit amet</h6>
-            </a>
-            <p class="post-meta">Posté par <a href="#">AUTEUR</a> le DATE</p>
-        </div>
-        <div class="post-preview col">
-            <a href="">
-                <h5 class="post-title"><small>Article récent 3</small></h5>
-                <h6 class="post-subtitle">Lorem ipsum dolor sit amet</h6>
-            </a>
-            <p class="post-meta">Posté par <a href="#">AUTEUR</a> le DATE</p>
-        </div>
+        <?php
+        $i = 0;
+        foreach($valeurs as $valeur){
+            $nom = $user->findOneById('name', $valeur['idUser']);
+            $prenom = $user->findOneById('surname', $valeur['idUser']);
+            $date = date('\P\o\s\t\é \l\e d.m.y, \à H:i', strtotime($valeur['date']));
+            $id = $valeur['idPost'];
+
+            if(isset($valeur['editor']) && isset($valeur['dateEdit'])){
+                $dateEdit = date('\M\i\s \à \j\o\u\r \l\e d.m.y, \à H:i', strtotime($valeur['dateEdit']));
+                echo
+                "
+                <div class='post-preview col' id='post".$id."'>
+                    <div class='text-center'><a href='blog/post/".$id."'><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
+                    <h3 class='post-title text-center'><a href='blog/post/".$id."'>".$valeur['title']."</a></h3>
+                    <h5 class='post-subtitle text-center'>".$valeur['description']."</h5>
+                    <p class='text-center'>".$date." (".$dateEdit.")</p>
+                    <p class='text-center'>".$prenom['surname']." ".$nom['name']." (édité par ".$valeur['editor'].")</p>
+                </div>
+                "
+                ;
+                $i++;
+            } else {
+
+                echo
+                "
+                <div class='post-preview col' id='post".$id."'>
+                    <div class='text-center'><a href='blog/post/".$id."'><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
+                    <h3 class='post-title text-center'><a href='blog/post/".$id."'>".$valeur['title']."</a></h3>
+                    <h5 class='post-subtitle text-center'>".$valeur['description']."</h5>
+                    <p class='text-center'>".$date."</p>
+                    <p class='text-center'>".$prenom['surname']." ".$nom['name']."</p>
+                </div>
+                "
+                ;
+                $i++;
+            }
+            if($i > 3){
+                exit;
+            }
+        }
+        ?>
     </div>
 </div>
 <hr>
 <div class="container">
     <h2 class="text-center"> Mes projets</h2>
     <div class="col-lg-8 col-md-10 mx-auto">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?</p>
+        <p>Voici les différents projets que j'ai pu mener dans le cadre de ma formation, s'ajouteront au fur et à mesure les différentes applications que j'aurais l'occasion de développer</p>
     </div>
     <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="5000">
         <ol class="carousel-indicators">
             <li data-target="#carouselExample" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExample" data-slide-to="1"></li>
-            <li data-target="#carouselExample" data-slide-to="2"></li>
+            <?/*<li data-target="#carouselExample" data-slide-to="1"></li>
+            <li data-target="#carouselExample" data-slide-to="2"></li>*/?>
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-            <img src="img/project-bg.jpg" class="d-block w-100" alt="...">
+            <img src="https://zupimages.net/up/21/03/km3m.jpg" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
-                <a href="">
+                <a href="https://chaletscaviar.pierrehansen.com">
                     <h5>Projet 1</h5>
-                    <p></p>
+                    <p>Dans le cadre de la formation OpenClassroom, voici un site de vente et de location de chalet fictif réalisé sur WordPress</p>
                 </a> 
             </div>
             </div>
-            <div class="carousel-item">
+            <?/*<div class="carousel-item">
             <img src="img/project-bg.jpg" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
                 <a href="">
@@ -73,7 +99,7 @@
                     <p></p>
                 </a> 
             </div>
-            </div>
+            </div>*/?>
         </div>
         <a href="#carouselExample" class="carousel-control-prev" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

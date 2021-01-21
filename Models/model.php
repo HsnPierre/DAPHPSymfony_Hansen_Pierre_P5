@@ -28,6 +28,11 @@ class Model extends Db
 
         return $this->requete('SELECT * FROM '.$this->table.' WHERE '.$liste_champs, $valeurs)->fetchAll();
     }
+    
+    public function findOrderBy(string $critere, string $order)
+    {
+        return $this->requete('SELECT * FROM '.$this->table.' ORDER BY '.$critere.' '.$order)->fetchAll();
+    }
 
     public function find(int $id)
     {
@@ -67,10 +72,9 @@ class Model extends Db
             }
         }
         
-        $table = $this->table;
         $nomId = 'id'.ucfirst($this->table);
 
-        $id = $_SESSION["$table"]["$nomId"];
+        $id = $_SESSION["$nomId"];
 
         $valeurs[] = $id;
 
