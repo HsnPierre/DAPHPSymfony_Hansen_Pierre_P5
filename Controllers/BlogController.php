@@ -55,7 +55,7 @@ class BlogController extends Controller
         $_SESSION['postAuteur'] = $auteur;
         $_SESSION['postDate'] = $date;
 
-        $comment->showComment($idPost);
+        $comment->showThisPostComment($idPost);
         if(isset($_POST['submit']) && !isset($_POST['cancel'])){
             $comment->addComment($idPost);
         }

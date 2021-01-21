@@ -8,6 +8,13 @@ class ProfileController extends Controller
 {
     public function index()
     {
+
+        if(!isset($_SESSION['user']['idUser'])){
+            $donnees = array ("title" => 'Erreur', "subtitle" => "Vous devez vous <a href='/auth'>inscrire</a> ou vous <a href='/login'>connecter</a> accéder à la page demandée.");
+            $this->render('error/index', $donnees, 'auth');
+            exit;
+        }
+
         $profile = new ProfileController;
 
         $roles = preg_split("[\"]", $_SESSION['user']['role']);

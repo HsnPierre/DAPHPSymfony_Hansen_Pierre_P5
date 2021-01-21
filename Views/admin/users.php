@@ -40,8 +40,8 @@
     </div>
 
     <?php
+    $i = 0;
     foreach($valeurs as $valeur){
-        $i = 0;
         $idUser = $valeur['idUser'];
 
         if(stristr($valeur['role'], "Administrateur") == false){

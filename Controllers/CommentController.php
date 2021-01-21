@@ -59,7 +59,7 @@ class CommentController extends Controller
                 $comment->create();
 
                 if(stristr($_SESSION['user']['role'], "Administrateur")){
-                    $_SESSION['valide'] = 'Votre commentaire a bien été pris en compte'; 
+                    $_SESSION['valide'] = 'Votre commentaire a bien été publié.'; 
                 }else{
                     $_SESSION['valide'] = 'Votre commentaire a bien été pris en compte, il est soumis à validation.'; 
                 }    
