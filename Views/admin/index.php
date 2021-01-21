@@ -1,27 +1,4 @@
 <?php if(stristr($_SESSION['user']['role'], "Administrateur") != false): ?>
-<nav class="nav flex-column">
-    <div>
-        <a href="">Posts</a>
-        <a href="">Commentaires</a>
-        <a href="">Utilisateurs</a>
-    </div>
-</nav>
-
-<?php/*
-
-button addPost()
-Afficher les articles par ordre chrono décroissant (showPost)
-button Update (updatePost()) / delete (deletePost()) sur chaque article
-
-Affichers les commentaires en attente
-Commentaires soumis (stockés en bdd) par ordre chrono décroissant
-Bouton valider ou refuser sur chaque comm, valider = update estValidé -> 1 / refuser = delete comm bdd
-
-Afficher les utilisateurs + bouton ajouter le role admin
-
- */
-?>
-
 
 <?php if((!isset($_POST['edit']) && !isset($_SESSION['edit'])) && (!isset($_POST['add']) && !isset($_SESSION['add']))): ?>
 
@@ -29,21 +6,98 @@ Afficher les utilisateurs + bouton ajouter le role admin
 
     <h2 class='text-center'>Liste des annonces postées</h2>
 
+    <hr>
+
+    <h6>Afficher par</h6>
+    <form method='post' class='text-center'>
+      
+        <button class='col-auto btn' name='title' value='ASC'>Titre (⬆)</button>
+        <button class='col-auto btn' name='title' value='DESC'>Titre (⬇)</button>
+        <button class='col-auto btn' name='date' value='ASC'>Date (⬆)</button>
+        <button class='col-auto btn' name='date' value='DESC'>Date (⬇)</button>
+        <button class='col-auto btn' name='idUser' value='ASC'>Auteur (⬆)</button>
+        <button class='col-auto btn' name='idUser' value='DESC'>Auteur (⬇)</button>
+    
+    </form>
+
     <?php if(isset($_SESSION['valide'])): ?>
         <div class="alert alert-success text-center" role="alert">
             <?= $_SESSION['valide']; unset($_SESSION['valide']); ?>
         </div>
     <?php endif; ?>
 
+    <hr>
+
     <form action=' ' method='post' id='add' class='text-center'>
         <button class='btn btn-primary' name='add'>Ajouter</button>
     </form>
 
+    <hr>
+
     <?php
-    $valeurs = $_SESSION['content'];
-    for($i = 0; $i < count($valeurs); $i++){
-        echo $valeurs[$i];
-    }
+        foreach($valeurs as $valeur){
+            $nom = $user->findOneById('name', $valeur['idUser']);
+            $prenom = $user->findOneById('surname', $valeur['idUser']);
+            $date = date('\P\o\s\t\é \l\e d.m.y, \à H:i', strtotime($valeur['date']));
+            $id = $valeur['idPost'];
+
+            if(isset($valeur['editor']) && isset($valeur['dateEdit'])){
+                
+                $dateEdit = date('\M\i\s \à \j\o\u\r \l\e d.m.y, \à H:i', strtotime($valeur['dateEdit']));
+                
+                echo
+                "
+                <div id='post".$id."'>
+                <p>".$date." (".$dateEdit.")</p>
+                <h3 class='post-title text-center'>".$valeur['title']."</h3>
+                <h5 class='post-subtitle'>".$valeur['description']."</h5>
+                ".html_entity_decode($valeur['content'], ENT_HTML5, UTF-8)."
+                <p>".$prenom['surname']." ".$nom['name']." (édité par ".$valeur['editor'].")</p>
+                    <div>
+                        <form action=' ' method='post' id='delete' class='text-center'>
+                            <div class='form-check col'>
+                                <input class='form-check-input' type='checkbox' id='delete' required>
+                                <label class='form-check-label' for='delete'>Cocher cette case pour supprimer l'article</label>
+                            </div>
+                            <button class='btn btn-danger col-3' name='delete' value='$id'>Supprimer</button>
+                        </form>
+                    </div><br>
+                    <form action=' ' method='post' id='edit' class='text-center'>
+                        <button class='btn btn-primary col-3' name='edit' value='$id'>Editer</button>
+                    </form>
+                </div>
+                <hr>
+                "
+                ;
+            } else {
+
+                echo
+                "
+                <div id='post".$id."'>
+                <p>".$date."</p>
+                <h3 class='post-title text-center'>".$valeur['title']."</h3>
+                <h5 class='post-subtitle'>".$valeur['description']."</h5>
+                ".html_entity_decode($valeur['content'], ENT_HTML5, UTF-8)."
+                <p>".$prenom['surname']." ".$nom['name']."</p>
+                    <div class=''>
+                        <form action=' ' method='post' id='delete' class='text-center'>
+                            <div class='form-check col'>
+                                <input class='form-check-input' type='checkbox' id='delete' required>
+                                <label class='form-check-label' for='delete'>Cocher cette case pour supprimer l'article</label>
+                            </div>
+                            <button class='btn btn-danger col-3' name='delete' value='$id'>Supprimer</button>
+                        </form>
+                    </div><br>
+                    <form action=' ' method='post' id='edit' class='text-center'>
+                        <button class='btn btn-primary col-3' name='edit' value='$id'>Editer</button>
+                    </form>
+                </div>
+                <hr>
+                "
+                ;
+            }
+        }
+
     ?>
 </div>
 
@@ -122,7 +176,7 @@ Afficher les utilisateurs + bouton ajouter le role admin
         </div>
 
         <div class="form-group text-center">
-            <button class="btn btn-primary" type="submit" name="updatePost">Ajouter</button>
+            <button class="btn btn-primary" type="submit" name="updatePost">Modifier</button>
         </div>
 
     </form>

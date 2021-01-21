@@ -2,115 +2,161 @@
 namespace App\Controllers;
 
 use App\Controllers\MainController;
+use App\Controllers\BlogController;
+use App\Controllers\CommentController;
 use App\Models\PostModel;
 use App\Models\UserModel;
+use App\Models\CommentModel;
 
 class AdminController extends Controller
 {
     public function index()
     {
+
+        if(stristr($_SESSION['user']['role'], "Administrateur") == false || !isset($_SESSION['user'])){
+            $donnees = array ("title" => 'Erreur', "subtitle" => "Vous ne pouvez pas accéder à la page demandée.");
+            $this->render('error/index', $donnees, 'auth');
+            exit;
+        }
+
         $admin = new AdminController;
+        $blog = new BlogController;
+        $post = new PostModel;
+        $user = new UserModel;
 
         if(isset($_POST['edit']) || isset($_SESSION['edit'])){
             $admin->updatePost();
-        } else
-        if(isset($_POST['delete'])){
+        } elseif(isset($_POST['delete'])){
             $admin->deletePost();
-        } else
-        if(isset($_POST['add']) || isset($_SESSION['add'])){
+        } elseif(isset($_POST['add']) || isset($_SESSION['add'])){
             $admin->addPost();
+        }   
+
+        if(isset($_POST['title'])){
+            $tmp = $blog->showPost('title', $_POST['title']);
+        } elseif(isset($_POST['date'])){
+            $tmp = $blog->showPost('date', $_POST['date']);
+        } elseif(isset($_POST['auteur'])){
+            $tmp = $blog->showPost('idUser', $_POST['auteur']);
         } else {
-            $admin->showPost();
+            $tmp = $blog->showPost('date', 'ASC');
         }
-        
-        $donnees = array ("title" => 'Dashboard');
+
+        extract($tmp);
+
+        $donnees = array ("title" => 'Dashboard', "valeurs" => $valeurs, "user" => $user);
 
         $this->render('admin/index', $donnees, 'dashboard');
     }
 
-    public function showPost()
+    public function posts()
     {
-        $post = new PostModel;
-        $user = new UserModel;
-        $valeurs = $post->findAll();
-        $_SESSION['content'] = [];
-
-        
-        foreach($valeurs as $valeur){
-
-            $nom = $user->findOneById('name', $valeur['idUser']);
-            $prenom = $user->findOneById('surname', $valeur['idUser']);
-            $date = date('\P\o\s\t\é \l\e d.m.y, \à H:i', strtotime($valeur['date']));
-            $id = $valeur['idPost'];
-
-            if(isset($valeur['editor']) && isset($valeur['dateEdit'])){
-                $dateEdit = date('\M\i\s \à \j\o\u\r \l\e d.m.y, \à H:i', strtotime($valeur['dateEdit']));
-                $_SESSION['content'][] =
-                "
-                <div id='post".$id."'>
-                <p>".$date." (".$dateEdit.")</p>
-                <h3 class='post-title text-center'>".$valeur['title']."</h3>
-                <h5 class='post-subtitle'>".$valeur['description']."</h5>
-                <p>".$valeur['content']."</p>
-                <p>".$prenom['surname']." ".$nom['name']." (édité par ".$valeur['editor'].")</p>
-                    <div class=''>
-                        <form action=' ' method='post' id='delete' class='text-center'>
-                            <div class='form-check col'>
-                                <input class='form-check-input' type='checkbox' id='delete' required>
-                                <label class='form-check-label' for='delete'>Cocher cette case pour supprimer l'article</label>
-                            </div>
-                            <button class='btn btn-danger col-3' name='delete' value='$id'>Supprimer</button>
-                        </form>
-                    </div><br>
-                    <form action=' ' method='post' id='edit' class='text-center'>
-                        <button class='btn btn-primary col-3' name='edit' value='$id'>Editer</button>
-                    </form>
-                </div>
-                <hr>
-                "
-                ;
-            } else {
-
-                $_SESSION['content'][] =
-                "
-                <div id='post".$id."'>
-                <p>".$date."</p>
-                <h3 class='post-title text-center'>".$valeur['title']."</h3>
-                <h5 class='post-subtitle'>".$valeur['description']."</h5>
-                <p>".$valeur['content']."</p>
-                <p>".$prenom['surname']." ".$nom['name']."</p>
-                    <div class=''>
-                        <form action=' ' method='post' id='delete' class='text-center'>
-                            <div class='form-check col'>
-                                <input class='form-check-input' type='checkbox' id='delete' required>
-                                <label class='form-check-label' for='delete'>Cocher cette case pour supprimer l'article</label>
-                            </div>
-                            <button class='btn btn-danger col-3' name='delete' value='$id'>Supprimer</button>
-                        </form>
-                    </div><br>
-                    <form action=' ' method='post' id='edit' class='text-center'>
-                        <button class='btn btn-primary col-3' name='edit' value='$id'>Editer</button>
-                    </form>
-                </div>
-                <hr>
-                "
-                ;
-            }
+        if(stristr($_SESSION['user']['role'], "Administrateur") == false || !isset($_SESSION['user'])){
+            $donnees = array ("title" => 'Erreur', "subtitle" => "Vous ne pouvez pas accéder à la page demandée.");
+            $this->render('error/index', $donnees, 'auth');
+            exit;
         }
 
+        $admin = new AdminController;
+        $blog = new BlogController;
+
+        if(isset($_POST['edit']) || isset($_SESSION['edit'])){
+            $admin->updatePost();
+        } elseif(isset($_POST['delete'])){
+            $admin->deletePost();
+        } elseif(isset($_POST['add']) || isset($_SESSION['add'])){
+            $admin->addPost();
+        } 
+        
+        if(isset($_POST['title'])){
+            $tmp = $blog->showPost('title', $_POST['title']);
+        } elseif(isset($_POST['date'])){
+            $tmp = $blog->showPost('date', $_POST['date']);
+        } elseif(isset($_POST['auteur'])){
+            $tmp = $blog->showPost('idUser', $_POST['auteur']);
+        } else {
+            $tmp = $blog->showPost('date', 'ASC');
+        }
+
+        extract($tmp);
+
+        $donnees = array ("title" => 'Dashboard', "valeurs" => $valeurs, "user" => $user);
+
+        $this->render('admin/index', $donnees, 'dashboard');
+    }
+
+    public function comments()
+    {
+        if(stristr($_SESSION['user']['role'], "Administrateur") == false || !isset($_SESSION['user'])){
+            $donnees = array ("title" => 'Erreur', "subtitle" => "Vous ne pouvez pas accéder à la page demandée.");
+            $this->render('error/index', $donnees, 'auth');
+            exit;
+        }
+
+        $comment = new CommentController;
+
+        if(isset($_POST['novalid'])){
+            unset($_SESSION['tmp']);
+        }
+
+        if(isset($_POST['valid']) || isset($_SESSION['tmp'])){
+            $_SESSION['tmp'] = '';
+            $tmp = $comment->showComment(1);
+        } else {
+            $tmp = $comment->showComment(0);
+        }
+
+        if(isset($_POST['oui']) || isset($_POST['non'])){
+            $comment->validateComment();
+        }
+
+        extract($tmp);
+
+        $donnees = array ("title" => 'Dashboard', "valeurs" => $valeurs, "user" => $user);
+
+        $this->render('admin/comments', $donnees, 'dashboard');
+
+    }
+
+    public function users()
+    {
+        if(stristr($_SESSION['user']['role'], "Host") == false || !isset($_SESSION['user'])){
+            $donnees = array ("title" => 'Erreur', "subtitle" => "Vous ne pouvez pas accéder à la page demandée.");
+            $this->render('error/index', $donnees, 'auth');
+            exit;
+        }
+
+        $admin = new AdminController;
+
+        if(isset($_POST['search'])){
+            $admin->showThisUser($_POST['username']);
+        } elseif(isset($_POST['username'])){
+            $admin->showUsers('username', $_POST['username']);
+        } elseif(isset($_POST['date'])){
+            $admin->showUsers('date', $_POST['date']);
+        } elseif(isset($_POST['role'])){
+            $admin->showUsers('role', $_POST['role']);
+        } else {
+            $admin->showUsers('username', 'ASC');
+        }
+
+        if(isset($_POST['setadmin'])){
+            $admin->setAdmin($_POST['setadmin']);
+        } elseif(isset($_POST['unsetadmin'])){
+            $admin->unsetAdmin($_POST['unsetadmin']);
+        }
     }
 
     public function addPost()
     {
         $post = new PostModel;
         $admin = new AdminController;
-        $_SESSION['add'] = '';
 
         if(isset($_POST['addPost']) && $admin->validate($_POST, ['titre', 'chapo', 'contenu'])){
             $id = $_SESSION['user']['idUser'];
             $titre = strip_tags($_POST['titre']);
             $chapo = strip_tags($_POST['chapo']);
-            $contenu = strip_tags($_POST['contenu']);
+            $contenu = htmlentities($_POST['contenu'], ENT_HTML5);
 
             if($admin->alreadyUse($titre, 'title') && $admin->alreadyUse($chapo, 'description') && $admin->alreadyUse($contenu, 'content')){
                 $post->setTitle($titre);
@@ -149,9 +195,9 @@ class AdminController extends Controller
         $admin = new AdminController;
         
         if(isset($_POST['edit'])){
-            $_SESSION['post']['idPost'] = $_POST['edit'];
+            $_SESSION['idPost'] = $_POST['edit'];
         }
-        $id = $_SESSION['post']['idPost'];
+        $id = $_SESSION['idPost'];
 
         $_SESSION['edit'] = '';
 
@@ -168,7 +214,7 @@ class AdminController extends Controller
         if(isset($_POST['updatePost']) && $admin->validate($_POST, ['titre', 'chapo', 'contenu'])){
             $titre = strip_tags($_POST['titre']);
             $chapo = strip_tags($_POST['chapo']);
-            $contenu = strip_tags($_POST['contenu']);
+            $contenu = htmlentities($_POST['contenu'], ENT_HTML5);
 
             if($admin->alreadyUseBis($titre, 'title', $tab) && $admin->alreadyUseBis($chapo, 'description', $tab) && $admin->alreadyUseBis($contenu, 'content', $tab)){
                 $i = 0;
@@ -197,6 +243,7 @@ class AdminController extends Controller
 
                     $_SESSION['valide'] = 'Les modifications ont bien été prises en compte.';
                     header('Location: /admin');
+                    header('Refresh:5');
                     unset($_SESSION['edit']);
                     exit;
                 } else {
@@ -208,13 +255,46 @@ class AdminController extends Controller
         }
     }
 
-    public function validateComment()
+    public function setAdmin($id)
     {
+        $user = new UserModel;
+        $_SESSION['idUser'] = $id;
+        $user->setRole(json_encode(['Administrateur','Utilisateur']));
+        $user->update();
+        header('Location: /admin/users');
+    }
+
+    public function unsetAdmin($id)
+    {
+        $user = new UserModel;
+        $_SESSION['idUser'] = $id;
+        $user->setRole(json_encode(['Utilisateur']));
+        $user->update();
+        header('Location: /admin/users');
+    }
+
+    public function showUsers(string $type, string $order)
+    {
+        $user = new UserModel;
+
+        $valeurs = $user->findOrderBy($type, $order);
+
+        $donnees = array ("title" => 'Dashboard', "valeurs" => $valeurs);
+
+        $this->render('admin/users', $donnees, 'dashboard');
 
     }
 
-    public function setAdmin()
+    public function showThisUser(string $username)
     {
+        $user = new UserModel;
+        $tableau = array ("username" => $username);
+
+        $valeurs = $user->findBy($tableau);
+
+        $donnees = array ("title" => 'Dashboard', "valeurs" => $valeurs);
+
+        $this->render('admin/users', $donnees, 'dashboard');
 
     }
 
