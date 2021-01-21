@@ -7,9 +7,23 @@ class LoginController extends Controller
 {
     public function index()
     {
+        $login = new LoginController;
+
+        $login->login();
+        if(isset($_SESSION['user']['idUser'])){
+            header('Location: /main');
+        }
+
         $error = $_SESSION['erreur'];
         $valide = $_SESSION['valide'];
 
+        $donnees = array ("error" => $error, "valide" => $valide, "title" => 'Connexion');
+
+        $this->render('login/index', $donnees, 'auth');
+    }
+
+    public function login()
+    {
         $login = new LoginController;
 
         if(!empty($_POST) && $login->validate($_POST, ['pseudo', 'mdp'])){
@@ -20,26 +34,21 @@ class LoginController extends Controller
 
             if(!$userArray){
                $_SESSION['erreur'] = "Le pseudonyme et/ou le mot de passe est incorrect";
+               header('Location: /login');
             }
 
             $user = $userModel->hydrate($userArray);
 
             if(password_verify($_POST['mdp'], $user->getPassword())){
                 $user->setSession();
-                header('Location: /main');
+                header('Location: '. $_SERVER['HTTP_REFERER']);
                 exit;
             }else{
                 $_SESSION['erreur'] = "Le pseudonyme et/ou le mot de passe est incorrect";
+                header('Location: /login');
             }
 
         }
-
-        $error = $_SESSION['erreur'];
-        $valide = $_SESSION['valide'];
-
-        $donnees = array ("error" => $error, "valide" => $valide, "title" => 'Connexion');
-
-        $this->render('login/index', $donnees, 'auth');
     }
 
     public function validate(array $donnees, array $champs)
