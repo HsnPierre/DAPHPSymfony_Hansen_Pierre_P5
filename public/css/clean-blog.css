@@ -495,6 +495,17 @@ footer .copyright {
   border-color: #7b0000 !important;
 }
 
+.btn-light {
+  background-color: #ffffff;
+  border-color: #ffffff;
+}
+
+.btn-light:hover, .btn-light:focus, .btn-light:active {
+  color: #fff;
+  background-color: #3a3a3a !important;
+  border-color: #3a3a3a !important;
+}
+
 .btn-lg {
   font-size: 16px;
   padding: 25px 35px;

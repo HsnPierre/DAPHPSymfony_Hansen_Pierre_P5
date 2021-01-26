@@ -23,7 +23,7 @@ class MainController extends Controller
         $tmp = $blog->showPost('date', 'DESC');
         extract($tmp);
 
-        $donnees = array ("title" => "Home", "subtitle" => "Apprenti développeur d'application web", "image" => "https://www.heberger-image.fr/images/2021/01/21/home-bg.jpg", "valeurs" => $valeurs, "user" => $user);
+        $donnees = array ("title" => "Pierre Hansen", "subtitle" => "Apprenti développeur d'application web", "image" => "https://www.heberger-image.fr/images/2021/01/21/home-bg.jpg", "valeurs" => $valeurs, "user" => $user);
 
         $this->render('main/index', $donnees);
     }
@@ -67,10 +67,6 @@ class MainController extends Controller
                 $_SESSION['erreur'] = "Une erreur est survenue lors de l'envoi du formulaire";
             }
         }
-
-        $donnees = array ("title" => "Welcome !", "subtitle" => "Lorem ipsum dolor sit amet", "image" => "img/home-bg.jpg");
-
-        $this->render('main/index', $donnees);
     }
 
     public function validate(array $donnees, array $champs)

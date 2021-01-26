@@ -19,42 +19,41 @@
         <?php
         $i = 0;
         foreach($valeurs as $valeur){
-            $nom = $user->findOneById('name', $valeur['idUser']);
-            $prenom = $user->findOneById('surname', $valeur['idUser']);
-            $date = date('\P\o\s\t\é \l\e d.m.y, \à H:i', strtotime($valeur['date']));
-            $id = $valeur['idPost'];
+            if($i < 3) {
+                $nom = $user->findOneById('name', $valeur['idUser']);
+                $prenom = $user->findOneById('surname', $valeur['idUser']);
+                $date = date('\P\o\s\t\é \l\e d.m.y, \à H:i', strtotime($valeur['date']));
+                $id = $valeur['idPost'];
 
-            if(isset($valeur['editor']) && isset($valeur['dateEdit'])){
-                $dateEdit = date('\M\i\s \à \j\o\u\r \l\e d.m.y, \à H:i', strtotime($valeur['dateEdit']));
-                echo
-                "
-                <div class='post-preview col' id='post".$id."'>
-                    <div class='text-center'><a href='blog/post/".$id."'><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
-                    <h3 class='post-title text-center'><a href='blog/post/".$id."'>".$valeur['title']."</a></h3>
-                    <h5 class='post-subtitle text-center'>".$valeur['description']."</h5>
-                    <p class='text-center'>".$date." (".$dateEdit.")</p>
-                    <p class='text-center'>".$prenom['surname']." ".$nom['name']." (édité par ".$valeur['editor'].")</p>
-                </div>
-                "
-                ;
-                $i++;
-            } else {
+                if(isset($valeur['editor']) && isset($valeur['dateEdit'])){
+                    $dateEdit = date('\M\i\s \à \j\o\u\r \l\e d.m.y, \à H:i', strtotime($valeur['dateEdit']));
+                    echo
+                    "
+                    <div class='post-preview col' id='post".$id."'>
+                        <div class='text-center'><a href='blog/post/".$id."'><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
+                        <h3 class='post-title text-center'><a href='blog/post/".$id."'>".$valeur['title']."</a></h3>
+                        <h5 class='post-subtitle text-center'>".$valeur['description']."</h5>
+                        <p class='text-center'>".$date." (".$dateEdit.")</p>
+                        <p class='text-center'>".$prenom['surname']." ".$nom['name']." (édité par ".$valeur['editor'].")</p>
+                    </div>
+                    "
+                    ;
+                    $i++;
+                } else {
 
-                echo
-                "
-                <div class='post-preview col' id='post".$id."'>
-                    <div class='text-center'><a href='blog/post/".$id."'><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
-                    <h3 class='post-title text-center'><a href='blog/post/".$id."'>".$valeur['title']."</a></h3>
-                    <h5 class='post-subtitle text-center'>".$valeur['description']."</h5>
-                    <p class='text-center'>".$date."</p>
-                    <p class='text-center'>".$prenom['surname']." ".$nom['name']."</p>
-                </div>
-                "
-                ;
-                $i++;
-            }
-            if($i > 3){
-                exit;
+                    echo
+                    "
+                    <div class='post-preview col' id='post".$id."'>
+                        <div class='text-center'><a href='blog/post/".$id."'><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
+                        <h3 class='post-title text-center'><a href='blog/post/".$id."'>".$valeur['title']."</a></h3>
+                        <h5 class='post-subtitle text-center'>".$valeur['description']."</h5>
+                        <p class='text-center'>".$date."</p>
+                        <p class='text-center'>".$prenom['surname']." ".$nom['name']."</p>
+                    </div>
+                    "
+                    ;
+                    $i++;
+                }
             }
         }
         ?>
