@@ -3,7 +3,12 @@
     <form action="#" method="post" id="inscription">
         <?php if(isset($_SESSION['erreur'])): ?>
         <div class="alert alert-danger text-center" role="alert">
-            <?= $_SESSION['erreur']; unset($_SESSION['erreur']); ?>
+            <?php
+                for($i = 0; $i < count($_SESSION['erreur']); $i++){
+                    echo $_SESSION['erreur'][$i].'<br>';
+                }
+                unset($_SESSION['erreur']); 
+            ?>
         </div>
         <?php endif; ?>
         <div class="row g-3 align-items-center">

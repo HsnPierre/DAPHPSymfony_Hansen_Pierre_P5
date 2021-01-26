@@ -8,15 +8,12 @@
 
     <hr>
 
-    <h6>Afficher par</h6>
+    <h5 class='text-center'>AFFICHER PAR</h5>
     <form method='post' class='text-center'>
       
-        <button class='col-auto btn' name='title' value='ASC'>Titre (⬆)</button>
-        <button class='col-auto btn' name='title' value='DESC'>Titre (⬇)</button>
-        <button class='col-auto btn' name='date' value='ASC'>Date (⬆)</button>
-        <button class='col-auto btn' name='date' value='DESC'>Date (⬇)</button>
-        <button class='col-auto btn' name='idUser' value='ASC'>Auteur (⬆)</button>
-        <button class='col-auto btn' name='idUser' value='DESC'>Auteur (⬇)</button>
+        <h6><button class='col-auto btn' name='title' value='ASC'>▲</button>TITRE<button class='col-auto btn' name='title' value='DESC'>▼</button>
+        <button class='col-auto btn' name='date' value='ASC'>▲</button>DATE<button class='col-auto btn' name='date' value='DESC'>▼</button>
+        <button class='col-auto btn' name='idUser' value='ASC'>▲</button>AUTEUR<button class='col-auto btn' name='idUser' value='DESC'>▼</button></h6>
     
     </form>
 
@@ -115,7 +112,12 @@
 
         <?php if(isset($_SESSION['erreur'])): ?>
             <div class="alert alert-danger text-center" role ="alert">
-                <?= $_SESSION['erreur']; unset($_SESSION['erreur']); ?>
+                <?php
+                    for($i = 0; $i < count($_SESSION['erreur']); $i++){
+                        echo $_SESSION['erreur'][$i].'<br>';
+                    }
+                    unset($_SESSION['erreur']); 
+                ?>
             </div>
         <?php endif; ?>
 
@@ -156,7 +158,12 @@
 
         <?php if(isset($_SESSION['erreur'])): ?>
             <div class="alert alert-danger text-center" role ="alert">
-                <?= $_SESSION['erreur']; unset($_SESSION['erreur']); ?>
+                <?php
+                    for($i = 0; $i < count($_SESSION['erreur']); $i++){
+                        echo $_SESSION['erreur'][$i].'<br>';
+                    }
+                    unset($_SESSION['erreur']); 
+                ?>
             </div>
         <?php endif; ?>
 

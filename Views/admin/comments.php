@@ -4,7 +4,8 @@
 
     <h2 class='text-center'>Commentaires</h2>
 
-    <h6>Afficher par</h6>
+    <hr>
+    <h5 class='text-center'>AFFICHER PAR</h5>
     <form method='post' class='text-center'>
       
         <button class='col-4 btn' name='valid'>Commentaires publiés</button>
@@ -25,13 +26,13 @@
             if($valeur['valid'] == 0){
                 echo
                 "
-                <div id='comment".$idComment."'>
-                <div><h6 id='pseudocomment'>".$pseudo['username']." <span>".$date."</span></h6></div>
-                <div id='commentaire'>
-                ".$valeur['content']."
+                <div id='comment".$idComment."' class='justify-content-center row'>
+                <div class='text-center'><h6 id='pseudocomment'>".$pseudo['username']." <span>".$date."</span></h6></div>
+                <div class='justify-content-center row' id='commentaire'>
+                <div class='col-8 text-center'>".$valeur['content']."</div>
                 </div>
                 <form method='post'>
-                    <div>
+                    <div class='text-center'>
                         <button class='btn btn-primary' type='submit' name='oui' value='$idComment'>Valider</button>               
                         <button class='btn btn-danger' type='submit' name='non' value='$idComment'>Supprimer</button>                 
                     </div>
@@ -44,13 +45,13 @@
             } else {
                 echo
                 "
-                <div id='comment".$idComment."'>
-                <div><h6 id='pseudocomment'>".$pseudo['username']." <span>".$date."</span></h6></div>
-                <div id='commentaire'>
-                ".$valeur['content']."
+                <div id='comment".$idComment."' class='justify-content-center row'>
+                <div class='text-center'><h6 id='pseudocomment'>".$pseudo['username']." <span>".$date."</span></h6></div>
+                <div class='justify-content-center row' id='commentaire'>
+                <div class='col-8 text-center'>".$valeur['content']."</div>
                 </div>
                 <form method='post'>
-                    <div>              
+                    <div class='text-center'>              
                         <button class='btn btn-danger' type='submit' name='non' value='$idComment'>Supprimer</button>                 
                     </div>
                 </form>

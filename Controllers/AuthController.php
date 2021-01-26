@@ -14,7 +14,7 @@ class AuthController extends Controller
         }
 
         if(isset($_POST['rgpd'])){
-            if($auth->validate($_POST, ['nom', 'prenom', 'pseudonyme', 'mail', 'password', 'password2']) && $auth->validatePassword($_POST['password'])){
+            if($auth->validate($_POST, ['nom', 'prenom', 'pseudonyme', 'mail', 'password', 'password2'])){
                 $mail = strip_tags($_POST['mail']);
                 $pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
                 $nom = $_POST['nom'];
@@ -53,57 +53,67 @@ class AuthController extends Controller
 
     public function validate(array $donnees, array $champs)
     {
+        $_SESSION['erreur'] = [];
+        $pattern = '/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{12,}$/';
+        $i = 0;
         foreach($champs as $champ){
-            if(!isset($donnees[$champ]) || empty($donnees[$champ])){
-                $_SESSION['erreur'] = "Le champ ".$champ." ne peut pas être vide.";
-                return false;
-            } else if(!filter_var($donnees["mail"], FILTER_VALIDATE_EMAIL)){
-                $_SESSION['erreur'] = "L'adresse mail n'est pas valide.";
-                return false;
-            } else if ($donnees["password"] != $donnees["password2"]){
-                $_SESSION['erreur'] = "Les deux mots de passe ne se correspondent pas.";
-                return false;
+            if(!isset($donnees[$champ]) || empty($donnees[$champ]) && $champ != 'password2'){
+                if($champ == 'password'){
+                    $_SESSION['erreur'][] = "Le champ mot de passe ne peut pas être vide";
+                }else{
+                    $_SESSION['erreur'][] = "Le champ ".$champ." ne peut pas être vide.";
+                    $i++;
+                }
             }
         }
-        return true;
-    }
-
-    public function validatePassword(string $password)
-    {
-        $maj = 0;
-        $min = 0;
-        $digit = 0;
-        $spec = 0;
-        foreach(count_chars($password, 1) as $i => $val){
-            if(ctype_lower(chr($i))){
-                $min++;
-            } else if(ctype_upper(chr($i))){
-                $maj++;
-            } else if(ctype_digit(chr($i))){
-                $digit++;
-            } else if(!ctype_alnum(chr($i))){
-                $spec++;
-            }
+        if(!filter_var($donnees['mail'], FILTER_VALIDATE_EMAIL)){
+            $_SESSION['erreur'][] = "L'adresse mail n'est pas valide.";
+            $i++;
         }
-
-        if($maj > 0 && $min > 0 && $digit > 0 && $spec > 0 && strlen($password) > 7){
-            return true;
-        } else {
-            $_SESSION['erreur'] = 'Le mot de passe doit contenir au moins une minuscule, une majsucule, un chiffre, un caractère spécial et faire au moins 8 caractères';
+        if(!preg_match($pattern, $donnees['password'])){
+            $_SESSION['erreur'][] = 'Le mot de passe doit contenir au minimum';
+            if(!preg_match('/^(?=.*[a-z]).{12,}$/', $donnees['password'])){
+                $_SESSION['erreur'][] = 'une minuscule';
+            }   
+            if(!preg_match('/^(?=.*[A-Z]).{12,}$/', $donnees['password'])){
+                $_SESSION['erreur'][] = 'une majuscule';
+            }   
+            if(!preg_match('/^(?=.*[0-9]).{12,}$/', $donnees['password'])){
+                $_SESSION['erreur'][] = 'un chiffre';
+            }   
+            if(!preg_match('/^(?=.*[!@#$%^&*-]).{12,}$/', $donnees['password'])){
+                $_SESSION['erreur'][] = 'un caractère spécial';
+            }
+            if(!preg_match('/^.{12,}$/', $donnees['password'])){
+                $_SESSION['erreur'][] = 'et contenir au minimum 12 caractères';
+            } 
+            $i++;
+        }
+        if ($donnees["password"] != $donnees["password2"]){
+            $_SESSION['erreur'][] = "Les deux mots de passe ne se correspondent pas.";
+            $i++;
+        }
+        if($i > 0){
             return false;
         }
+        return true;
     }
 
     public function alreadyUse(string $donnee, string $type)
     {
         $user = new UserModel;
         $tab = $user->findAllBy($type);
+        $_SESSION['erreur'] = [];
+        $j = 0;
         for($i = 0; $i < count($tab); $i++){
 
             if ($donnee == $tab[$i]["$type"]){
-                $_SESSION['erreur'] = '"'.$donnee.'"'." est déjà utilisé";
-                return false;
+                $_SESSION['erreur'][] = '"'.$donnee.'"'." est déjà utilisé";
+                $j++;
             }
+        }
+        if($j > 0){
+            return false;
         }
         return true;
     }

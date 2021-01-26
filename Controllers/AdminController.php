@@ -151,6 +151,7 @@ class AdminController extends Controller
     {
         $post = new PostModel;
         $admin = new AdminController;
+        $_SESSION['add'] = '';
 
         if(isset($_POST['addPost']) && $admin->validate($_POST, ['titre', 'chapo', 'contenu'])){
             $id = $_SESSION['user']['idUser'];
@@ -300,15 +301,20 @@ class AdminController extends Controller
 
     public function validate(array $donnees, array $champs)
     {
+        $i = 0;
+        $_SESSION['erreur'] = [];
         foreach($champs as $champ){
             if(!isset($donnees[$champ]) || empty($donnees[$champ])){
                 if($champ == 'mdp'){
-                    $_SESSION['erreur'] = 'Le champ mot de passe ne peut pas être vide';
-                    return false;
+                    $_SESSION['erreur'][] = 'Le champ mot de passe ne peut pas être vide';
+                    $i++;
                 }
-                $_SESSION['erreur'] = "Le champ ".$champ." ne peut pas être vide.";
-                return false;
+                $_SESSION['erreur'][] = "Le champ ".$champ." ne peut pas être vide.";
+                $i++;
             }
+        }
+        if($i > 0){
+            return false;
         }
         return true;
     }
@@ -317,24 +323,29 @@ class AdminController extends Controller
     {
         $post = new PostModel;
         $tab = $post->findAllBy($type);
+        $j = 0;
+        $_SESSION['erreur'] = [];
         for($i = 0; $i < count($tab); $i++){
 
             if ($donnee == $tab[$i]["$type"]){
                 if($type == 'title'){
-                    $_SESSION['erreur'] = "Il existe déjà un article avec ce titre.";
-                    return false;
+                    $_SESSION['erreur'][] = "Il existe déjà un article avec ce titre.";
+                    $j++;
                 }
                 if($type == 'content'){
-                    $_SESSION['erreur'] = "Il existe déjà un article identique.";
-                    return false;
+                    $_SESSION['erreur'][] = "Il existe déjà un article identique.";
+                    $j++;
                 }
                 if($type == 'description'){
-                    $_SESSION['erreur'] = "Il existe déjà un article avec ce chapo.";
-                    return false;
+                    $_SESSION['erreur'][] = "Il existe déjà un article avec ce chapo.";
+                    $j++;
                 }
-                $_SESSION['erreur'] = "Il y a une erreur avec ".$type;
-                return false;
+                $_SESSION['erreur'][] = "Il y a une erreur avec ".$type;
+                $j++;
             }
+        }
+        if($j > 0){
+            return false;
         }
         return true;
     }
@@ -343,24 +354,29 @@ class AdminController extends Controller
     {
         $post = new PostModel;
         $tab = $post->findAllBy($type);
+        $j = 0;
+        $_SESSION['erreur'] = [];
         for($i = 0; $i < count($tab); $i++){
 
             if ($donnee == $tab[$i]["$type"] && $tab[$i]["$type"] != $donnees["$type"]){
                 if($type == 'title'){
-                    $_SESSION['erreur'] = "Il existe déjà un article avec ce titre.";
-                    return false;
+                    $_SESSION['erreur'][] = "Il existe déjà un article avec ce titre.";
+                    $j++;
                 }
                 if($type == 'content'){
-                    $_SESSION['erreur'] = "Il existe déjà un article identique.";
-                    return false;
+                    $_SESSION['erreur'][] = "Il existe déjà un article identique.";
+                    $j++;
                 }
                 if($type == 'description'){
-                    $_SESSION['erreur'] = "Il existe déjà un article avec ce chapo.";
-                    return false;
+                    $_SESSION['erreur'][] = "Il existe déjà un article avec ce chapo.";
+                    $j++;
                 }
-                $_SESSION['erreur'] = "Il y a une erreur avec ".$type;
-                return false;
+                $_SESSION['erreur'][] = "Il y a une erreur avec ".$type;
+                $j++;
             }
+        }
+        if($j > 0){
+            return false;
         }
         return true;
     }
