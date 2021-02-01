@@ -10,13 +10,11 @@ class LoginController extends Controller
         $login = new LoginController;
 
         $login->login();
-        if(isset($_SESSION['user']['idUser'])){
+        if(Session::get3d('user', 'idUser') !== null){
             header('Location: /main');
         }
 
-        $valide = $_SESSION['valide'];
-
-        $donnees = array ("title" => 'Connexion', "valide" => $valide);
+        $donnees = array ("title" => 'Connexion');
 
         $this->render('login/index', $donnees, 'auth');
     }
@@ -24,6 +22,7 @@ class LoginController extends Controller
     public function login()
     {
         $login = new LoginController;
+        Session::put('erreur', []);
 
         if(!empty($_POST)){
             if($login->validate($_POST, ['pseudo', 'mdp'])){
@@ -33,7 +32,7 @@ class LoginController extends Controller
                 $userArray = $userModel->findOneBy('username', $_POST['pseudo']);
 
                 if(!$userArray){
-                $_SESSION['erreur'][] = "Le pseudonyme et/ou le mot de passe est incorrect";
+                Session::put3d('erreur', 0, "Le pseudonyme et/ou le mot de passe est incorrect");
                 header('Location: /login');
                 }
 
@@ -44,7 +43,7 @@ class LoginController extends Controller
                     header('Location: '. $_SERVER['HTTP_REFERER']);
                     exit;
                 }else{
-                    $_SESSION['erreur'][] = "Le pseudonyme et/ou le mot de passe est incorrect";
+                    Session::put3d('erreur', 0, "Le pseudonyme et/ou le mot de passe est incorrect");
                     header('Location: /login');
                 }
 
@@ -56,18 +55,23 @@ class LoginController extends Controller
 
     public function validate(array $donnees, array $champs)
     {
-        $_SESSION['erreur'] = [];
+        Session::put('erreur', []);
+        $i = 0;
+
         foreach($champs as $champ){
             if(!isset($donnees[$champ]) || empty($donnees[$champ])){
                 if($champ == 'pseudo'){
-                    $_SESSION['erreur'][] = 'Le champ pseudonyme ne peut pas être vide';
-                    return false;
+                    Session::put3d('erreur', $i, "Le champ pseudonyme ne peut pas être vide");
+                    $i++;
                 }
                 if($champ == 'mdp'){
-                    $_SESSION['erreur'][] = 'Le champ mot de passe ne peut pas être vide';
-                    return false;
+                    Session::put3d('erreur', $i, "Le champ mot de passe ne peut pas être vide");
+                    $i++;
                 }
             }
+        }
+        if($i > 0){
+            return false;
         }
         return true;
     }

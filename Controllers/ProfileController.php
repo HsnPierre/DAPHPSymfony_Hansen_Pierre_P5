@@ -53,11 +53,10 @@ class ProfileController extends Controller
             if($profile->alreadyUse($_POST['pseudo'], 'username') && $profile->alreadyUse($_POST['mail'], 'email')){
                 $i = 0;
                 $user = new UserModel;
-                $pseudo = $_POST['pseudo'];
-                $mail = strip_tags($_POST['mail']);
-                $nom = $_POST['nom'];
-                $prenom = $_POST['prenom'];
-                $date = date("d.m.y G:i:s T");
+                $pseudo = strip_tags($_POST['pseudo']);
+                $mail = $_POST['mail'];
+                $nom = strip_tags($_POST['nom']);
+                $prenom = strip_tags($_POST['prenom']);
 
                 if($pseudo != $_SESSION['user']['username']){
                     $user->setUsername($pseudo);
@@ -108,7 +107,7 @@ class ProfileController extends Controller
         $user = new UserModel;
 
         if($_FILES['picture']['name'] != ""){
-            var_dump($_FILES);
+
             echo stristr($_FILES['picture']['type'], "image");
             if($profile->validatePic($_FILES['picture'])){
                 $fileExt = ".".strtolower(substr(strrchr($_FILES['picture']['name'], '.'), 1));
@@ -134,7 +133,6 @@ class ProfileController extends Controller
     public function updatePassword()
     {
         $profile = new ProfileController;
-        $auth = new AuthController;
         $user = new UserModel;
         $_SESSION['password'] = '';
 

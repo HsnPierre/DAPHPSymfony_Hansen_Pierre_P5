@@ -33,7 +33,6 @@ class MainController extends Controller
         $main = new MainController;
 
         if(!empty($_POST) && $main->validate($_POST, ['nom', 'prenom', 'mail', 'objet', 'message']) && $main->validateMail($_POST['mail'])){
-            var_dump($_POST);
             
             $mail = strip_tags($_POST['mail']);
             $nom = $_POST['nom'];

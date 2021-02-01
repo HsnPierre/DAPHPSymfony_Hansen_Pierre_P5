@@ -54,7 +54,7 @@
                             <?php else: ?>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="/auth">S'inscrire</a>
+                                <a class="nav-link" href="/register">S'inscrire</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" onclick="Popup()" href="#login">Se connecter</a>

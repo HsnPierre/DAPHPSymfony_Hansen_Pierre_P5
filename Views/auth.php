@@ -54,7 +54,7 @@
                             <?php else: ?>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="/auth">S'inscrire</a>
+                                <a class="nav-link" href="/register">S'inscrire</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/login">Se connecter</a>
@@ -111,16 +111,10 @@
                                 </span>
                             </a>
                             </li>
-                            <li class="list-inline-item">
-                            <a href="#">
-                                <span class="fa-stack fa-lg">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
+                            
                             </li>
                             <li class="list-inline-item">
-                            <a href="#">
+                            <a href="https://github.com/HsnPierre">
                                 <span class="fa-stack fa-lg">
                                 <i class="fas fa-circle fa-stack-2x"></i>
                                 <i class="fab fa-github fa-stack-1x fa-inverse"></i>
@@ -128,6 +122,11 @@
                             </a>
                             </li>
                         </ul>
+
+                        <?php if(stristr($_SESSION['user']['role'], "Administrateur") != false): ?>
+                        <a class='col btn text-center' href="/admin" role='button'>Administration</a>
+                        <?php endif; ?>
+
                         <p class="copyright text-muted">Copyright &copy; Hansen Pierre 2020</p>
                     </div>
                 </div>

@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\UserModel;
 use App\Models\PostModel;
 use App\Models\CommentModel;
+use App\Core\Session;
 
 class BlogController extends Controller
 {
@@ -28,7 +29,6 @@ class BlogController extends Controller
     public function post($id)
     {
         $main = new MainController;
-        $blog = new BlogController;
         $comment = new CommentController;
         $post = new PostModel;
         $user = new UserModel;
@@ -49,11 +49,11 @@ class BlogController extends Controller
         } else {
             $auteur = $infouser['surname'].' '.$infouser['name'];
         }
-        $_SESSION['postTitle'] = $infopost['title'];
-        $_SESSION['postDesc'] = $infopost['description'];
-        $_SESSION['postContent'] = $infopost['content'];
-        $_SESSION['postAuteur'] = $auteur;
-        $_SESSION['postDate'] = $date;
+        Session::put('postTitle', $infopost['title']);
+        Session::put('postDesc', $infopost['description']);
+        Session::put('postContent', $infopost['content']);
+        Session::put('postAuteur', $auteur);
+        Session::put('postDate', $date);
 
         $comment->showThisPostComment($idPost);
         if(isset($_POST['submit']) && !isset($_POST['cancel'])){
