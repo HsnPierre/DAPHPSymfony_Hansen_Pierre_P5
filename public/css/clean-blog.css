@@ -69,20 +69,20 @@ blockquote {
 }
 
 #delete-form {
-	position: fixed;
-	z-index: 2;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	display: none;
-	background: #fff;
-  width: 40%;
-  padding: 30px;
-	box-shadow: 0 0 8px rgba(0, 0, 0, 0.4); 
+    position: fixed;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    background: #fff;
+    width: 40%;
+    padding: 30px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
 }
 
 #commentaire {
-  width: 70%;
+  width: 70%; /* end-of-line comment */
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.4); 
   opacity: 90%;
 }
@@ -101,7 +101,7 @@ blockquote {
   margin-left: 25%;
 }
 
-.error{
+.error {
   padding-bottom: 10px;
   color: red;
 }
@@ -158,9 +158,10 @@ header.masthead .post-heading .meta a {
   color: #212529;
 }
 
-.post-preview > a:focus, .post-preview > a:hover {
+.post-preview > a:focus, 
+.post-preview > a:hover {
   text-decoration: none;
-  color: #0085A1;
+  color: #0085a1;
 }
 
 .post-preview > .post-meta > a {
@@ -168,9 +169,10 @@ header.masthead .post-heading .meta a {
   color: #212529;
 }
 
-.post-preview > .post-meta > a:focus, .post-preview > .post-meta > a:hover {
+.post-preview > .post-meta > a:focus, 
+.post-preview > .post-meta > a:hover {
   text-decoration: underline;
-  color: #0085A1;
+  color: #0085a1;
 }
 
 #mainNav {
@@ -211,7 +213,8 @@ header.masthead .post-heading .meta a {
     color: #fff;
   }
 
-  #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
+  #mainNav .navbar-brand:focus,
+  #mainNav .navbar-brand:hover {
     color: rgba(255, 255, 255, 0.8);
   }
 
@@ -220,7 +223,8 @@ header.masthead .post-heading .meta a {
     color: #fff;
   }
 
-  #mainNav .navbar-nav > li.nav-item > a:focus, #mainNav .navbar-nav > li.nav-item > a:hover {
+  #mainNav .navbar-nav > li.nav-item > a:focus, 
+  #mainNav .navbar-nav > li.nav-item > a:hover {
     color: rgba(255, 255, 255, 0.8);
   }
 }
@@ -228,6 +232,7 @@ header.masthead .post-heading .meta a {
 @media only screen and (min-width: 992px) {
   #mainNav {
     transition: background-color 0.2s;
+
     /* Force Hardware Acceleration in WebKit */
     transform: translate3d(0, 0, 0);
     -webkit-backface-visibility: hidden;
@@ -247,7 +252,8 @@ header.masthead .post-heading .meta a {
     color: #212529;
   }
 
-  #mainNav.is-fixed .navbar-brand:focus, #mainNav.is-fixed .navbar-brand:hover {
+  #mainNav.is-fixed .navbar-brand:focus, 
+  #mainNav.is-fixed .navbar-brand:hover {
     color: #0085A1;
   }
 
@@ -255,7 +261,8 @@ header.masthead .post-heading .meta a {
     color: #212529;
   }
 
-  #mainNav.is-fixed .navbar-nav > li.nav-item > a:focus, #mainNav.is-fixed .navbar-nav > li.nav-item > a:hover {
+  #mainNav.is-fixed .navbar-nav > li.nav-item > a:focus, 
+  #mainNav.is-fixed .navbar-nav > li.nav-item > a:hover {
     color: #0085A1;
   }
 
@@ -471,7 +478,10 @@ footer .copyright {
   border-radius: 0;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-.btn:hover, .btn:focus, .btn:active {
+
+.btn:hover, 
+.btn:focus, 
+.btn:active {
   color: #fff;
   background-color: #6b7679 !important;
   border-color: #6b7679 !important;
@@ -482,29 +492,35 @@ footer .copyright {
   border-color: #0085a1;
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+.btn-primary:hover, 
+.btn-primary:focus, 
+.btn-primary:active {
   color: #fff;
   background-color: #00657b !important;
   border-color: #00657b !important;
 }
 
 .btn-danger {
-  background-color: #ff0000;
-  border-color: #ff0000;
+  background-color: #f00;
+  border-color: #f00;
 }
 
-.btn-danger:hover, .btn-danger:focus, .btn-danger:active {
+.btn-danger:hover, 
+.btn-danger:focus, 
+.btn-danger:active {
   color: #fff;
   background-color: #7b0000 !important;
   border-color: #7b0000 !important;
 }
 
 .btn-light {
-  background-color: #ffffff;
-  border-color: #ffffff;
+  background-color: #fff;
+  border-color: #fff;
 }
 
-.btn-light:hover, .btn-light:focus, .btn-light:active {
+.btn-light:hover,
+.btn-light:focus, 
+.btn-light:active {
   color: #fff;
   background-color: #3a3a3a !important;
   border-color: #3a3a3a !important;
