@@ -1,13 +1,13 @@
 <div class='container' id='Post'>
 
-    <h2 class='text-center'><?= $_SESSION['postTitle'] ?></h2>
-    <h4><?= $_SESSION['postDesc'] ?></h2>
+    <h2 class='text-center'><?php use App\Core\Session; echo Session::get('postTitle') ?></h2>
+    <h4><?= Session::get('postDesc') ?></h2>
 
     <div class='container'>
     
-        <p><?= html_entity_decode($_SESSION['postContent'], ENT_HTML5, UTF-8) ?></p>
+        <p><?= html_entity_decode(Session::get('postContent'), ENT_HTML5, UTF-8) ?></p>
 
-        <p>Publié par <?= $_SESSION['postAuteur'] ?> le <?= $_SESSION['postDate'] ?></p>
+        <p>Publié par <?= Session::get('postAuteur') ?> le <?= Session::get('postDate') ?></p>
 
     </div>
 
@@ -17,20 +17,20 @@
     
         <h3>Commentaires:</h3>
 
-        <?php if(isset($_SESSION['user']) && !empty($_SESSION['user']['idUser'])): ?>
+        <?php if(Session::get3d('user', 'idUser')): ?>
 
 
                 <h6>Laissez un commentaire</h6>
 
-                <?php if(isset($_SESSION['erreur'])): ?>
+                <?php if(Session::get('erreur') !== null): ?>
                     <div class="alert alert-danger text-center" role ="alert">
-                        <?= $_SESSION['erreur']; unset($_SESSION['erreur']); ?>
+                        <?= Session::get('erreur'); Session::forget('erreur'); ?>
                     </div>
                 <?php endif; ?>
 
-                <?php if(isset($_SESSION['valide'])): ?>
+                <?php if(Session::get('valide') !== null): ?>
                     <div class="alert alert-success text-center" role ="alert">
-                        <?= $_SESSION['valide']; unset($_SESSION['valide']); ?>
+                        <?= Session::get('valide'); Session::forget('valide'); ?>
                     </div>
                 <?php endif; ?>
 
@@ -73,8 +73,8 @@
 
                     echo
                     "
-                    <div id='comment".$idComment."'>
-                    <div><h6 id='pseudocomment'>".$pseudo['username']." <span>".$date."</span></h6></div>
+                    <div id='comment".strip_tags($idComment)."'>
+                    <div><h6 id='pseudocomment'>".strip_tags($pseudo['username'])." <span>".strip_tags($date)."</span></h6></div>
                     <div id='commentaire'>
                     ".$valeur['content']."
                     </div>

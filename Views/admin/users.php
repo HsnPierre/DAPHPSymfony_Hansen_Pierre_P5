@@ -1,4 +1,4 @@
-<?php if(stristr($_SESSION['user']['role'], "Host") != false): ?>
+<?php use App\Core\Session; $role = json_decode(Session::get3d('user', 'role')); if(in_array('Host', $role)): ?>
 
 <div class='container' id='showUsers'>
     <h2 class='text-center'>Liste des utilisateurs</h2>
@@ -44,17 +44,17 @@
     foreach($valeurs as $valeur){
         $idUser = $valeur['idUser'];
 
-        if(stristr($valeur['role'], "Administrateur") == false){
+        if(!in_array('Administrateur', json_decode($valeur['role']))){
 
             echo
             "
             <form method='post'>
-            <div id='user".$idUser."' class='d-flex align-items-center'>
-                <p class='col-2'>".$valeur['username']."</p>
-                <p class='col-3'>".$valeur['name']." ".$valeur['surname']."</p>
-                <p class='col-3'>".$valeur['email']."</p>
+            <div id='user".strip_tags($idUser)."' class='d-flex align-items-center'>
+                <p class='col-2'>".strip_tags($valeur['username'])."</p>
+                <p class='col-3'>".strip_tags($valeur['name'])." ".strip_tags($valeur['surname'])."</p>
+                <p class='col-3'>".strip_tags($valeur['email'])."</p>
                 <p class='col-2'>Utilisateur</p>
-                <button class='col-2 btn' name='setadmin' value='$idUser'>Promouvoir</button>
+                <button class='col-2 btn' name='setadmin' value=".strip_tags($idUser).">Promouvoir</button>
             </div>
             </form>
             <hr>
@@ -62,16 +62,16 @@
             ;
             $i++;
 
-        } elseif(stristr($valeur['role'], "Host") == false) {
+        } elseif(!in_array('Host', json_decode($valeur['role']))) {
             echo
             "
             <form method='post'>
-            <div id='user".$idUser."' class='d-flex align-items-center p-2 bg-secondary text-light'>
-                <p class='col-2'>".$valeur['username']."</p>
-                <p class='col-3'>".$valeur['name']." ".$valeur['surname']."</p>
-                <p class='col-3'>".$valeur['email']."</p>
+            <div id='user".strip_tags($idUser)."' class='d-flex align-items-center p-2 bg-secondary text-light'>
+                <p class='col-2'>".strip_tags($valeur['username'])."</p>
+                <p class='col-3'>".strip_tags($valeur['name'])." ".strip_tags($valeur['surname'])."</p>
+                <p class='col-3'>".strip_tags($valeur['email'])."</p>
                 <p class='col-2'>Administrateur</p>
-                <button class='col-2 btn btn-light' name='unsetadmin' value='$idUser'>Destituer</button>
+                <button class='col-2 btn btn-light' name='unsetadmin' value=".strip_tags($idUser).">Destituer</button>
             </div>
             </form>
             <hr>

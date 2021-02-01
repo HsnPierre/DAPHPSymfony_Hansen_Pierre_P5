@@ -1,22 +1,22 @@
-<?php if(!isset($_POST['update']) && !isset($_SESSION['update']) && !isset($_POST['password']) && !isset($_SESSION['password'])): ?>
+<?php use App\Core\Session; if(!isset($_POST['update']) && !isset($_SESSION['update']) && !isset($_POST['password']) && !isset($_SESSION['password'])): ?>
 <div class="container" id="profil">
     <div class="main-body">
 
-        <?php if(isset($_SESSION['valide'])): ?>
-            <div class="alert alert-success text-center" role="alert">
-                <?= $valide; unset($_SESSION['valide']); ?>
+        <?php if(Session::get('valide') !== null): ?>
+            <div class="alert alert-success text-center" role ="alert">
+                <?= Session::get('valide'); Session::forget('valide'); ?>
             </div>
         <?php endif; ?>
 
         <h2 class="text-center">Mon profil</h2>
 
-        <?php if(isset($_SESSION['erreur'])): ?>
+        <?php if(Session::get('erreur') !== null): ?>
             <div class="alert alert-danger text-center" role ="alert">
             <?php
-                for($i = 0; $i < count($_SESSION['erreur']); $i++){
-                    echo $_SESSION['erreur'][$i].'<br>';
+                for($i = 0; $i < count(Session::get('erreur')); $i++){
+                    echo Session::get3d('erreur', $i).'<br>';
                 }
-                unset($_SESSION['erreur']); 
+                Session::forget('erreur'); 
             ?>
             </div>
         <?php endif; ?>
@@ -38,10 +38,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="<?= $_SESSION['user']['pic']; ?>" alt="Photo de profil" class="rounded-circle" width="150">                           
+                            <img src="<?= Session::get3d('user', 'pic'); ?>" alt="Photo de profil" class="rounded-circle" width="150">                           
                             <div class="mt-3">
-                                <h4><?= $_SESSION['user']['surname'].' '.$_SESSION['user']['name']; ?></h4>
-                                <p class="text-secondary mb-1"><?= $role; ?></p>
+                                <h4><?= Session::get3d('user', 'surname').' '.Session::get3d('user', 'name'); ?></h4>
+                                <p class="text-secondary mb-1"><?= strip_tags($role); ?></p>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                                 <h6 class="mb-0">Nom</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <?= $_SESSION['user']['name']; ?>
+                                <?= Session::get3d('user', 'name'); ?>
                             </div>
                         </div>
                         <hr>
@@ -67,7 +67,7 @@
                                 <h6 class="mb-0">Prenom</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <?= $_SESSION['user']['surname']; ?>
+                                <?= Session::get3d('user', 'surname'); ?>
                             </div>
                         </div>
                         <hr>
@@ -77,7 +77,7 @@
                                 <h6 class="mb-0">Pseudo</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <?= $_SESSION['user']['username']; ?>
+                                <?= Session::get3d('user', 'username'); ?>
                             </div>
                         </div>
                         <hr>
@@ -87,7 +87,7 @@
                                 <h6 class="mb-0">Email</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <?= $_SESSION['user']['email']; ?>
+                                <?= Session::get3d('user', 'email'); ?>
                             </div>
                         </div>
 
@@ -133,13 +133,13 @@
 
         <h2 class="text-center">Editer</h2>
 
-        <?php if(isset($_SESSION['erreur'])): ?>
+        <?php if(Session::get('erreur') !== null): ?>
             <div class="alert alert-danger text-center" role ="alert">
             <?php
-                for($i = 0; $i < count($_SESSION['erreur']); $i++){
-                    echo $_SESSION['erreur'][$i].'<br>';
+                for($i = 0; $i < count(Session::get('erreur')); $i++){
+                    echo Session::get3d('erreur', $i).'<br>';
                 }
-                unset($_SESSION['erreur']); 
+                Session::forget('erreur'); 
             ?>
             </div>
         <?php endif; ?>
@@ -160,8 +160,8 @@
                             </form>
                             
                             <div class="mt-3">
-                                <h4><?= $_SESSION['user']['surname'].' '.$_SESSION['user']['name']; ?></h4>
-                                <p class="text-secondary mb-1"><?= $role; ?></p>
+                                <h4><?= Session::get3d('user', 'surname').' '.Session::get3d('user', 'name'); ?></h4>
+                                <p class="text-secondary mb-1"><?= strip_tags($role); ?></p>
                             </div>
                         </div>
                     </div>
@@ -179,7 +179,7 @@
                                     <h6 class="mb-0">Nom</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input class="form-control" type="text" name="nom" value="<?= $_SESSION['user']['name']; ?>">
+                                    <input class="form-control" type="text" name="nom" value="<?= Session::get3d('user', 'name'); ?>">
                                 </div>
                             </div>
                             <hr>
@@ -189,7 +189,7 @@
                                     <h6 class="mb-0">Prenom</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input class="form-control" type="text" name="prenom" value="<?= $_SESSION['user']['surname']; ?>">
+                                    <input class="form-control" type="text" name="prenom" value="<?= Session::get3d('user', 'surname'); ?>">
                                 </div>
                             </div>
                             <hr>
@@ -199,7 +199,7 @@
                                     <h6 class="mb-0">Pseudo</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input class="form-control" type="text" name="pseudo" value="<?= $_SESSION['user']['username']; ?>">
+                                    <input class="form-control" type="text" name="pseudo" value="<?= Session::get3d('user', 'username'); ?>">
                                 </div>
                             </div>
                             <hr>
@@ -209,7 +209,7 @@
                                     <h6 class="mb-0">Email</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input class="form-control" type="text" name="mail" value="<?= $_SESSION['user']['email']; ?>">
+                                    <input class="form-control" type="text" name="mail" value="<?= Session::get3d('user', 'email'); ?>">
                                 </div>
                             </div>
 
@@ -230,13 +230,13 @@
 
 <h2 class='text-center'>Changer le mot de passe</h2>
 
-    <?php if(isset($_SESSION['erreur'])): ?>
+    <?php if(Session::get('erreur') !== null): ?>
         <div class="alert alert-danger text-center" role ="alert">
         <?php
-            for($i = 0; $i < count($_SESSION['erreur']); $i++){
-                echo $_SESSION['erreur'][$i].'<br>';
+            for($i = 0; $i < count(Session::get('erreur')); $i++){
+                echo Session::get3d('erreur', $i).'<br>';
             }
-            unset($_SESSION['erreur']); 
+            Session::forget('erreur'); 
         ?>
         </div>
     <?php endif; ?>

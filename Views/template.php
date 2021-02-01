@@ -3,7 +3,7 @@
     <head>
 
         <meta charset="utf-8">
-        <title><?= $title ?></title>
+        <title><?= strip_tags($title) ?></title>
 
         <!-- Bootstrap core CSS -->
         <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -30,31 +30,31 @@
                         <li class="nav-item">
                             <a class="nav-link" href="blog">Blog</a>
                         </li>
-                        <?php if(isset($_SESSION['user']) && !empty($_SESSION['user']['idUser']) && stristr($_SESSION['user']['role'], "Administrateur") == false): ?>
+                        <?php use App\Core\Session; $role = json_decode(Session::get3d('user', 'role')); if(Session::get3d('user', 'idUser') !== null && !in_array('Administrateur', $role)): ?>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="profile">Mon profil</a>
+                                <a class="nav-link" href="/profile">Mon profil</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="main/logout">Deconnexion</a>
-                            </li>
-
-                        <?php elseif(stristr($_SESSION['user']['role'], "Administrateur") != false): ?>
-                            
-                            <li class="nav-item">
-                                <a class="nav-link" href="profile">Mon profil</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="admin">Administration</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="main/logout">Deconnexion</a>
+                                <a class="nav-link" href="/main/logout">Deconnexion</a>
                             </li>
 
-                        <?php else: ?>
+                            <?php elseif(in_array('Administrateur', $role)): ?>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="register">S'inscrire</a>
+                                <a class="nav-link" href="/profile">Mon profil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">Administration</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/main/logout">Deconnexion</a>
+                            </li>
+
+                            <?php else: ?>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/register">S'inscrire</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" onclick="Popup()" href="#login">Se connecter</a>
@@ -88,14 +88,14 @@
         </div>
 
         <!-- Page Header -->
-        <header class="masthead" style="background-image: url('<?= $image ?>')">
+        <header class="masthead" style="background-image: url('<?= strip_tags($image) ?>')">
             <div class="overlay"></div>
             <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="site-heading">
                     <h1><?= $title ?></h1>
-                    <span class="subheading"><?= $subtitle?></span>
+                    <span class="subheading"><?= strip_tags($subtitle) ?></span>
                 </div>
                 </div>
             </div>
@@ -133,7 +133,7 @@
                             </li>
                         </ul>
 
-                        <?php if(stristr($_SESSION['user']['role'], "Administrateur") != false): ?>
+                        <?php if(in_array('Administrateur', $role)): ?>
                         <a class='col btn text-center' href="/admin" role='button'>Administration</a>
                         <?php endif; ?>
 

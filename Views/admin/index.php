@@ -1,4 +1,4 @@
-<?php if(stristr($_SESSION['user']['role'], "Administrateur") != false): ?>
+<?php use App\Core\Session; $role = json_decode(Session::get3d('user', 'role')); if(in_array('Administrateur', $role)): ?>
 
 <?php if((!isset($_POST['edit']) && !isset($_SESSION['edit'])) && (!isset($_POST['add']) && !isset($_SESSION['add']))): ?>
 
@@ -17,9 +17,9 @@
     
     </form>
 
-    <?php if(isset($_SESSION['valide'])): ?>
+    <?php if(Session::get('valide') !== null): ?>
         <div class="alert alert-success text-center" role="alert">
-            <?= $_SESSION['valide']; unset($_SESSION['valide']); ?>
+            <?= Session::get('valide'); Session::forget('valide'); ?>
         </div>
     <?php endif; ?>
 
@@ -44,23 +44,23 @@
                 
                 echo
                 "
-                <div id='post".$id."'>
-                <p>".$date." (".$dateEdit.")</p>
-                <h3 class='post-title text-center'>".$valeur['title']."</h3>
-                <h5 class='post-subtitle'>".$valeur['description']."</h5>
+                <div id='post".strip_tags($id)."'>
+                <p>".strip_tags($date)." (".strip_tags($dateEdit).")</p>
+                <h3 class='post-title text-center'>".strip_tags($valeur['title'])."</h3>
+                <h5 class='post-subtitle'>".strip_tags($valeur['description'])."</h5>
                 ".html_entity_decode($valeur['content'], ENT_HTML5, UTF-8)."
-                <p>".$prenom['surname']." ".$nom['name']." (édité par ".$valeur['editor'].")</p>
+                <p>".strip_tags($prenom['surname'])." ".strip_tags($nom['name'])." (édité par ".strip_tags($valeur['editor']).")</p>
                     <div>
                         <form action=' ' method='post' id='delete' class='text-center'>
                             <div class='form-check col'>
                                 <input class='form-check-input' type='checkbox' id='delete' required>
                                 <label class='form-check-label' for='delete'>Cocher cette case pour supprimer l'article</label>
                             </div>
-                            <button class='btn btn-danger col-3' name='delete' value='$id'>Supprimer</button>
+                            <button class='btn btn-danger col-3' name='delete' value=".strip_tags($id).">Supprimer</button>
                         </form>
                     </div><br>
                     <form action=' ' method='post' id='edit' class='text-center'>
-                        <button class='btn btn-primary col-3' name='edit' value='$id'>Editer</button>
+                        <button class='btn btn-primary col-3' name='edit' value=".strip_tags($id).">Editer</button>
                     </form>
                 </div>
                 <hr>
@@ -70,23 +70,23 @@
 
                 echo
                 "
-                <div id='post".$id."'>
-                <p>".$date."</p>
-                <h3 class='post-title text-center'>".$valeur['title']."</h3>
-                <h5 class='post-subtitle'>".$valeur['description']."</h5>
+                <div id='post".strip_tags($id)."'>
+                <p>".strip_tags($date)."</p>
+                <h3 class='post-title text-center'>".strip_tags($valeur['title'])."</h3>
+                <h5 class='post-subtitle'>".strip_tags($valeur['description'])."</h5>
                 ".html_entity_decode($valeur['content'], ENT_HTML5, UTF-8)."
-                <p>".$prenom['surname']." ".$nom['name']."</p>
+                <p>".strip_tags($prenom['surname'])." ".strip_tags($nom['name'])."</p>
                     <div class=''>
                         <form action=' ' method='post' id='delete' class='text-center'>
                             <div class='form-check col'>
                                 <input class='form-check-input' type='checkbox' id='delete' required>
                                 <label class='form-check-label' for='delete'>Cocher cette case pour supprimer l'article</label>
                             </div>
-                            <button class='btn btn-danger col-3' name='delete' value='$id'>Supprimer</button>
+                            <button class='btn btn-danger col-3' name='delete' value=".strip_tags($id).">Supprimer</button>
                         </form>
                     </div><br>
                     <form action=' ' method='post' id='edit' class='text-center'>
-                        <button class='btn btn-primary col-3' name='edit' value='$id'>Editer</button>
+                        <button class='btn btn-primary col-3' name='edit' value=".strip_tags($id).">Editer</button>
                     </form>
                 </div>
                 <hr>
@@ -110,13 +110,13 @@
         
         <h2 class='text-center'>Ajouter une annonce</h2>
 
-        <?php if(isset($_SESSION['erreur'])): ?>
+        <?php if(Session::get('erreur') !== null): ?>
             <div class="alert alert-danger text-center" role ="alert">
                 <?php
-                    for($i = 0; $i < count($_SESSION['erreur']); $i++){
-                        echo $_SESSION['erreur'][$i].'<br>';
+                    for($i = 0; $i < count(Session::get('erreur')); $i++){
+                        echo Session::get3d('erreur', $i).'<br>';
                     }
-                    unset($_SESSION['erreur']); 
+                    Session::forget('erreur'); 
                 ?>
             </div>
         <?php endif; ?>
@@ -156,30 +156,30 @@
         
         <h2 class='text-center'>Editer une annonce</h2>
 
-        <?php if(isset($_SESSION['erreur'])): ?>
+        <?php if(Session::get('erreur') !== null): ?>
             <div class="alert alert-danger text-center" role ="alert">
                 <?php
-                    for($i = 0; $i < count($_SESSION['erreur']); $i++){
-                        echo $_SESSION['erreur'][$i].'<br>';
+                    for($i = 0; $i < count(Session::get('erreur')); $i++){
+                        echo Session::get('erreur', $i).'<br>';
                     }
-                    unset($_SESSION['erreur']); 
+                    Session::forget('erreur'); 
                 ?>
             </div>
         <?php endif; ?>
 
         <div class="form-group col">
             <label for="titre" class="form-label">Titre</label>
-            <input class="form-control" type="text" name="titre" value="<?= $_SESSION['titre'] ?>">
+            <input class="form-control" type="text" name="titre" value="<?= Session::get('titre') ?>">
         </div>
             
         <div class="form-group col">
             <label for="chapo" class="form-label">Chapô</label>
-            <input class="form-control" type="text" name="chapo" value="<?= $_SESSION['chapo'] ?>">
+            <input class="form-control" type="text" name="chapo" value="<?= Session::get('chapo') ?>">
         </div>
         
         <div class="form-group col">
             <label for="contenu" class="form-label">Contenu</label>
-            <textarea class="form-control" name="contenu"><?= $_SESSION['contenu'] ?></textarea>
+            <textarea class="form-control" name="contenu"><?= Session::get('contenu') ?></textarea>
         </div>
 
         <div class="form-group text-center">

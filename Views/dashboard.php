@@ -3,7 +3,7 @@
     <head>
 
         <meta charset="utf-8">
-        <title><?= $title ?></title>
+        <title><?= strip_tags($title) ?></title>
 
         <!-- Bootstrap core CSS -->
         <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,13 +24,14 @@
             <div class="container">
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
+                    <li class="nav-item">
                             <a class="nav-link" href="/main">Accueil</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/blog">Blog</a>
                         </li>
-                        <?php if(isset($_SESSION['user']) && !empty($_SESSION['user']['idUser']) && stristr($_SESSION['user']['role'], "Administrateur") == false): ?>
+
+                        <?php use App\Core\Session; $role = json_decode(Session::get3d('user', 'role')); if(Session::get3d('user', 'idUser') !== null && !in_array('Administrateur', $role)): ?>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="/profile">Mon profil</a>
@@ -39,7 +40,7 @@
                                 <a class="nav-link" href="/main/logout">Deconnexion</a>
                             </li>
 
-                            <?php elseif(stristr($_SESSION['user']['role'], "Administrateur") != false): ?>
+                            <?php elseif(in_array('Administrateur', $role)): ?>
 
                             <li class="nav-item">
                                 <a class="nav-link" href="/profile">Mon profil</a>
@@ -71,12 +72,12 @@
             <form method="post" id="log">
                     <div class="form-group">
                         <label for="pseudo" class="form-label">Pseudonyme</label>
-                        <input class="form-control" type="text" name="pseudo" value="<?php if(isset($pseudo)){ echo $pseudo; }?>">
+                        <input class="form-control" type="text" name="pseudo" value="<?php if(isset($pseudo)){ echo strip_tags($pseudo); }?>">
                     </div>
                     
                     <div class="form-group">
                         <label for="mdp" class="form-label">Mot de passe</label>
-                        <input class="form-control" type="password" placeholder="" name="mdp" value="<?php if(isset($pass)){ echo $pass; }?>">
+                        <input class="form-control" type="password" placeholder="" name="mdp" value="<?php if(isset($pass)){ echo strip_tags($pass); }?>">
                     </div>
 
                     <div class="form-group text-center">
@@ -101,7 +102,7 @@
                     <a class='nav-link' href="/admin/comments">COMMENTAIRES</a>
                 </li>
                 <li class="nav-item">
-                    <?php if(stristr($_SESSION['user']['role'], "Host") != false): ?>
+                    <?php if(in_array('Host', $role)): ?>
                     <a class='nav-link' href="/admin/users">UTILISATEURS</a>
                     <?php endif; ?>
                 </li>

@@ -1,17 +1,17 @@
 <div class="container">
-    <?php if(isset($_SESSION['valide'])): ?>
+    <?php use App\Core\Session; if(Session::get('valide') !== null): ?>
     <div class="alert alert-success text-center" role="alert">
-            <?= $valide; unset($_SESSION['valide']); ?>
+            <?= Session::get('valide'); Session::forget('valide'); ?>
     </div>
     <?php endif; ?>
     <h2 class="text-center">Se connecter</h2>
-    <?php if(isset($_SESSION['erreur'])): ?>
+    <?php if(Session::get('erreur') !== null): ?>
     <div class="alert alert-danger text-center" role ="alert">
         <?php
-            for($i = 0; $i < count($_SESSION['erreur']); $i++){
-                echo $_SESSION['erreur'][$i].'<br>';
+            for($i = 0; $i < count(Session::get('erreur')); $i++){
+                echo Session::get3d('erreur', $i).'<br>';
             }
-            unset($_SESSION['erreur']); 
+            Session::forget('erreur'); 
         ?>
     </div>
     <?php endif; ?>
