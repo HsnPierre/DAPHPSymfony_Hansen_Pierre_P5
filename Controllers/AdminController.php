@@ -1,19 +1,19 @@
 <?php
 namespace App\Controllers;
 
-use App\Controllers\MainController;
-use App\Controllers\BlogController;
-use App\Controllers\CommentController;
 use App\Models\PostModel;
 use App\Models\UserModel;
 use App\Models\CommentModel;
+use App\Core\Session;
 
 class AdminController extends Controller
 {
     public function index()
     {
 
-        if(stristr($_SESSION['user']['role'], "Administrateur") == false || !isset($_SESSION['user'])){
+        $role = json_decode(Session::get3d('user', 'role'));
+
+        if(!in_array('Administrateur', $role) && Session::get('user') != null){
             $donnees = array ("title" => 'Erreur', "subtitle" => "Vous ne pouvez pas accéder à la page demandée.");
             $this->render('error/index', $donnees, 'auth');
             exit;
@@ -21,14 +21,13 @@ class AdminController extends Controller
 
         $admin = new AdminController;
         $blog = new BlogController;
-        $post = new PostModel;
         $user = new UserModel;
 
-        if(isset($_POST['edit']) || isset($_SESSION['edit'])){
+        if(isset($_POST['edit']) || Session::get('edit') !== null){
             $admin->updatePost();
         } elseif(isset($_POST['delete'])){
             $admin->deletePost();
-        } elseif(isset($_POST['add']) || isset($_SESSION['add'])){
+        } elseif(isset($_POST['add']) || Session::get('add') !== null){
             $admin->addPost();
         }   
 
@@ -51,7 +50,9 @@ class AdminController extends Controller
 
     public function posts()
     {
-        if(stristr($_SESSION['user']['role'], "Administrateur") == false || !isset($_SESSION['user'])){
+        $role = json_decode(Session::get3d('user', 'role'));
+
+        if(!in_array('Administrateur', $role) && Session::get('user') != null){
             $donnees = array ("title" => 'Erreur', "subtitle" => "Vous ne pouvez pas accéder à la page demandée.");
             $this->render('error/index', $donnees, 'auth');
             exit;
@@ -60,11 +61,11 @@ class AdminController extends Controller
         $admin = new AdminController;
         $blog = new BlogController;
 
-        if(isset($_POST['edit']) || isset($_SESSION['edit'])){
+        if(isset($_POST['edit']) || Session::get('edit') !== null){
             $admin->updatePost();
         } elseif(isset($_POST['delete'])){
             $admin->deletePost();
-        } elseif(isset($_POST['add']) || isset($_SESSION['add'])){
+        } elseif(isset($_POST['add']) || Session::get('add') !== null){
             $admin->addPost();
         } 
         
@@ -87,7 +88,9 @@ class AdminController extends Controller
 
     public function comments()
     {
-        if(stristr($_SESSION['user']['role'], "Administrateur") == false || !isset($_SESSION['user'])){
+        $role = json_decode(Session::get3d('user', 'role'));
+
+        if(!in_array('Administrateur', $role) && Session::get('user') != null){
             $donnees = array ("title" => 'Erreur', "subtitle" => "Vous ne pouvez pas accéder à la page demandée.");
             $this->render('error/index', $donnees, 'auth');
             exit;
@@ -96,11 +99,11 @@ class AdminController extends Controller
         $comment = new CommentController;
 
         if(isset($_POST['novalid'])){
-            unset($_SESSION['tmp']);
+            Session::forget('tmp');
         }
 
-        if(isset($_POST['valid']) || isset($_SESSION['tmp'])){
-            $_SESSION['tmp'] = '';
+        if(isset($_POST['valid']) || Session::get('tmp') !== null){
+            Session::put('tmp', '');
             $tmp = $comment->showComment(1);
         } else {
             $tmp = $comment->showComment(0);
@@ -120,7 +123,9 @@ class AdminController extends Controller
 
     public function users()
     {
-        if(stristr($_SESSION['user']['role'], "Host") == false || !isset($_SESSION['user'])){
+        $role = json_decode(Session::get3d('user', 'role'));
+
+        if(!in_array('Host', $role) && Session::get('user') != null){
             $donnees = array ("title" => 'Erreur', "subtitle" => "Vous ne pouvez pas accéder à la page demandée.");
             $this->render('error/index', $donnees, 'auth');
             exit;
@@ -151,10 +156,10 @@ class AdminController extends Controller
     {
         $post = new PostModel;
         $admin = new AdminController;
-        $_SESSION['add'] = '';
+        Session::put('add', '');
 
         if(isset($_POST['addPost']) && $admin->validate($_POST, ['titre', 'chapo', 'contenu'])){
-            $id = $_SESSION['user']['idUser'];
+            $id = Session::get3d('user', 'idUser'); 
             $titre = strip_tags($_POST['titre']);
             $chapo = strip_tags($_POST['chapo']);
             $contenu = htmlentities($_POST['contenu'], ENT_HTML5);
@@ -167,15 +172,15 @@ class AdminController extends Controller
 
                 $post->create();
 
-                $_SESSION['valide'] = "L'annonce a bien été ajoutée.";
-                unset($_SESSION['add']);
+                Session::put('valide', "L'annonce a bien été ajoutée");
+                Session::forget('add');
                 header('Location: /admin');
                 exit;
             }
         }
 
         if(isset($_POST['back'])){
-            unset($_SESSION['add']);
+            Session::forget('add');
         }
     }
 
@@ -185,7 +190,7 @@ class AdminController extends Controller
         $id = $_POST['delete'];
 
         $post->delete($id);
-        $_SESSION['valide'] = "Le post a bien été supprimé.";
+        Session::put('valide', "Le post a bien été supprimé");
         header('Location: /admin');
 
     }
@@ -196,19 +201,19 @@ class AdminController extends Controller
         $admin = new AdminController;
         
         if(isset($_POST['edit'])){
-            $_SESSION['idPost'] = $_POST['edit'];
+            Session::put('idPost', $_POST['edit']);
         }
-        $id = $_SESSION['idPost'];
+        $id = Session::get('idPost');
 
-        $_SESSION['edit'] = '';
+        Session::put('edit', '');
 
         $tab = $post->find($id);
-        $_SESSION['titre'] = $tab['title'];
-        $_SESSION['chapo'] = $tab['description'];
-        $_SESSION['contenu'] = $tab['content'];
+        Session::put('titre', $tab['title']);
+        Session::put('chapo', $tab['description']);
+        Session::put('contenu', $tab['content']);
 
         if(isset($_POST['back'])){
-            unset($_SESSION['edit']);
+            Session::forget('edit');
             header('Location: /admin');   
         }
 
@@ -234,22 +239,22 @@ class AdminController extends Controller
                     $i++;
                 }
                 if($i > 0){
-                    $prenom = $_SESSION['user']['surname'];
-                    $nom = $_SESSION['user']['name'];
+                    $prenom = Session::get3d('user', 'surname');
+                    $nom = Session::get3d('user', 'name');
                     $editeur = $prenom.' '.$nom;
 
                     $post->setDateEdit($date);
                     $post->setEditor($editeur);
                     $post->update();
 
-                    $_SESSION['valide'] = 'Les modifications ont bien été prises en compte.';
+                    Session::put('valide', "Les modifications ont bien été prises en compte.");
                     header('Location: /admin');
                     header('Refresh:5');
-                    unset($_SESSION['edit']);
+                    Session::forget('edit');
                     exit;
                 } else {
-                    $_SESSION['valide'] = "Aucune modification n'a été effectué.";
-                    unset($_SESSION['edit']);
+                    Session::put('valide', "Aucune modification n'a été effectué.");
+                    Session::forget('edit');
                 }
             }
 
@@ -259,7 +264,7 @@ class AdminController extends Controller
     public function setAdmin($id)
     {
         $user = new UserModel;
-        $_SESSION['idUser'] = $id;
+        Session::put('idUser', $id);
         $user->setRole(json_encode(['Administrateur','Utilisateur']));
         $user->update();
         header('Location: /admin/users');
@@ -268,7 +273,7 @@ class AdminController extends Controller
     public function unsetAdmin($id)
     {
         $user = new UserModel;
-        $_SESSION['idUser'] = $id;
+        Session::put('idUser', $id);
         $user->setRole(json_encode(['Utilisateur']));
         $user->update();
         header('Location: /admin/users');
@@ -302,14 +307,15 @@ class AdminController extends Controller
     public function validate(array $donnees, array $champs)
     {
         $i = 0;
-        $_SESSION['erreur'] = [];
+        Session::put('erreur', []);
+
         foreach($champs as $champ){
             if(!isset($donnees[$champ]) || empty($donnees[$champ])){
                 if($champ == 'mdp'){
-                    $_SESSION['erreur'][] = 'Le champ mot de passe ne peut pas être vide';
+                    Session::put3d('erreur', $i, "Le champ mot de passe ne peut pas être vide");
                     $i++;
                 }
-                $_SESSION['erreur'][] = "Le champ ".$champ." ne peut pas être vide.";
+                Session::put3d('erreur', $i, "Le champ ".$champ." ne peut pas être vide.");
                 $i++;
             }
         }
@@ -324,24 +330,22 @@ class AdminController extends Controller
         $post = new PostModel;
         $tab = $post->findAllBy($type);
         $j = 0;
-        $_SESSION['erreur'] = [];
+        Session::put('erreur', []);
         for($i = 0; $i < count($tab); $i++){
 
             if ($donnee == $tab[$i]["$type"]){
                 if($type == 'title'){
-                    $_SESSION['erreur'][] = "Il existe déjà un article avec ce titre.";
+                    Session::put3d('erreur', $j, "Il existe déjà un article avec ce titre.");
                     $j++;
                 }
                 if($type == 'content'){
-                    $_SESSION['erreur'][] = "Il existe déjà un article identique.";
+                    Session::put3d('erreur', $j, "Il existe déjà un article identique.");
                     $j++;
                 }
                 if($type == 'description'){
-                    $_SESSION['erreur'][] = "Il existe déjà un article avec ce chapo.";
+                    Session::put3d('erreur', $j, "Il existe déjà un article avec ce chapo.");
                     $j++;
                 }
-                $_SESSION['erreur'][] = "Il y a une erreur avec ".$type;
-                $j++;
             }
         }
         if($j > 0){
@@ -355,24 +359,22 @@ class AdminController extends Controller
         $post = new PostModel;
         $tab = $post->findAllBy($type);
         $j = 0;
-        $_SESSION['erreur'] = [];
+        Session::put('erreur', []);
         for($i = 0; $i < count($tab); $i++){
 
             if ($donnee == $tab[$i]["$type"] && $tab[$i]["$type"] != $donnees["$type"]){
                 if($type == 'title'){
-                    $_SESSION['erreur'][] = "Il existe déjà un article avec ce titre.";
+                    Session::put3d('erreur', $j, "Il existe déjà un article avec ce titre.");
                     $j++;
                 }
                 if($type == 'content'){
-                    $_SESSION['erreur'][] = "Il existe déjà un article identique.";
+                    Session::put3d('erreur', $j, "Il existe déjà un article identique.");
                     $j++;
                 }
                 if($type == 'description'){
-                    $_SESSION['erreur'][] = "Il existe déjà un article avec ce chapo.";
+                    Session::put3d('erreur', $j, "Il existe déjà un article avec ce chapo.");
                     $j++;
                 }
-                $_SESSION['erreur'][] = "Il y a une erreur avec ".$type;
-                $j++;
             }
         }
         if($j > 0){
