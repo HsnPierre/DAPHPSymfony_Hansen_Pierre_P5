@@ -3,6 +3,7 @@
   position: absolute;
   border-bottom: 1px solid $gray-200;
   background-color: white;
+
   @include sans-serif-font;
 
   .navbar-brand {
@@ -32,13 +33,14 @@
   @media only screen and (min-width: 992px) {
     border-bottom: 1px solid transparent;
     background: transparent;
+
     .navbar-brand {
       padding: 10px 20px;
       color: $white;
 
       &:focus,
       &:hover {
-        color: fade-out($white, .2);
+        color: fade-out($white, 0.2);
       }
     }
 
@@ -50,7 +52,7 @@
 
           &:focus,
           &:hover {
-            color: fade-out($white, .2);
+            color: fade-out($white, 0.2);
           }
         }
       }
@@ -61,6 +63,7 @@
     -webkit-transition: background-color 0.2s;
     -moz-transition: background-color 0.2s;
     transition: background-color 0.2s;
+
     /* Force Hardware Acceleration in WebKit */
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
@@ -77,8 +80,8 @@
       -webkit-transition: -webkit-transform 0.2s;
       -moz-transition: -moz-transform 0.2s;
       transition: transform 0.2s;
-      border-bottom: 1px solid darken($white, .05);
-      background-color: fade-out($white, .1);
+      border-bottom: 1px solid darken($white, 0.05);
+      background-color: fade-out($white, 0.1);
 
       .navbar-brand {
         color: $gray-900;
@@ -102,7 +105,7 @@
         }
       }
     }
-    
+
     &.is-visible {
       /* if the user changes the scrolling direction, we show the header */
       -webkit-transform: translate3d(0, 100%, 0);
