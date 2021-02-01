@@ -7,7 +7,7 @@
 body {
   font-size: 20px;
   color: #212529;
-  font-family: 'Lora';
+  font-family: 'Lora', sans-serif;
 }
 
 p {
@@ -17,6 +17,10 @@ p {
 
 a {
   text-decoration: none;
+  color: #000;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  transition: all 0.2s;
 }
 
 h1,
@@ -29,7 +33,7 @@ h5 {
 }
 
 h1,
-h2{
+h2 {
   padding: 30px 0;
 }
 
@@ -42,14 +46,8 @@ h6 {
   padding-top: 4%;
 }
 
-a {
-  color: #000000;
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-a:focus, a:hover {
+a:focus,
+a:hover {
   color: #02819b;
   text-decoration: none;
 }
@@ -60,7 +58,7 @@ blockquote {
 }
 
 #login {
-  position:fixed;
+  position: fixed;
   z-index: 2;
   margin-left: 70%;
   width: 30%;
@@ -80,16 +78,16 @@ blockquote {
 	background: #fff;
   width: 40%;
   padding: 30px;
-	box-shadow: 0 0 8px rgba(0,0,0,0.4); 
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.4); 
 }
 
 #commentaire {
   width: 70%;
-  box-shadow: 0 0 8px rgba(0,0,0,0.4); 
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4); 
   opacity: 90%;
 }
 
-#home-pic{
+#home-pic {
   width: 150px;
 }
 
@@ -98,19 +96,19 @@ blockquote {
   width: 95%;
 }
 
-#log2{
+#log2 {
   width: 55%;
   margin-left: 25%;
 }
 
 .error{
   padding-bottom: 10px;
-  color:red;
+  color: red;
 }
 
-.valide{
+.valide {
   padding-bottom: 10px;
-  color:green;
+  color: green;
 }
 
 .section-heading {
@@ -132,13 +130,13 @@ blockquote {
 
 ::-moz-selection {
   color: #fff;
-  background: #0085A1;
+  background: #0085a1;
   text-shadow: none;
 }
 
 ::selection {
   color: #fff;
-  background: #0085A1;
+  background: #0085a1;
   text-shadow: none;
 }
 
@@ -152,9 +150,27 @@ img::selection {
   background: transparent;
 }
 
-img::-moz-selection {
+header.masthead .post-heading .meta a {
   color: #fff;
-  background: transparent;
+}
+
+.post-preview > a {
+  color: #212529;
+}
+
+.post-preview > a:focus, .post-preview > a:hover {
+  text-decoration: none;
+  color: #0085A1;
+}
+
+.post-preview > .post-meta > a {
+  text-decoration: none;
+  color: #212529;
+}
+
+.post-preview > .post-meta > a:focus, .post-preview > .post-meta > a:hover {
+  text-decoration: underline;
+  color: #0085A1;
 }
 
 #mainNav {
@@ -189,17 +205,21 @@ img::-moz-selection {
     border-bottom: 1px solid transparent;
     background: transparent;
   }
+
   #mainNav .navbar-brand {
     padding: 10px 20px;
     color: #fff;
   }
+
   #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
     color: rgba(255, 255, 255, 0.8);
   }
+
   #mainNav .navbar-nav > li.nav-item > a {
     padding: 10px 20px;
     color: #fff;
   }
+
   #mainNav .navbar-nav > li.nav-item > a:focus, #mainNav .navbar-nav > li.nav-item > a:hover {
     color: rgba(255, 255, 255, 0.8);
   }
@@ -213,6 +233,7 @@ img::-moz-selection {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
+
   #mainNav.is-fixed {
     /* when the user scrolls down, we hide the header right above the viewport */
     position: fixed;
@@ -221,18 +242,23 @@ img::-moz-selection {
     border-bottom: 1px solid white;
     background-color: rgba(255, 255, 255, 0.9);
   }
+
   #mainNav.is-fixed .navbar-brand {
     color: #212529;
   }
+
   #mainNav.is-fixed .navbar-brand:focus, #mainNav.is-fixed .navbar-brand:hover {
     color: #0085A1;
   }
+
   #mainNav.is-fixed .navbar-nav > li.nav-item > a {
     color: #212529;
   }
+
   #mainNav.is-fixed .navbar-nav > li.nav-item > a:focus, #mainNav.is-fixed .navbar-nav > li.nav-item > a:hover {
     color: #0085A1;
   }
+
   #mainNav.is-visible {
     /* if the user changes the scrolling direction, we show the header */
     transform: translate3d(0, 100%, 0);
@@ -330,26 +356,14 @@ header.masthead .post-heading .meta {
   font-family: 'Lora', 'Times New Roman', serif;
 }
 
-header.masthead .post-heading .meta a {
-  color: #fff;
-}
-
 @media only screen and (min-width: 768px) {
   header.masthead .post-heading h1 {
     font-size: 55px;
   }
+
   header.masthead .post-heading .subheading {
     font-size: 30px;
   }
-}
-
-.post-preview > a {
-  color: #212529;
-}
-
-.post-preview > a:focus, .post-preview > a:hover {
-  text-decoration: none;
-  color: #0085A1;
 }
 
 .post-preview > a > .post-title {
@@ -368,16 +382,6 @@ header.masthead .post-heading .meta a {
   font-style: italic;
   margin-top: 0;
   color: #868e96;
-}
-
-.post-preview > .post-meta > a {
-  text-decoration: none;
-  color: #212529;
-}
-
-.post-preview > .post-meta > a:focus, .post-preview > .post-meta > a:hover {
-  text-decoration: underline;
-  color: #0085A1;
 }
 
 @media only screen and (min-width: 768px) {
@@ -474,8 +478,8 @@ footer .copyright {
 }
 
 .btn-primary {
-  background-color: #0085A1;
-  border-color: #0085A1;
+  background-color: #0085a1;
+  border-color: #0085a1;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
