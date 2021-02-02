@@ -415,7 +415,7 @@ header.masthead .post-heading .meta {
   border: none;
   border-radius: 0;
   background: none;
-  box-shadow: none !important;
+  box-shadow: none;
   font-family: 'Lora', 'Times New Roman', serif;
 }
 
@@ -447,7 +447,7 @@ header.masthead .post-heading .meta {
 }
 
 .floating-label-form-group-with-focus label {
-  color: #0085A1;
+  color: #0085a1;
 }
 
 form .form-group:first-child .floating-label-form-group {
@@ -483,8 +483,8 @@ footer .copyright {
 .btn:focus,
 .btn:active {
   color: #fff;
-  background-color: #6b7679 !important;
-  border-color: #6b7679 !important;
+  background-color: #6b7679;
+  border-color: #6b7679;
 }
 
 .btn-primary {
@@ -496,8 +496,8 @@ footer .copyright {
 .btn-primary:focus,
 .btn-primary:active {
   color: #fff;
-  background-color: #00657b !important;
-  border-color: #00657b !important;
+  background-color: #00657b;
+  border-color: #00657b;
 }
 
 .btn-danger {
@@ -509,8 +509,8 @@ footer .copyright {
 .btn-danger:focus,
 .btn-danger:active {
   color: #fff;
-  background-color: #7b0000 !important;
-  border-color: #7b0000 !important;
+  background-color: #7b0000;
+  border-color: #7b0000;
 }
 
 .btn-light {
@@ -522,8 +522,8 @@ footer .copyright {
 .btn-light:focus,
 .btn-light:active {
   color: #fff;
-  background-color: #3a3a3a !important;
-  border-color: #3a3a3a !important;
+  background-color: #3a3a3a;
+  border-color: #3a3a3a;
 }
 
 .btn-lg {
