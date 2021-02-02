@@ -26,15 +26,15 @@
             if($valeur['valid'] == 0){
                 echo
                 "
-                <div id='comment".strip_tags($idComment)."' class='justify-content-center row'>
-                <div class='text-center'><h6 id='pseudocomment'>".strip_tags($pseudo['username'])." <span>".strip_tags($date)."</span></h6></div>
+                <div id='comment".esc_attr($idComment)."' class='justify-content-center row'>
+                <div class='text-center'><h6 id='pseudocomment'>".esc_attr($pseudo['username'])." <span>".esc_attr($date)."</span></h6></div>
                 <div class='justify-content-center row' id='commentaire'>
-                <div class='col-8 text-center'>".strip_tags($valeur['content'])."</div>
+                <div class='col-8 text-center'>".esc_attr($valeur['content'])."</div>
                 </div>
                 <form method='post'>
                     <div class='text-center'>
-                        <button class='btn btn-primary' type='submit' name='oui' value=".strip_tags($idComment).">Valider</button>               
-                        <button class='btn btn-danger' type='submit' name='non' value=".strip_tags($idComment).">Supprimer</button>                 
+                        <button class='btn btn-primary' type='submit' name='oui' value=".esc_attr($idComment).">Valider</button>               
+                        <button class='btn btn-danger' type='submit' name='non' value=".esc_attr($idComment).">Supprimer</button>                 
                     </div>
                 </form>
                 </div>
@@ -45,14 +45,14 @@
             } else {
                 echo
                 "
-                <div id='comment".strip_tags($idComment)."' class='justify-content-center row'>
-                <div class='text-center'><h6 id='pseudocomment'>".strip_tags($pseudo['username'])." <span>".strip_tags($date)."</span></h6></div>
+                <div id='comment".esc_attr($idComment)."' class='justify-content-center row'>
+                <div class='text-center'><h6 id='pseudocomment'>".esc_attr($pseudo['username'])." <span>".esc_attr($date)."</span></h6></div>
                 <div class='justify-content-center row' id='commentaire'>
-                <div class='col-8 text-center'>".strip_tags($valeur['content'])."</div>
+                <div class='col-8 text-center'>".esc_attr($valeur['content'])."</div>
                 </div>
                 <form method='post'>
                     <div class='text-center'>              
-                        <button class='btn btn-danger' type='submit' name='non' value=".strip_tags($idComment).">Supprimer</button>                 
+                        <button class='btn btn-danger' type='submit' name='non' value=".esc_attr($idComment).">Supprimer</button>                 
                     </div>
                 </form>
                 </div>

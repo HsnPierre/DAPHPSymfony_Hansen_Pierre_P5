@@ -5,7 +5,7 @@
         <div class="alert alert-danger text-center" role="alert">
             <?php
                 for($i = 0; $i < count(Session::get('erreur')); $i++){
-                    echo strip_tags(Session::get3d('erreur', $i)).'<br>';
+                    echo esc_attr(Session::get3d('erreur', $i)).'<br>';
                 }
                 Session::forget('erreur'); 
             ?>
@@ -14,25 +14,25 @@
         <div class="row g-3 align-items-center">
             <div class="form-group col">
                 <label for="nom" class="form-label">Nom</label>
-                <input class="form-control" type="text" name="nom" value="<?= strip_tags($_POST['nom']) ?>">
+                <input class="form-control" type="text" name="nom" value="<?= esc_attr($_POST['nom']) ?>">
             </div>
             
             
             <div class="form-group col">
                 <label for="prenom" class="form-label">Prenom</label>
-                <input class="form-control" type="text" name="prenom" value="<?= strip_tags($_POST['prenom']) ?>">
+                <input class="form-control" type="text" name="prenom" value="<?= esc_attr($_POST['prenom']) ?>">
             </div>
 
         </div>
 
         <div class="form-group">
             <label for="pseudonyme" class="form-label">Pseudonyme</label>
-            <input class="form-control" type="text" name="pseudonyme" value="<?= strip_tags($_POST['pseudonyme']) ?>">
+            <input class="form-control" type="text" name="pseudonyme" value="<?= esc_attr($_POST['pseudonyme']) ?>">
         </div>
          
         <div class="form-group">
             <label for="mail" class="form-label">Adresse mail</label>
-            <input class="form-control" type="text" placeholder="exemple@domaine.fr" name="mail" value="<?= strip_tags($_POST['mail']) ?>">
+            <input class="form-control" type="text" placeholder="exemple@domaine.fr" name="mail" value="<?= esc_attr($_POST['mail']) ?>">
         </div>
         
         <div class="form-group">
