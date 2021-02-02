@@ -3,7 +3,7 @@
     <head>
 
         <meta charset="utf-8">
-        <title><?= esc_attr($title) ?></title>
+        <title><?= strip_tags($title) ?></title>
 
         <!-- Bootstrap core CSS -->
         <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -71,12 +71,12 @@
             <form method="post" id="log">
                     <div class="form-group">
                         <label for="pseudo" class="form-label">Pseudonyme</label>
-                        <input class="form-control" type="text" name="pseudo" value="<?php if(isset($pseudo)){ echo esc_attr($pseudo); }?>">
+                        <input class="form-control" type="text" name="pseudo" value="<?php if(isset($pseudo)){ echo strip_tags($pseudo); }?>">
                     </div>
                     
                     <div class="form-group">
                         <label for="mdp" class="form-label">Mot de passe</label>
-                        <input class="form-control" type="password" placeholder="" name="mdp" value="<?php if(isset($pass)){ echo esc_attr($pass); }?>">
+                        <input class="form-control" type="password" placeholder="" name="mdp" value="<?php if(isset($pass)){ echo strip_tags($pass); }?>">
                     </div>
 
                     <div class="form-group text-center">

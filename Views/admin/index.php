@@ -44,23 +44,23 @@
                 
                 echo
                 "
-                <div id='post".esc_attr($id)."'>
-                <p>".esc_attr($date)." (".esc_attr($dateEdit).")</p>
-                <h3 class='post-title text-center'>".esc_attr($valeur['title'])."</h3>
-                <h5 class='post-subtitle'>".esc_attr($valeur['description'])."</h5>
+                <div id='post".strip_tags($id)."'>
+                <p>".strip_tags($date)." (".strip_tags($dateEdit).")</p>
+                <h3 class='post-title text-center'>".strip_tags($valeur['title'])."</h3>
+                <h5 class='post-subtitle'>".strip_tags($valeur['description'])."</h5>
                 ".html_entity_decode($valeur['content'], ENT_HTML5, UTF-8)."
-                <p>".esc_attr($prenom['surname'])." ".esc_attr($nom['name'])." (édité par ".esc_attr($valeur['editor']).")</p>
+                <p>".strip_tags($prenom['surname'])." ".strip_tags($nom['name'])." (édité par ".strip_tags($valeur['editor']).")</p>
                     <div>
                         <form action=' ' method='post' id='delete' class='text-center'>
                             <div class='form-check col'>
                                 <input class='form-check-input' type='checkbox' id='delete' required>
                                 <label class='form-check-label' for='delete'>Cocher cette case pour supprimer l'article</label>
                             </div>
-                            <button class='btn btn-danger col-3' name='delete' value=".esc_attr($id).">Supprimer</button>
+                            <button class='btn btn-danger col-3' name='delete' value=".strip_tags($id).">Supprimer</button>
                         </form>
                     </div><br>
                     <form action=' ' method='post' id='edit' class='text-center'>
-                        <button class='btn btn-primary col-3' name='edit' value=".esc_attr($id).">Editer</button>
+                        <button class='btn btn-primary col-3' name='edit' value=".strip_tags($id).">Editer</button>
                     </form>
                 </div>
                 <hr>
@@ -70,23 +70,23 @@
 
                 echo
                 "
-                <div id='post".esc_attr($id)."'>
-                <p>".esc_attr($date)."</p>
-                <h3 class='post-title text-center'>".esc_attr($valeur['title'])."</h3>
-                <h5 class='post-subtitle'>".esc_attr($valeur['description'])."</h5>
+                <div id='post".strip_tags($id)."'>
+                <p>".strip_tags($date)."</p>
+                <h3 class='post-title text-center'>".strip_tags($valeur['title'])."</h3>
+                <h5 class='post-subtitle'>".strip_tags($valeur['description'])."</h5>
                 ".html_entity_decode($valeur['content'], ENT_HTML5, UTF-8)."
-                <p>".esc_attr($prenom['surname'])." ".esc_attr($nom['name'])."</p>
+                <p>".strip_tags($prenom['surname'])." ".strip_tags($nom['name'])."</p>
                     <div class=''>
                         <form action=' ' method='post' id='delete' class='text-center'>
                             <div class='form-check col'>
                                 <input class='form-check-input' type='checkbox' id='delete' required>
                                 <label class='form-check-label' for='delete'>Cocher cette case pour supprimer l'article</label>
                             </div>
-                            <button class='btn btn-danger col-3' name='delete' value=".esc_attr($id).">Supprimer</button>
+                            <button class='btn btn-danger col-3' name='delete' value=".strip_tags($id).">Supprimer</button>
                         </form>
                     </div><br>
                     <form action=' ' method='post' id='edit' class='text-center'>
-                        <button class='btn btn-primary col-3' name='edit' value=".esc_attr($id).">Editer</button>
+                        <button class='btn btn-primary col-3' name='edit' value=".strip_tags($id).">Editer</button>
                     </form>
                 </div>
                 <hr>

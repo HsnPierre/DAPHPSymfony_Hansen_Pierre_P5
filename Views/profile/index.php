@@ -41,7 +41,7 @@
                             <img src="<?= Session::get3d('user', 'pic'); ?>" alt="Photo de profil" class="rounded-circle" width="150">                           
                             <div class="mt-3">
                                 <h4><?= Session::get3d('user', 'surname').' '.Session::get3d('user', 'name'); ?></h4>
-                                <p class="text-secondary mb-1"><?= esc_attr($role); ?></p>
+                                <p class="text-secondary mb-1"><?= strip_tags($role); ?></p>
                             </div>
                         </div>
                     </div>
@@ -161,7 +161,7 @@
                             
                             <div class="mt-3">
                                 <h4><?= Session::get3d('user', 'surname').' '.Session::get3d('user', 'name'); ?></h4>
-                                <p class="text-secondary mb-1"><?= esc_attr($role); ?></p>
+                                <p class="text-secondary mb-1"><?= strip_tags($role); ?></p>
                             </div>
                         </div>
                     </div>

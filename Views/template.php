@@ -3,7 +3,7 @@
     <head>
 
         <meta charset="utf-8">
-        <title><?= htmlspecialchars($title) ?></title>
+        <title><?= strip_tags($title) ?></title>
 
         <!-- Bootstrap core CSS -->
         <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -88,14 +88,14 @@
         </div>
 
         <!-- Page Header -->
-        <header class="masthead" style="background-image: url('<?= htmlspecialchars($image) ?>')">
+        <header class="masthead" style="background-image: url('<?= strip_tags($image) ?>')">
             <div class="overlay"></div>
             <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="site-heading">
                     <h1><?= $title ?></h1>
-                    <span class="subheading"><?= htmlspecialchars($subtitle) ?></span>
+                    <span class="subheading"><?= strip_tags($subtitle) ?></span>
                 </div>
                 </div>
             </div>

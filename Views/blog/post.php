@@ -73,8 +73,8 @@
 
                     echo
                     "
-                    <div id='comment".esc_attr($idComment)."'>
-                    <div><h6 id='pseudocomment'>".esc_attr($pseudo['username'])." <span>".esc_attr($date)."</span></h6></div>
+                    <div id='comment".strip_tags($idComment)."'>
+                    <div><h6 id='pseudocomment'>".strip_tags($pseudo['username'])." <span>".strip_tags($date)."</span></h6></div>
                     <div id='commentaire'>
                     ".$valeur['content']."
                     </div>

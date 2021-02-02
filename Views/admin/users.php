@@ -49,12 +49,12 @@
             echo
             "
             <form method='post'>
-            <div id='user".esc_attr($idUser)."' class='d-flex align-items-center'>
-                <p class='col-2'>".esc_attr($valeur['username'])."</p>
-                <p class='col-3'>".esc_attr($valeur['name'])." ".esc_attr($valeur['surname'])."</p>
-                <p class='col-3'>".esc_attr($valeur['email'])."</p>
+            <div id='user".strip_tags($idUser)."' class='d-flex align-items-center'>
+                <p class='col-2'>".strip_tags($valeur['username'])."</p>
+                <p class='col-3'>".strip_tags($valeur['name'])." ".strip_tags($valeur['surname'])."</p>
+                <p class='col-3'>".strip_tags($valeur['email'])."</p>
                 <p class='col-2'>Utilisateur</p>
-                <button class='col-2 btn' name='setadmin' value=".esc_attr($idUser).">Promouvoir</button>
+                <button class='col-2 btn' name='setadmin' value=".strip_tags($idUser).">Promouvoir</button>
             </div>
             </form>
             <hr>
@@ -66,12 +66,12 @@
             echo
             "
             <form method='post'>
-            <div id='user".esc_attr($idUser)."' class='d-flex align-items-center p-2 bg-secondary text-light'>
-                <p class='col-2'>".esc_attr($valeur['username'])."</p>
-                <p class='col-3'>".esc_attr($valeur['name'])." ".esc_attr($valeur['surname'])."</p>
-                <p class='col-3'>".esc_attr($valeur['email'])."</p>
+            <div id='user".strip_tags($idUser)."' class='d-flex align-items-center p-2 bg-secondary text-light'>
+                <p class='col-2'>".strip_tags($valeur['username'])."</p>
+                <p class='col-3'>".strip_tags($valeur['name'])." ".strip_tags($valeur['surname'])."</p>
+                <p class='col-3'>".strip_tags($valeur['email'])."</p>
                 <p class='col-2'>Administrateur</p>
-                <button class='col-2 btn btn-light' name='unsetadmin' value=".esc_attr($idUser).">Destituer</button>
+                <button class='col-2 btn btn-light' name='unsetadmin' value=".strip_tags($idUser).">Destituer</button>
             </div>
             </form>
             <hr>
