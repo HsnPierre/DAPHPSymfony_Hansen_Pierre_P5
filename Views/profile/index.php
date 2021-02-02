@@ -1,4 +1,4 @@
-<?php use App\Core\Session; if(!isset($_POST['update']) && !isset($_SESSION['update']) && !isset($_POST['password']) && !isset($_SESSION['password'])): ?>
+<?php use App\Core\Session; use App\Core\Post; if(Post::get('update') === null && Session::get('update') === null && Post::get('password') === null && Session::get('password') === null): ?>
 <div class="container" id="profil">
     <div class="main-body">
 
@@ -126,7 +126,7 @@
 	</form>
 </div>
 
-<? elseif(isset($_POST['update']) || isset($_SESSION['update'])): ?>
+<? elseif(Post::get('update') !== null || Session::get('update') !== null): ?>
 
 <div class="container" id="profil-update">
     <div class="main-body">
@@ -150,7 +150,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
-                            <img src="<?= $_SESSION['user']['pic']; ?>" alt="Photo de profil" class="rounded-circle" width="150">
+                            <img src="<?= Session::get3d('user', 'pic'); ?>" alt="Photo de profil" class="rounded-circle" width="150">
                             
                             <form method='post' enctype="multipart/form-data">
                                 <div class="container">
@@ -226,7 +226,7 @@
     </div>
 </div>
 
-<? elseif(isset($_POST['password']) || isset($_SESSION['password'])): ?>
+<? elseif(Post::get('password') !== null || Session::get('password') !== null): ?>
 
 <h2 class='text-center'>Changer le mot de passe</h2>
 

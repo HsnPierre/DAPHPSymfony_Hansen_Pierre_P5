@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Core\Session;
+use App\Core\Post;
 
 class RegisterController extends Controller
 {
@@ -14,13 +15,13 @@ class RegisterController extends Controller
             header('Location: /main');
         }
 
-        if(isset($_POST['rgpd'])){
-            if($register->isEmpty($_POST, ['nom', 'prenom', 'pseudonyme', 'mail', 'password', 'password2']) && $register->validateMail($_POST['mail']) && $register->validatePass($_POST['password'], $_POST['password2'])){
-                $mail = $_POST['mail'];
-                $pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
-                $nom = strip_tags($_POST['nom']);
-                $prenom = strip_tags($_POST['prenom']);
-                $pseudo = strip_tags($_POST['pseudonyme']);
+        if(Post::get('rgpd') !== null){
+            if($register->isEmpty(Post::raw(), ['nom', 'prenom', 'pseudonyme', 'mail', 'password', 'password2']) && $register->validateMail(Post::get('mail')) && $register->validatePass(Post::get('password'), Post::get('password2'))){
+                $mail = Post::get('mail');
+                $pass = password_hash(Post::get('password'), PASSWORD_BCRYPT);
+                $nom = strip_tags(Post::get('nom'));
+                $prenom = strip_tags(Post::get('prenom'));
+                $pseudo = strip_tags(Post::get('pseudonyme'));
 
                 
 
@@ -42,7 +43,7 @@ class RegisterController extends Controller
                     header('Location: /login');
                 }       
             }
-        } elseif(!empty($_POST)) {
+        } elseif(Post::raw() !== null) {
             Session::put('ereur', "Vous devez accepter les conditions pour pouvoir vous inscrire.");
         }
 

@@ -5,6 +5,7 @@ use App\Models\PostModel;
 use App\Models\UserModel;
 use App\Models\CommentModel;
 use App\Core\Session;
+use App\Core\Post;
 
 class CommentController extends Controller
 {
@@ -36,10 +37,10 @@ class CommentController extends Controller
         $comments = new CommentController;
         $comment = new CommentModel;
 
-        if(isset($_POST['rgpd'])){
-            if($comments->validate($_POST, ['comments'])){
+        if(Post::get('rgpd') !== null){
+            if($comments->validate(Post::raw(), ['comments'])){
                 
-                $contenu = strip_tags($_POST['comments']);
+                $contenu = strip_tags(Post::get('comments'));
                 $idUser = Session::get3d('user', 'idUser');
                 $idPost = $id;
                 $role = json_decode(Session::get3d('user', 'role'));
@@ -65,7 +66,7 @@ class CommentController extends Controller
                 }    
                 header('Location: '. $_SERVER['HTTP_REFERER']);    
             }
-        } elseif(isset($_POST)){
+        } elseif(Post::raw() !== null){
             Session::put('erreur', "Vous devez accepter les conditions pour pouvoir commenter.");
             header('Location: '. $_SERVER['HTTP_REFERER']); 
         }
@@ -75,13 +76,13 @@ class CommentController extends Controller
     {
         $comment = new CommentModel;
 
-        if(isset($_POST['oui'])){
-            Session::put('idComment', $_POST['oui']);
+        if(Post::get('oui') !== null){
+            Session::put('idComment', Post::get('oui'));
             $comment->setValid(1);
             $comment->update();
             header('Location :'.$_SERVER['HTTP_REFERER']);
-        } else if(isset($_POST['non'])){
-            $id = $_POST['non'];
+        } else if(Post::get('non') !== null){
+            $id = Post::get('non');
             $comment->delete($id);
             header('Refresh:0');
         }

@@ -5,6 +5,7 @@ use App\Models\UserModel;
 use App\Models\PostModel;
 use App\Models\CommentModel;
 use App\Core\Session;
+use App\Core\Post;
 
 class BlogController extends Controller
 {
@@ -13,7 +14,7 @@ class BlogController extends Controller
         $login = new LoginController;
         $blog = new BlogController;
 
-        if(isset($_POST['pseudo'])){
+        if(Post::get('pseudo') !== null){
             $login->login();
         }
         
@@ -34,7 +35,7 @@ class BlogController extends Controller
         $user = new UserModel;
         $idPost = (int) $id[0];
 
-        if(isset($_POST['pseudo'])){
+        if(Post::get('pseudo') !== null){
             $main->login();
         }
 
@@ -56,7 +57,7 @@ class BlogController extends Controller
         Session::put('postDate', $date);
 
         $comment->showThisPostComment($idPost);
-        if(isset($_POST['submit']) && !isset($_POST['cancel'])){
+        if(Post::get('submit') !== null && Post::get('cancel') === null){
             $comment->addComment($idPost);
         }
 

@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Core\Session;
+use App\Core\Post;
 
 class LoginController extends Controller
 {
@@ -25,12 +26,12 @@ class LoginController extends Controller
         $login = new LoginController;
         Session::put('erreur', []);
 
-        if(!empty($_POST)){
-            if($login->validate($_POST, ['pseudo', 'mdp'])){
+        if(!empty(Post::raw())){
+            if($login->validate(Post::raw(), ['pseudo', 'mdp'])){
 
                 $userModel = new UserModel;
 
-                $userArray = $userModel->findOneBy('username', $_POST['pseudo']);
+                $userArray = $userModel->findOneBy('username', Post::get('pseudo'));
 
                 if(!$userArray){
                 Session::put3d('erreur', 0, "Le pseudonyme et/ou le mot de passe est incorrect");
@@ -39,7 +40,7 @@ class LoginController extends Controller
 
                 $user = $userModel->hydrate($userArray);
 
-                if(password_verify($_POST['mdp'], $user->getPassword())){
+                if(password_verify(Post::get('mdp'), $user->getPassword())){
                     $user->setSession();
                     header('Location: '. $_SERVER['HTTP_REFERER']);
                     exit;

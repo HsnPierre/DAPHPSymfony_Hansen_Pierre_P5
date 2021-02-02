@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use App\Core\Session;
+use App\Core\Post;
 
 class MainController extends Controller
 {
@@ -12,10 +14,10 @@ class MainController extends Controller
         $login = new LoginController;
         $blog = new BlogController;
 
-        if(isset($_POST)){
-            if(isset($_POST['pseudo'])){
+        if(Post::raw() !== null){
+            if(Post::get('pseudo') !== null){
                 $login->login();
-            } else if(isset($_POST['nom'])){
+            } else if(Post::get('nom') !== null){
                 $main->contactform();
             }
         }
@@ -32,13 +34,13 @@ class MainController extends Controller
     {
         $main = new MainController;
 
-        if(!empty($_POST) && $main->validate($_POST, ['nom', 'prenom', 'mail', 'objet', 'message']) && $main->validateMail($_POST['mail'])){
+        if(!empty(Post::raw()) && $main->validate(Post::raw(), ['nom', 'prenom', 'mail', 'objet', 'message']) && $main->validateMail(Post::get('mail'))){
             
-            $mail = strip_tags($_POST['mail']);
-            $nom = $_POST['nom'];
-            $prenom = $_POST['prenom'];
-            $objet = $_POST['objet'];
-            $message = $_POST['message'];
+            $mail = Post::get('mail');
+            $nom = strip_tags(Post::get('nom'));
+            $prenom = strip_tags(Post::get('prenom'));
+            $objet = strip_tags(Post::get('objet'));
+            $message = strip_tags(Post::get('message'));
 
             $to = 'pierre.hsn@gmail.com';
 
@@ -61,9 +63,9 @@ class MainController extends Controller
                         </html>";
 
             if(mail($to, $objet, $message, $header)){
-                $_SESSION['valide'] = "Le formulaire a bien été envoyé";
+                Session::put('valide', "Le formulaire a bien été envoyé");
             } else {
-                $_SESSION['erreur'] = "Une erreur est survenue lors de l'envoi du formulaire";
+                Session::put('erreur', "Une erreur est survenue lors de l'envoi du formulaire");
             }
         }
     }
@@ -73,10 +75,10 @@ class MainController extends Controller
         foreach($champs as $champ){
             if(!isset($donnees[$champ]) || empty($donnees[$champ])){
                 if($champ == 'mdp'){
-                    $_SESSION['erreur'] = 'Le champ mot de passe ne peut pas être vide';
+                    Session::put('erreur', "Le champ mot de passe ne peut pas être vide");
                     return false;
                 }
-                $_SESSION['erreur'] = "Le champ ".$champ." ne peut pas être vide.";
+                Session::put('erreur', "Le champ ".$champ." ne peut pas être vide.");
                 return false;
             }
         }
@@ -86,7 +88,7 @@ class MainController extends Controller
     public function validateMail(string $mail)
     {
         if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
-            $_SESSION['erreur'] = "L'adresse mail n'est pas valide.";
+            Session::put('erreur', "L'adresse mail n'est pas valide.");
             return false;
         }
         return true;
@@ -94,7 +96,7 @@ class MainController extends Controller
 
     public function logout(){
         $tab = explode('/', $_SERVER['HTTP_REFERER']);
-        unset($_SESSION['user']);
+        Session::forget('user');
         if($tab[3] == 'profile' || $tab[3] == 'admin'){
             header('Location: /');
         } else {

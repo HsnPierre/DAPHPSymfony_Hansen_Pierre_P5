@@ -1,7 +1,7 @@
 <div class="container">
     <h2 class="text-center">Inscription</h2>
     <form action="#" method="post" id="inscription">
-        <?php use App\Core\Session; if(Session::get('erreur') !== null): ?>
+        <?php use App\Core\Session; use App\Core\Post; if(Session::get('erreur') !== null): ?>
         <div class="alert alert-danger text-center" role="alert">
             <?php
                 for($i = 0; $i < count(Session::get('erreur')); $i++){
@@ -14,25 +14,25 @@
         <div class="row g-3 align-items-center">
             <div class="form-group col">
                 <label for="nom" class="form-label">Nom</label>
-                <input class="form-control" type="text" name="nom" value="<?= strip_tags($_POST['nom']) ?>">
+                <input class="form-control" type="text" name="nom" value="<?= strip_tags(Post::get('nom')) ?>">
             </div>
             
             
             <div class="form-group col">
                 <label for="prenom" class="form-label">Prenom</label>
-                <input class="form-control" type="text" name="prenom" value="<?= strip_tags($_POST['prenom']) ?>">
+                <input class="form-control" type="text" name="prenom" value="<?= strip_tags(Post::get('prenom')) ?>">
             </div>
 
         </div>
 
         <div class="form-group">
             <label for="pseudonyme" class="form-label">Pseudonyme</label>
-            <input class="form-control" type="text" name="pseudonyme" value="<?= strip_tags($_POST['pseudonyme']) ?>">
+            <input class="form-control" type="text" name="pseudonyme" value="<?= strip_tags(Post::get('pseudonyme')) ?>">
         </div>
          
         <div class="form-group">
             <label for="mail" class="form-label">Adresse mail</label>
-            <input class="form-control" type="text" placeholder="exemple@domaine.fr" name="mail" value="<?= strip_tags($_POST['mail']) ?>">
+            <input class="form-control" type="text" placeholder="exemple@domaine.fr" name="mail" value="<?= strip_tags(Post::get('mail')) ?>">
         </div>
         
         <div class="form-group">
