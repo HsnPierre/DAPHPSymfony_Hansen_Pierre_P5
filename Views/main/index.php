@@ -29,12 +29,12 @@
                     $dateEdit = date('\M\i\s \à \j\o\u\r \l\e d.m.y, \à H:i', strtotime($valeur['dateEdit']));
                     echo
                     "
-                    <div class='post-preview col' id='post".esc_attr($id)."'>
-                        <div class='text-center'><a href='blog/post/".esc_attr($id)."'><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
-                        <h3 class='post-title text-center'><a href='blog/post/".esc_attr($id)."'>".esc_attr($valeur['title'])."</a></h3>
-                        <h5 class='post-subtitle text-center'>".esc_attr($valeur['description'])."</h5>
-                        <p class='text-center'>".esc_attr($date)." (".esc_attr($dateEdit).")</p>
-                        <p class='text-center'>".esc_attr($prenom['surname'])." ".esc_attr($nom['name'])." (édité par ".esc_attr($valeur['editor']).")</p>
+                    <div class='post-preview col' id='post".htmlspecialchars($id)."'>
+                        <div class='text-center'><a href='blog/post/".htmlspecialchars($id)."'><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
+                        <h3 class='post-title text-center'><a href='blog/post/".htmlspecialchars($id)."'>".htmlspecialchars($valeur['title'])."</a></h3>
+                        <h5 class='post-subtitle text-center'>".htmlspecialchars($valeur['description'])."</h5>
+                        <p class='text-center'>".htmlspecialchars($date)." (".htmlspecialchars($dateEdit).")</p>
+                        <p class='text-center'>".htmlspecialchars($prenom['surname'])." ".htmlspecialchars($nom['name'])." (édité par ".htmlspecialchars($valeur['editor']).")</p>
                     </div>
                     "
                     ;
@@ -43,12 +43,12 @@
 
                     echo
                     "
-                    <div class='post-preview col' id='post".esc_attr($id)."'>
-                        <div class='text-center'><a href='blog/post/".esc_attr($id)."'><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
-                        <h3 class='post-title text-center'><a href='blog/post/".esc_attr($id)."'>".esc_attr($valeur['title'])."</a></h3>
-                        <h5 class='post-subtitle text-center'>".esc_attr($valeur['description'])."</h5>
-                        <p class='text-center'>".esc_attr($date)."</p>
-                        <p class='text-center'>".esc_attr($prenom['surname'])." ".esc_attr($nom['name'])."</p>
+                    <div class='post-preview col' id='post".htmlspecialchars($id)."'>
+                        <div class='text-center'><a href='blog/post/".htmlspecialchars($id)."'><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
+                        <h3 class='post-title text-center'><a href='blog/post/".htmlspecialchars($id)."'>".htmlspecialchars($valeur['title'])."</a></h3>
+                        <h5 class='post-subtitle text-center'>".htmlspecialchars($valeur['description'])."</h5>
+                        <p class='text-center'>".htmlspecialchars($date)."</p>
+                        <p class='text-center'>".htmlspecialchars($prenom['surname'])." ".htmlspecialchars($nom['name'])."</p>
                     </div>
                     "
                     ;
