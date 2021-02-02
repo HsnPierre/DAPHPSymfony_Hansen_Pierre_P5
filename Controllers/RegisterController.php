@@ -67,6 +67,10 @@ class RegisterController extends Controller
                 }
             }
         }
+        if($i > 0){
+            return false;
+        }
+        return true;
     }
 
     public function validateMail(string $mail)
@@ -78,6 +82,10 @@ class RegisterController extends Controller
             Session::put3d('erreur', $i, "L'adresse mail n'est pas valide.");
             $i++;
         }
+        if($i > 0){
+            return false;
+        }
+        return true;
     }
 
     public function validatePass(string $pass, string $pass2)

@@ -5,6 +5,7 @@ use App\Models\UserModel;
 use App\Core\Session;
 use App\Core\Post;
 use App\Core\File;
+use App\Core\Fonction;
 
 class ProfileController extends Controller
 {
@@ -18,8 +19,6 @@ class ProfileController extends Controller
         }
 
         $profile = new ProfileController;
-
-        $role = json_decode(Session::get3d('user', 'role'));
 
         if(Post::get('update') !== null || Session::get('update') !== null){
             $profile->update();
@@ -45,11 +44,12 @@ class ProfileController extends Controller
     public function update()
     {
         $profile = new ProfileController;
+        $register = new RegisterController;
         Session::put('update', '');
         Session::put('idUser', Session::get3d('user', 'idUser'));
 
 
-        if(Post::get('modif') !== null && $profile->validate(Post::raw(), ['nom', 'prenom', 'pseudo', 'mail'])){
+        if(Post::get('modif') !== null && $profile->isEmpty(Post::raw(), ['nom', 'prenom', 'pseudo', 'mail']) && $register->validateMail(Post::get('mail'))){
             
             if($profile->alreadyUse(Post::get('pseudo'), 'username') && $profile->alreadyUse(Post::get('mail'), 'email')){
                 $i = 0;
@@ -82,7 +82,7 @@ class ProfileController extends Controller
 
                     Session::put('valide', "Les modifications ont bien été prises en compte. Veuillez vous reconnecter pour mettre à jour les informations");
                     $main->logout();
-                    header('Location: /login');
+                    Fonction::header('login');
                     Session::forget('update');
                     exit;
                 } else {
@@ -109,8 +109,8 @@ class ProfileController extends Controller
                     Session::put3d('user', 'pic', $fileName);
                     Session::put('idUser', Session::get3d('user', 'idUser'));
                     $user->setPic($fileName);
-                    $user->update();                    
-                    header('Location: /profile');
+                    $user->update();  
+                    Fonction::header('profile');                  
                 } else {
                     Session::put3d('erreur', 0, "Une erreur est survenue lors du téléchargement de l'image.");
                 }
@@ -128,11 +128,11 @@ class ProfileController extends Controller
 
         if(Post::get('back') !== null){
             Session::forget('password');
-            header('Location: /profile');
+            Fonction::header('profile');
             exit;
         }
 
-        if(Post::get('pass') !== null && $profile->validate(Post::raw(), ['old', 'new', 'new2'])){
+        if(Post::get('pass') !== null && $profile->isEmpty(Post::raw(), ['old', 'new', 'new2']) && $register->validatePass(Post::get('new'), Post::get('new2'))){
         
             if(password_verify(Post::get('old'), Session::get3d('user', 'password'))){
             
@@ -145,7 +145,7 @@ class ProfileController extends Controller
 
                 Session::put('valide', "Les modifications ont bien été prises en compte. Veuillez vous reconnecter pour mettre à jour les informations");
                 $main->logout();
-                header('Location: /login');
+                Fonction::header('login');
                 Session::forget('password');
                 exit;
             } else {
@@ -165,7 +165,7 @@ class ProfileController extends Controller
             
                 $main = new MainController;
                 $main->logout();
-                header('Location: /');
+                Fonction::header('');
                 exit;
             } else {
                 Session::put('erreur', "Le mot de passe est incorrect");
@@ -173,10 +173,9 @@ class ProfileController extends Controller
         }
     }
 
-    public function validate(array $donnees, array $champs)
+    public function isEmpty(array $donnees, array $champs)
     {
         Session::put('erreur', []);
-        $pattern = '/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{12,}$/';
         $i = 0;
         foreach($champs as $champ){
             if(!isset($donnees[$champ]) || empty($donnees[$champ])){
@@ -201,41 +200,9 @@ class ProfileController extends Controller
                 }
             }
         }
-        if(!filter_var($donnees['mail'], FILTER_VALIDATE_EMAIL)){
-            Session::put3d('erreur', $i, "L'adresse mail n'est pas valide.");
-            $i++;
+        if($i > 0){
+            return false;
         }
-        if(isset($donnees['new']) && !preg_match($pattern, $donnees['new'])){
-            Session::put3d('erreur', $i, "Le mot de passe doit contenir au minimum");
-            if(!preg_match('/^(?=.*[a-z]).{12,}$/', $donnees['new'])){
-                Session::put3d('erreur', $i, "une minuscule");
-                $i++;
-            }   
-            if(!preg_match('/^(?=.*[A-Z]).{12,}$/', $donnees['new'])){
-                Session::put3d('erreur', $i, "une majuscule");
-                $i++;
-            }   
-            if(!preg_match('/^(?=.*[0-9]).{12,}$/', $donnees['new'])){
-                Session::put3d('erreur', $i, "un chiffre");
-                $i++;
-            }   
-            if(!preg_match('/^(?=.*[!@#$%^&*-]).{12,}$/', $donnees['new'])){
-                Session::put3d('erreur', $i, "un caractère spécial");
-                $i++;
-            }
-            if(!preg_match('/^.{12,}$/', $donnees['new'])){
-                Session::put3d('erreur', $i, "et contenir au minimum 12 caractères");
-                $i++;
-            } 
-            $i++;
-        }
-        if ($donnees["new"] != $donnees["new2"]){
-            Session::put3d('erreur', $i, "Les deux mots de passe ne se correspondent pas.");
-            $i++;
-        }
-       if($i > 0){
-           return false;
-       }
         return true;
     }
 
@@ -263,21 +230,6 @@ class ProfileController extends Controller
 
         if(!stristr($donnees['type'], "image")){
             Session::put3d('erreur', $i, "Le fichier envoyé n'est pas une image");
-            $i++;
-        }
-        if($i > 0){
-            return false;
-        }
-        return true;
-    }
-
-    public function validateMail(string $mail)
-    {
-        Session::put('erreur', []);
-        $i = 0;
-
-        if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
-            Session::put3d('erreur', $i, "L'adresse mail n'est pas valide.");
             $i++;
         }
         if($i > 0){
