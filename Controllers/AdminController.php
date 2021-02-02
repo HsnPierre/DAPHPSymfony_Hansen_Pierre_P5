@@ -5,6 +5,7 @@ use App\Models\PostModel;
 use App\Models\UserModel;
 use App\Models\CommentModel;
 use App\Core\Session;
+use App\Core\Post;
 
 class AdminController extends Controller
 {
@@ -23,20 +24,20 @@ class AdminController extends Controller
         $blog = new BlogController;
         $user = new UserModel;
 
-        if(isset($_POST['edit']) || Session::get('edit') !== null){
+        if(Post::get('edit') !== null || Session::get('edit') !== null){
             $admin->updatePost();
-        } elseif(isset($_POST['delete'])){
+        } elseif(Post::get('delete') !== null){
             $admin->deletePost();
-        } elseif(isset($_POST['add']) || Session::get('add') !== null){
+        } elseif(Post::get('add') !== null || Session::get('add') !== null){
             $admin->addPost();
         }   
 
-        if(isset($_POST['title'])){
-            $tmp = $blog->showPost('title', $_POST['title']);
-        } elseif(isset($_POST['date'])){
-            $tmp = $blog->showPost('date', $_POST['date']);
-        } elseif(isset($_POST['auteur'])){
-            $tmp = $blog->showPost('idUser', $_POST['auteur']);
+        if(Post::get('title') !== null){
+            $tmp = $blog->showPost('title', Post::get('title'));
+        } elseif(Post::get('date') !== null){
+            $tmp = $blog->showPost('date', Post::get('date'));
+        } elseif(Post::get('auteur') !== null){
+            $tmp = $blog->showPost('idUser', Post::get('auteur'));
         } else {
             $tmp = $blog->showPost('date', 'ASC');
         }
@@ -61,20 +62,20 @@ class AdminController extends Controller
         $admin = new AdminController;
         $blog = new BlogController;
 
-        if(isset($_POST['edit']) || Session::get('edit') !== null){
+        if(Post::get('edit') !== null || Session::get('edit') !== null){
             $admin->updatePost();
-        } elseif(isset($_POST['delete'])){
+        } elseif(Post::get('delete') !== null){
             $admin->deletePost();
-        } elseif(isset($_POST['add']) || Session::get('add') !== null){
+        } elseif(Post::get('add') !== null || Session::get('add') !== null){
             $admin->addPost();
-        } 
-        
-        if(isset($_POST['title'])){
-            $tmp = $blog->showPost('title', $_POST['title']);
-        } elseif(isset($_POST['date'])){
-            $tmp = $blog->showPost('date', $_POST['date']);
-        } elseif(isset($_POST['auteur'])){
-            $tmp = $blog->showPost('idUser', $_POST['auteur']);
+        }   
+
+        if(Post::get('title') !== null){
+            $tmp = $blog->showPost('title', Post::get('title'));
+        } elseif(Post::get('date') !== null){
+            $tmp = $blog->showPost('date', Post::get('date'));
+        } elseif(Post::get('auteur') !== null){
+            $tmp = $blog->showPost('idUser', Post::get('auteur'));
         } else {
             $tmp = $blog->showPost('date', 'ASC');
         }
@@ -98,18 +99,18 @@ class AdminController extends Controller
 
         $comment = new CommentController;
 
-        if(isset($_POST['novalid'])){
+        if(Post::get('novalid') !== null){
             Session::forget('tmp');
         }
 
-        if(isset($_POST['valid']) || Session::get('tmp') !== null){
+        if(Post::get('valid') !== null || Session::get('tmp') !== null){
             Session::put('tmp', '');
             $tmp = $comment->showComment(1);
         } else {
             $tmp = $comment->showComment(0);
         }
 
-        if(isset($_POST['oui']) || isset($_POST['non'])){
+        if(Post::get('oui') !== null || Post::get('non') !== null){
             $comment->validateComment();
         }
 
@@ -133,22 +134,22 @@ class AdminController extends Controller
 
         $admin = new AdminController;
 
-        if(isset($_POST['search'])){
-            $admin->showThisUser($_POST['username']);
-        } elseif(isset($_POST['username'])){
-            $admin->showUsers('username', $_POST['username']);
-        } elseif(isset($_POST['date'])){
-            $admin->showUsers('date', $_POST['date']);
-        } elseif(isset($_POST['role'])){
-            $admin->showUsers('role', $_POST['role']);
+        if(Post::get('search') !== null){
+            $admin->showThisUser(Post::get('username'));
+        } elseif(Post::get('username') !== null){
+            $admin->showUsers('username', Post::get('username'));
+        } elseif(Post::get('date') !== null){
+            $admin->showUsers('date', Post::get('date'));
+        } elseif(Post::get('role') !== null){
+            $admin->showUsers('role', Post::get('role'));
         } else {
             $admin->showUsers('username', 'ASC');
         }
 
-        if(isset($_POST['setadmin'])){
-            $admin->setAdmin($_POST['setadmin']);
-        } elseif(isset($_POST['unsetadmin'])){
-            $admin->unsetAdmin($_POST['unsetadmin']);
+        if(Post::get('setadmin') !== null){
+            $admin->setAdmin(Post::get('setadmin'));
+        } elseif(Post::get('unsetadmin') !== null){
+            $admin->unsetAdmin(Post::get('unsetadmin'));
         }
     }
 
@@ -158,11 +159,11 @@ class AdminController extends Controller
         $admin = new AdminController;
         Session::put('add', '');
 
-        if(isset($_POST['addPost']) && $admin->validate($_POST, ['titre', 'chapo', 'contenu'])){
+        if(Post::get('addPost') !== null && $admin->validate(Post::raw(), ['titre', 'chapo', 'contenu'])){
             $id = Session::get3d('user', 'idUser'); 
-            $titre = strip_tags($_POST['titre']);
-            $chapo = strip_tags($_POST['chapo']);
-            $contenu = htmlentities($_POST['contenu'], ENT_HTML5);
+            $titre = strip_tags(Post::get('titre'));
+            $chapo = strip_tags(Post::get('chapo'));
+            $contenu = htmlentities(Post::get('contenu'), ENT_HTML5);
 
             if($admin->alreadyUse($titre, 'title') && $admin->alreadyUse($chapo, 'description') && $admin->alreadyUse($contenu, 'content')){
                 $post->setTitle($titre);
@@ -179,7 +180,7 @@ class AdminController extends Controller
             }
         }
 
-        if(isset($_POST['back'])){
+        if(Post::get('back') !== null){
             Session::forget('add');
         }
     }
@@ -187,7 +188,7 @@ class AdminController extends Controller
     public function deletePost()
     {
         $post = new PostModel;
-        $id = $_POST['delete'];
+        $id = Post::get('delete');
 
         $post->delete($id);
         Session::put('valide', "Le post a bien été supprimé");
@@ -200,8 +201,8 @@ class AdminController extends Controller
         $post = new PostModel;
         $admin = new AdminController;
         
-        if(isset($_POST['edit'])){
-            Session::put('idPost', $_POST['edit']);
+        if(Post::get('edit') !== null){
+            Session::put('idPost', Post::get('edit'));
         }
         $id = Session::get('idPost');
 
@@ -212,15 +213,15 @@ class AdminController extends Controller
         Session::put('chapo', $tab['description']);
         Session::put('contenu', $tab['content']);
 
-        if(isset($_POST['back'])){
+        if(Post::get('back') !== null){
             Session::forget('edit');
             header('Location: /admin');   
         }
 
-        if(isset($_POST['updatePost']) && $admin->validate($_POST, ['titre', 'chapo', 'contenu'])){
-            $titre = strip_tags($_POST['titre']);
-            $chapo = strip_tags($_POST['chapo']);
-            $contenu = htmlentities($_POST['contenu'], ENT_HTML5);
+        if(Post::get('updatePost') !== null && $admin->validate(Post::raw(), ['titre', 'chapo', 'contenu'])){
+            $titre = strip_tags(Post::get('titre'));
+            $chapo = strip_tags(Post::get('chapo'));
+            $contenu = htmlentities(Post::get('contenu'), ENT_HTML5);
 
             if($admin->alreadyUseBis($titre, 'title', $tab) && $admin->alreadyUseBis($chapo, 'description', $tab) && $admin->alreadyUseBis($contenu, 'content', $tab)){
                 $i = 0;

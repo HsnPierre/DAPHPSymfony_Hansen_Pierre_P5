@@ -1,6 +1,6 @@
-<?php use App\Core\Session; $role = json_decode(Session::get3d('user', 'role')); if(in_array('Administrateur', $role)): ?>
+<?php use App\Core\Session; use App\Core\Post; $role = json_decode(Session::get3d('user', 'role')); if(in_array('Administrateur', $role)): ?>
 
-<?php if((!isset($_POST['edit']) && !isset($_SESSION['edit'])) && (!isset($_POST['add']) && !isset($_SESSION['add']))): ?>
+<?php if(Post::get('edit') === null && Session::get('edit') === null && Post::get('add') === null && Session::get('add') === null): ?>
 
 <div class='container' id='showPost'>
 
@@ -98,7 +98,7 @@
     ?>
 </div>
 
-<?php elseif(isset($_POST['add']) || isset($_SESSION['add'])): ?>
+<?php elseif(Post::get('add') !== null || Session::get('add') !== null): ?>
 
 <div class='container' id='addPost'>
 
@@ -144,7 +144,7 @@
 
 </div>
 
-<?php elseif(isset($_POST['edit']) || isset($_SESSION['edit'])): ?>
+<?php elseif(Post::get('edit') !== null || Session::get('edit') !== null): ?>
 
 <div class='container' id='updatePost'>
 
