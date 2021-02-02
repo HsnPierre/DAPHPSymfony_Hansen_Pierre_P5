@@ -1,10 +1,10 @@
-var deleted = document.getElementById('delete-form');
+var deleted = document.getElementById("delete-form");
 
 
 function openDelete(){
-    deleted.style.display = 'block';
+    deleted.style.display = "block";
 }
 
 function closeDelete(){
-    deleted.style.display = 'none';
+    deleted.style.display = "none";
 }

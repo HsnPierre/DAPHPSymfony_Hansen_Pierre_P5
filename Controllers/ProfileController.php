@@ -5,7 +5,6 @@ use App\Models\UserModel;
 use App\Core\Session;
 use App\Core\Post;
 use App\Core\File;
-use App\Core\Fonction;
 
 class ProfileController extends Controller
 {
@@ -82,7 +81,7 @@ class ProfileController extends Controller
 
                     Session::put('valide', "Les modifications ont bien été prises en compte. Veuillez vous reconnecter pour mettre à jour les informations");
                     $main->logout();
-                    Fonction::header('login');
+                    header('Location: /login');
                     Session::forget('update');
                     exit;
                 } else {
@@ -110,7 +109,7 @@ class ProfileController extends Controller
                     Session::put('idUser', Session::get3d('user', 'idUser'));
                     $user->setPic($fileName);
                     $user->update();  
-                    Fonction::header('profile');                  
+                    header('Location: /profile');                  
                 } else {
                     Session::put3d('erreur', 0, "Une erreur est survenue lors du téléchargement de l'image.");
                 }
@@ -128,7 +127,7 @@ class ProfileController extends Controller
 
         if(Post::get('back') !== null){
             Session::forget('password');
-            Fonction::header('profile');
+            header('Location: /profile');
             exit;
         }
 
@@ -145,7 +144,7 @@ class ProfileController extends Controller
 
                 Session::put('valide', "Les modifications ont bien été prises en compte. Veuillez vous reconnecter pour mettre à jour les informations");
                 $main->logout();
-                Fonction::header('login');
+                header('Location : /login');
                 Session::forget('password');
                 exit;
             } else {
@@ -165,7 +164,7 @@ class ProfileController extends Controller
             
                 $main = new MainController;
                 $main->logout();
-                Fonction::header('');
+                header('Location: /');
                 exit;
             } else {
                 Session::put('erreur', "Le mot de passe est incorrect");

@@ -5,7 +5,12 @@ class Fonction
 {
     public static function header(string $location)
     {
-        return header("'Location : /".$location."'");
+        header("'Location : /".$location."'");
+    }
+
+    public static function exit()
+    {
+        exit;
     }
 
 }
