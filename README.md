@@ -21,8 +21,8 @@ Depuis la nouvelle base créée, cliquez sur l'onglet 'Import' puis selectionnez
 Configurez ensuite les différentes information en vous rendant dans le dossier 'Core' puis 'Db.php'.  
 
 Modifiez les champs suivants (ligne 12-15):  
-"private const DBHOST = 'HOST';"  
-"private const DBUSER = 'USERNAME';"  
-"private const DBPASS = 'PASS';"  
-"private const DBNAME = 'LE NOM DE LA BASE SAISI PLUS HAUT';"  
+"private const DBHOST = '';" Le nom de votre host  
+"private const DBUSER = '';" Le nom d'utilisateur   
+"private const DBPASS = '';" Le mot de passe  
+"private const DBNAME = '';" Le nom de la base saisi plus haut  
 
