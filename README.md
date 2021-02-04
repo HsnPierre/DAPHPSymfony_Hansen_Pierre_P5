@@ -24,5 +24,4 @@ Modifiez les champs suivants (ligne 12-15):
 "private const DBHOST = '';" Le nom de votre host  
 "private const DBUSER = '';" Le nom d'utilisateur   
 "private const DBPASS = '';" Le mot de passe  
-"private const DBNAME = '';" Le nom de la base saisi plus haut  
-
+"private const DBNAME = '';" Le nom de la base saisi plus haut
