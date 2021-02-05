@@ -1,6 +1,8 @@
 <?php
 namespace App\Models;
 
+use App\Core\Session;
+
 class UserModel extends Model
 {
 
@@ -22,7 +24,7 @@ class UserModel extends Model
 
     public function setSession()
     {
-        $_SESSION['user'] = [
+        Session::put('user', [
             'idUser' => $this->idUser,
             'username' => $this->username,
             'password' => $this->password,
@@ -33,7 +35,7 @@ class UserModel extends Model
             'role' => $this->role,
             'rgpd' => $this->rgpd,
             'date' => $this->date
-        ];
+        ]);
     }
 
     public function findAllBy(string $donnee)
