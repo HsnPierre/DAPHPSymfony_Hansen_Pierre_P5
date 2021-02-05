@@ -64,11 +64,11 @@ class CommentController extends Controller
                 }else{
                     Session::put('valide', "Votre commentaire a bien été pris en compte, il est soumis à validation."); 
                 }    
-                header('Location: '. filter_input_array(INPUT_SERVER, 'HTTP_REFERER'));    
+                header('Location: '. filter_input(INPUT_SERVER, 'HTTP_REFERER'));    
             }
         } elseif(Post::raw() !== null){
             Session::put('erreur', "Vous devez accepter les conditions pour pouvoir commenter.");
-            header('Location: '. filter_input_array(INPUT_SERVER, 'HTTP_REFERER')); 
+            header('Location: '. filter_input(INPUT_SERVER, 'HTTP_REFERER')); 
         }
     }
 
@@ -80,7 +80,7 @@ class CommentController extends Controller
             Session::put('idComment', Post::get('oui'));
             $comment->setValid(1);
             $comment->update();
-            header('Location :'.filter_input_array(INPUT_SERVER, 'HTTP_REFERER'));
+            header('Location :'.filter_input(INPUT_SERVER, 'HTTP_REFERER'));
         } else if(Post::get('non') !== null){
             $id = Post::get('non');
             $comment->delete($id);

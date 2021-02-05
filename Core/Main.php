@@ -10,7 +10,7 @@ class Main
     {
         session_start();
 
-        $uri = filter_input_array(INPUT_SERVER, 'REQUEST_URI');
+        $uri = filter_input(INPUT_SERVER, 'REQUEST_URI');
         
         if(!empty($uri) && $uri != "/" && $uri[-1] === "/"){
             $uri = substr($uri, 0, -1);
@@ -22,8 +22,8 @@ class Main
 
 
         $params = [];
-        if(null != filter_input_array(INPUT_GET, 'p'))
-            $params = explode('/', filter_input_array(INPUT_GET, 'p'));
+        if(null !== filter_input(INPUT_GET, 'p'))
+            $params = explode('/', filter_input(INPUT_GET, 'p'));
 
         if($params[0] != ''){
 
