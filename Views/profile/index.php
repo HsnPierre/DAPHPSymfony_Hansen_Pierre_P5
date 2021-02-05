@@ -14,7 +14,9 @@
             <div class="alert alert-danger text-center" role ="alert">
             <?php
                 for($i = 0; $i < count(Session::get('erreur')); $i++){
-                    echo Session::get3d('erreur', $i).'<br>';
+            ?>
+                    <?= Session::get3d('erreur', $i).'<br>' ?>
+            <?php
                 }
                 Session::forget('erreur'); 
             ?>
@@ -41,7 +43,7 @@
                             <img src="<?= Session::get3d('user', 'pic'); ?>" alt="Photo de profil" class="rounded-circle" width="150">                           
                             <div class="mt-3">
                                 <h4><?= Session::get3d('user', 'surname').' '.Session::get3d('user', 'name'); ?></h4>
-                                <p class="text-secondary mb-1"><?php $role = json_decode(Session::get3d('user', 'role')); echo strip_tags($role[0]); ?></p>
+                                <p class="text-secondary mb-1"><?php $role = json_decode(Session::get3d('user', 'role')); ?> <?= strip_tags($role[0]); ?></p>
                             </div>
                         </div>
                     </div>
@@ -137,7 +139,9 @@
             <div class="alert alert-danger text-center" role ="alert">
             <?php
                 for($i = 0; $i < count(Session::get('erreur')); $i++){
-                    echo Session::get3d('erreur', $i).'<br>';
+            ?>
+                    <?= Session::get3d('erreur', $i).'<br>' ?>
+            <?php
                 }
                 Session::forget('erreur'); 
             ?>
@@ -161,7 +165,7 @@
                             
                             <div class="mt-3">
                                 <h4><?= Session::get3d('user', 'surname').' '.Session::get3d('user', 'name'); ?></h4>
-                                <p class="text-secondary mb-1"><? $role = json_decode(Session::get3d('user','role')); echo strip_tags($role[0]); ?></p>
+                                <p class="text-secondary mb-1"><? $role = json_decode(Session::get3d('user','role')); ?> <?= strip_tags($role[0]); ?></p>
                             </div>
                         </div>
                     </div>
@@ -234,7 +238,9 @@
         <div class="alert alert-danger text-center" role ="alert">
         <?php
             for($i = 0; $i < count(Session::get('erreur')); $i++){
-                echo Session::get3d('erreur', $i).'<br>';
+        ?>
+                <?= Session::get3d('erreur', $i).'<br>' ?>
+        <?php
             }
             Session::forget('erreur'); 
         ?>

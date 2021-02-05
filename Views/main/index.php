@@ -109,14 +109,14 @@
 <div class="container" id="contactform">
     <h2 class="text-center">Me contacter</h2>
     <form action="#contactform" method="post" id="contact">
-        <?php if(isset($_SESSION['erreur'])): ?>
+        <?php if(null !== Session::get('erreur')): ?>
             <div class="alert alert-danger text-center" role ="alert">
-                <?= $_SESSION['erreur']; unset($_SESSION['erreur']); ?>
+                <?= Session::get('erreur'); Session::forget('erreur'); ?>
             </div>
         <?php endif; ?>
-        <?php if(isset($_SESSION['erreur'])): ?>
+        <?php if(null !== Session::get('erreur')): ?>
             <div class="alert alert-danger text-center" role ="alert">
-                <?= $_SESSION['erreur']; unset($_SESSION['erreur']); ?>
+                <?= Session::get('erreur'); Session::forget('erreur'); ?>
             </div>
         <?php endif; ?>
         <div class="row g-3 align-items-center">
