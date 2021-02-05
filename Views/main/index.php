@@ -17,6 +17,7 @@
     <h2 class="text-center">Mes actualités</h2>
     <div class="row align-items-start text-center">
         <?php
+        use App\Core\Session;
         $i = 0;
         foreach($valeurs as $valeur){
             if($i < 3) {
