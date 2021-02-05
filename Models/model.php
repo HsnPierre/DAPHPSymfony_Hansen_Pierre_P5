@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use App\Core\Db;
+use App\Core\Session;
 
 class Model extends Db
 {
@@ -74,7 +75,7 @@ class Model extends Db
         
         $nomId = 'id'.ucfirst($this->table);
 
-        $id = $_SESSION["$nomId"];
+        $id = Session::get($nomId);
 
         $valeurs[] = $id;
 

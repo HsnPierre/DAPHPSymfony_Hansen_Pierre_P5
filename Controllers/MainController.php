@@ -95,12 +95,12 @@ class MainController extends Controller
     }
 
     public function logout(){
-        $tab = explode('/', $_SERVER['HTTP_REFERER']);
+        $tab = explode('/', filter_input_array(INPUT_SERVER, 'HTTP_REFERER'));
         Session::forget('user');
         if($tab[3] == 'profile' || $tab[3] == 'admin'){
             header('Location: /');
         } else {
-            header('Location: '. $_SERVER['HTTP_REFERER']);
+            header('Location: '. filter_input_array(INPUT_SERVER, 'HTTP_REFERER'));
         }
     }
 }
