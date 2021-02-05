@@ -9,7 +9,9 @@
     <div class="alert alert-danger text-center" role ="alert">
         <?php
             for($i = 0; $i < count(Session::get('erreur')); $i++){
-                echo Session::get3d('erreur', $i).'<br>';
+        ?>
+                <?= Session::get3d('erreur', $i).'<br>' ?>
+        <?php
             }
             Session::forget('erreur'); 
         ?>

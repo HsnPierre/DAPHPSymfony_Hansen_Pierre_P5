@@ -1,6 +1,6 @@
 <div class='container' id='Post'>
 
-    <h2 class='text-center'><?php use App\Core\Session; echo Session::get('postTitle') ?></h2>
+    <h2 class='text-center'><?php use App\Core\Session ?><?= Session::get('postTitle') ?></h2>
     <h4><?= Session::get('postDesc') ?></h2>
 
     <div class='container'>

@@ -5,7 +5,9 @@
         <div class="alert alert-danger text-center" role="alert">
             <?php
                 for($i = 0; $i < count(Session::get('erreur')); $i++){
-                    echo strip_tags(Session::get3d('erreur', $i)).'<br>';
+            ?>
+                    <?= strip_tags(Session::get3d('erreur', $i)).'<br>' ?>
+            <?php
                 }
                 Session::forget('erreur'); 
             ?>

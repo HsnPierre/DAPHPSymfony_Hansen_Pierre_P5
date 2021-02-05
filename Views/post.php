@@ -3,7 +3,7 @@
     <head>
 
         <meta charset="utf-8">
-        <title><? use App\Core\Session; echo Session::get('postTitle') ?></title>
+        <title><? use App\Core\Session; ?> <?= Session::get('postTitle') ?></title>
 
         <!-- Bootstrap core CSS -->
         <link href="<?= HOST ?>vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

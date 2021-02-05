@@ -77,7 +77,9 @@
         } 
     }
     if($i == 0) {
-        echo "<div class='alert alert-danger text-center' role='alert'>Aucun utilisateur n'a été trouvé.</div>";
+    ?>
+        <div class='alert alert-danger text-center' role='alert'>Aucun utilisateur n'a été trouvé.</div>
+    <?php
     }
     ?>
 

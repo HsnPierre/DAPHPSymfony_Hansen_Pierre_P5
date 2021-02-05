@@ -58,7 +58,9 @@
             }
         }
         if($i == 0){
-            echo "<div class='alert alert-secondary text-center' role='alert'>Aucun commentaire disponible.</div>";
+    ?>
+            <div class='alert alert-secondary text-center' role='alert'>Aucun commentaire disponible.</div>
+    <?php
         }
     ?>
 </div>
