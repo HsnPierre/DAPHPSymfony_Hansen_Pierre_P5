@@ -35,9 +35,9 @@ class Model extends Db
         return $this->requete('SELECT * FROM '.$this->table.' ORDER BY '.$critere.' '.$order)->fetchAll();
     }
 
-    public function find(int $id)
+    public function find(int $identifiant)
     {
-        return $this->requete('SELECT * FROM '.$this->table.' WHERE id'.ucfirst($this->table).' = '.$id)->fetch();
+        return $this->requete('SELECT * FROM '.$this->table.' WHERE id'.ucfirst($this->table).' = '.$identifiant)->fetch();
     }
 
     public function create()
@@ -75,18 +75,18 @@ class Model extends Db
         
         $nomId = 'id'.ucfirst($this->table);
 
-        $id = Session::get($nomId);
+        $identifiant = Session::get($nomId);
 
-        $valeurs[] = $id;
+        $valeurs[] = $identifiant;
 
         $liste_champs = implode(', ', $champs);
 
         return $this->requete('UPDATE '.$this->table.' SET '.$liste_champs.' WHERE id'.ucfirst($this->table).' = ?', $valeurs);
     }
 
-    public function delete(int $id)
+    public function delete(int $identifiant)
     {
-        return $this->requete('DELETE FROM '.$this->table.' WHERE id'.ucfirst($this->table).' = ?', [$id]);
+        return $this->requete('DELETE FROM '.$this->table.' WHERE id'.ucfirst($this->table).' = ?', [$identifiant]);
     }
 
     public function requete(string $sql, array $attributs = null)

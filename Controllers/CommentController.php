@@ -9,13 +9,13 @@ use App\Core\Post;
 
 class CommentController extends Controller
 {
-    public function showThisPostComment($id)
+    public function showThisPostComment($identifiant)
     {
         $comments = new CommentModel;
         $user = new UserModel;
         $valeurs = $comments->findOrderBy('date', 'DESC');
                 
-        $donnees = array ("valeurs" => $valeurs, "user" => $user, "id" => $id);
+        $donnees = array ("valeurs" => $valeurs, "user" => $user, "id" => $identifiant);
 
         $this->render('blog/post', $donnees, 'post');
     }
@@ -32,7 +32,7 @@ class CommentController extends Controller
         return $result;
     }
 
-    public function addComment($id)
+    public function addComment($identifiant)
     {
         $comments = new CommentController;
         $comment = new CommentModel;
@@ -42,7 +42,7 @@ class CommentController extends Controller
                 
                 $contenu = strip_tags(Post::get('comments'));
                 $idUser = Session::get3d('user', 'idUser');
-                $idPost = $id;
+                $idPost = $identifiant;
                 $role = json_decode(Session::get3d('user', 'role'));
 
                 $comment->setContent($contenu);
@@ -82,8 +82,8 @@ class CommentController extends Controller
             $comment->update();
             header('Location :'.filter_input(INPUT_SERVER, 'HTTP_REFERER'));
         } else if(Post::get('non') !== null){
-            $id = Post::get('non');
-            $comment->delete($id);
+            $identifiant = Post::get('non');
+            $comment->delete($identifiant);
             header('Refresh:0');
         }
     }

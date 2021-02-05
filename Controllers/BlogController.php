@@ -27,13 +27,13 @@ class BlogController extends Controller
         
     }
 
-    public function post($id)
+    public function post($identifiant)
     {
         $main = new MainController;
         $comment = new CommentController;
         $post = new PostModel;
         $user = new UserModel;
-        $idPost = (int) $id[0];
+        $idPost = (int) $identifiant[0];
 
         if(Post::get('pseudo') !== null){
             $main->login();

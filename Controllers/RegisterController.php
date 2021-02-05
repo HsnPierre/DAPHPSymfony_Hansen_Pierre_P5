@@ -55,19 +55,19 @@ class RegisterController extends Controller
     public function isEmpty(array $donnees, array $champs)
     {
         Session::put('erreur', []);
-        $i = 0;
+        $compteur = 0;
         foreach($champs as $champ){
             if(!isset($donnees[$champ]) || empty($donnees[$champ]) && $champ != 'password2'){
                 if($champ == 'password'){
-                    Session::put3d('erreur', $i, "Le champ mot de passe ne peut pas être vide");
-                    $i++;
+                    Session::put3d('erreur', $compteur, "Le champ mot de passe ne peut pas être vide");
+                    $compteur++;
                 }else{
-                    Session::put3d('erreur', $i, "Le champ ".$champ." ne peut pas être vide.");
-                    $i++;
+                    Session::put3d('erreur', $compteur, "Le champ ".$champ." ne peut pas être vide.");
+                    $compteur++;
                 }
             }
         }
-        if($i > 0){
+        if($compteur > 0){
             return false;
         }
         return true;
@@ -76,13 +76,13 @@ class RegisterController extends Controller
     public function validateMail(string $mail)
     {
         Session::put('erreur', []);
-        $i = 0;
+        $compteur = 0;
 
         if(!filter_var($mail, FILTER_VALIDATE_EMAIL)){
-            Session::put3d('erreur', $i, "L'adresse mail n'est pas valide.");
-            $i++;
+            Session::put3d('erreur', $compteur, "L'adresse mail n'est pas valide.");
+            $compteur++;
         }
-        if($i > 0){
+        if($compteur > 0){
             return false;
         }
         return true;
@@ -91,33 +91,33 @@ class RegisterController extends Controller
     public function validatePass(string $pass, string $pass2)
     {
         $pattern = '/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{12,}$/';
-        $i = 0;
+        $compteur = 0;
 
         if(!preg_match($pattern, $pass)){
-            Session::put3d('erreur', $i, 'Le mot de passe doit contenir au minimum');
+            Session::put3d('erreur', $compteur, 'Le mot de passe doit contenir au minimum');
             if(!preg_match('/^(?=.*[a-z]).{12,}$/', $pass)){
-                Session::put3d('erreur', $i, "une minuscule");
+                Session::put3d('erreur', $compteur, "une minuscule");
             }   
             if(!preg_match('/^(?=.*[A-Z]).{12,}$/', $pass)){
-                Session::put3d('erreur', $i, "une majuscule");
+                Session::put3d('erreur', $compteur, "une majuscule");
             }   
             if(!preg_match('/^(?=.*[0-9]).{12,}$/', $pass)){
-                Session::put3d('erreur', $i, "un chiffre");
+                Session::put3d('erreur', $compteur, "un chiffre");
             }   
             if(!preg_match('/^(?=.*[!@#$%^&*-]).{12,}$/', $pass)){
-                Session::put3d('erreur', $i, "un caractère spécial");
+                Session::put3d('erreur', $compteur, "un caractère spécial");
             }
             if(!preg_match('/^.{12,}$/', $pass)){
-                Session::put3d('erreur', $i, "et contenir au minimum 12 caractères");
+                Session::put3d('erreur', $compteur, "et contenir au minimum 12 caractères");
             } 
-            $i++;
+            $compteur++;
         }
 
         if ($pass != $pass2){
-            Session::put3d('erreur', $i, "Les deux mots de passe ne se correspondent pas.");
-            $i++;
+            Session::put3d('erreur', $compteur, "Les deux mots de passe ne se correspondent pas.");
+            $compteur++;
         }
-        if($i > 0){
+        if($compteur > 0){
             return false;
         }
         return true;
@@ -128,15 +128,15 @@ class RegisterController extends Controller
         $user = new UserModel;
         $tab = $user->findAllBy($type);
         Session::put('erreur', []);
-        $j = 0;
-        for($i = 0; $i < count($tab); $i++){
+        $temp = 0;
+        for($compteur = 0; $compteur < count($tab); $compteur++){
 
-            if ($donnee == $tab[$i]["$type"]){
-                Session::put3d('erreur', $j, '"'.$donnee.'"'." est déjà utilisé");
-                $j++;
+            if ($donnee == $tab[$compteur]["$type"]){
+                Session::put3d('erreur', $temp, '"'.$donnee.'"'." est déjà utilisé");
+                $temp++;
             }
         }
-        if($j > 0){
+        if($temp > 0){
             return false;
         }
         return true;

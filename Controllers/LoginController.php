@@ -58,21 +58,21 @@ class LoginController extends Controller
     public function validate(array $donnees, array $champs)
     {
         Session::put('erreur', []);
-        $i = 0;
+        $compteur = 0;
 
         foreach($champs as $champ){
             if(!isset($donnees[$champ]) || empty($donnees[$champ])){
                 if($champ == 'pseudo'){
-                    Session::put3d('erreur', $i, "Le champ pseudonyme ne peut pas être vide");
-                    $i++;
+                    Session::put3d('erreur', $compteur, "Le champ pseudonyme ne peut pas être vide");
+                    $compteur++;
                 }
                 if($champ == 'mdp'){
-                    Session::put3d('erreur', $i, "Le champ mot de passe ne peut pas être vide");
-                    $i++;
+                    Session::put3d('erreur', $compteur, "Le champ mot de passe ne peut pas être vide");
+                    $compteur++;
                 }
             }
         }
-        if($i > 0){
+        if($compteur > 0){
             return false;
         }
         return true;

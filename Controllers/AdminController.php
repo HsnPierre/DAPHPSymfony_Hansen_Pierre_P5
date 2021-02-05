@@ -160,7 +160,7 @@ class AdminController extends Controller
         Session::put('add', '');
 
         if(Post::get('addPost') !== null && $admin->validate(Post::raw(), ['titre', 'chapo', 'contenu'])){
-            $id = Session::get3d('user', 'idUser'); 
+            $identifiant = Session::get3d('user', 'idUser'); 
             $titre = strip_tags(Post::get('titre'));
             $chapo = strip_tags(Post::get('chapo'));
             $contenu = htmlentities(Post::get('contenu'), ENT_HTML5);
@@ -169,7 +169,7 @@ class AdminController extends Controller
                 $post->setTitle($titre);
                 $post->setDescription($chapo);
                 $post->setContent($contenu); 
-                $post->setIdUser($id);
+                $post->setIdUser($identifiant);
 
                 $post->create();
 
@@ -188,9 +188,9 @@ class AdminController extends Controller
     public function deletePost()
     {
         $post = new PostModel;
-        $id = Post::get('delete');
+        $identifiant = Post::get('delete');
 
-        $post->delete($id);
+        $post->delete($identifiant);
         Session::put('valide', "Le post a bien été supprimé");
         header('Location: /admin');
 
@@ -204,11 +204,11 @@ class AdminController extends Controller
         if(Post::get('edit') !== null){
             Session::put('idPost', Post::get('edit'));
         }
-        $id = Session::get('idPost');
+        $identifiant = Session::get('idPost');
 
         Session::put('edit', '');
 
-        $tab = $post->find($id);
+        $tab = $post->find($identifiant);
         Session::put('titre', $tab['title']);
         Session::put('chapo', $tab['description']);
         Session::put('contenu', $tab['content']);
@@ -224,22 +224,22 @@ class AdminController extends Controller
             $contenu = htmlentities(Post::get('contenu'), ENT_HTML5);
 
             if($admin->alreadyUseBis($titre, 'title', $tab) && $admin->alreadyUseBis($chapo, 'description', $tab) && $admin->alreadyUseBis($contenu, 'content', $tab)){
-                $i = 0;
+                $compteur = 0;
                 $date = date("Y-m-d H:i:s");
 
                 if($titre != $tab['title']){
                     $post->setTitle($titre);
-                    $i++;
+                    $compteur++;
                 }
                 if($chapo != $tab['description']){
                     $post->setDescription($chapo);
-                    $i++;
+                    $compteur++;
                 }
                 if($contenu != $tab['content']){
                     $post->setContent($contenu);
-                    $i++;
+                    $compteur++;
                 }
-                if($i > 0){
+                if($compteur > 0){
                     $prenom = Session::get3d('user', 'surname');
                     $nom = Session::get3d('user', 'name');
                     $editeur = $prenom.' '.$nom;
@@ -262,19 +262,19 @@ class AdminController extends Controller
         }
     }
 
-    public function setAdmin($id)
+    public function setAdmin($identifiant)
     {
         $user = new UserModel;
-        Session::put('idUser', $id);
+        Session::put('idUser', $identifiant);
         $user->setRole(json_encode(['Administrateur','Utilisateur']));
         $user->update();
         header('Location: /admin/users');
     }
 
-    public function unsetAdmin($id)
+    public function unsetAdmin($identifiant)
     {
         $user = new UserModel;
-        Session::put('idUser', $id);
+        Session::put('idUser', $identifiant);
         $user->setRole(json_encode(['Utilisateur']));
         $user->update();
         header('Location: /admin/users');
@@ -307,20 +307,20 @@ class AdminController extends Controller
 
     public function validate(array $donnees, array $champs)
     {
-        $i = 0;
+        $compteur = 0;
         Session::put('erreur', []);
 
         foreach($champs as $champ){
             if(!isset($donnees[$champ]) || empty($donnees[$champ])){
                 if($champ == 'mdp'){
-                    Session::put3d('erreur', $i, "Le champ mot de passe ne peut pas être vide");
-                    $i++;
+                    Session::put3d('erreur', $compteur, "Le champ mot de passe ne peut pas être vide");
+                    $compteur++;
                 }
-                Session::put3d('erreur', $i, "Le champ ".$champ." ne peut pas être vide.");
-                $i++;
+                Session::put3d('erreur', $compteur, "Le champ ".$champ." ne peut pas être vide.");
+                $compteur++;
             }
         }
-        if($i > 0){
+        if($compteur > 0){
             return false;
         }
         return true;
@@ -330,26 +330,26 @@ class AdminController extends Controller
     {
         $post = new PostModel;
         $tab = $post->findAllBy($type);
-        $j = 0;
+        $temp = 0;
         Session::put('erreur', []);
-        for($i = 0; $i < count($tab); $i++){
+        for($compteur = 0; $compteur < count($tab); $compteur++){
 
-            if ($donnee == $tab[$i]["$type"]){
+            if ($donnee == $tab[$compteur]["$type"]){
                 if($type == 'title'){
-                    Session::put3d('erreur', $j, "Il existe déjà un article avec ce titre.");
-                    $j++;
+                    Session::put3d('erreur', $temp, "Il existe déjà un article avec ce titre.");
+                    $temp++;
                 }
                 if($type == 'content'){
-                    Session::put3d('erreur', $j, "Il existe déjà un article identique.");
-                    $j++;
+                    Session::put3d('erreur', $temp, "Il existe déjà un article identique.");
+                    $temp++;
                 }
                 if($type == 'description'){
-                    Session::put3d('erreur', $j, "Il existe déjà un article avec ce chapo.");
-                    $j++;
+                    Session::put3d('erreur', $temp, "Il existe déjà un article avec ce chapo.");
+                    $temp++;
                 }
             }
         }
-        if($j > 0){
+        if($temp > 0){
             return false;
         }
         return true;
@@ -359,26 +359,26 @@ class AdminController extends Controller
     {
         $post = new PostModel;
         $tab = $post->findAllBy($type);
-        $j = 0;
+        $temp = 0;
         Session::put('erreur', []);
-        for($i = 0; $i < count($tab); $i++){
+        for($compteur = 0; $compteur < count($tab); $compteur++){
 
-            if ($donnee == $tab[$i]["$type"] && $tab[$i]["$type"] != $donnees["$type"]){
+            if ($donnee == $tab[$compteur]["$type"] && $tab[$compteur]["$type"] != $donnees["$type"]){
                 if($type == 'title'){
-                    Session::put3d('erreur', $j, "Il existe déjà un article avec ce titre.");
-                    $j++;
+                    Session::put3d('erreur', $temp, "Il existe déjà un article avec ce titre.");
+                    $temp++;
                 }
                 if($type == 'content'){
-                    Session::put3d('erreur', $j, "Il existe déjà un article identique.");
-                    $j++;
+                    Session::put3d('erreur', $temp, "Il existe déjà un article identique.");
+                    $temp++;
                 }
                 if($type == 'description'){
-                    Session::put3d('erreur', $j, "Il existe déjà un article avec ce chapo.");
-                    $j++;
+                    Session::put3d('erreur', $temp, "Il existe déjà un article avec ce chapo.");
+                    $temp++;
                 }
             }
         }
-        if($j > 0){
+        if($temp > 0){
             return false;
         }
         return true;

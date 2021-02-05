@@ -42,12 +42,12 @@ class MainController extends Controller
             $objet = strip_tags(Post::get('objet'));
             $message = strip_tags(Post::get('message'));
 
-            $to = 'pierre.hsn@gmail.com';
+            $mailto = 'pierre.hsn@gmail.com';
 
             $header = "MIME-Version: 1.0\r\n";
             $header .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 
-            $header .= 'To: Vous <' . $to . '>' . "\r\n";
+            $header .= 'To: Vous <' . $mailto . '>' . "\r\n";
             $header .= 'From:' . $nom . ' ' . $prenom . ' <' . $mail . '>' . "\r\n";
 
             $message = "<html>
@@ -62,7 +62,7 @@ class MainController extends Controller
                             </body>
                         </html>";
 
-            if(mail($to, $objet, $message, $header)){
+            if(mail($mailto, $objet, $message, $header)){
                 Session::put('valide', "Le formulaire a bien été envoyé");
             } else {
                 Session::put('erreur', "Une erreur est survenue lors de l'envoi du formulaire");

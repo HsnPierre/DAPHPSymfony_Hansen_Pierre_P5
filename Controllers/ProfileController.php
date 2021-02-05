@@ -51,7 +51,7 @@ class ProfileController extends Controller
         if(Post::get('modif') !== null && $profile->isEmpty(Post::raw(), ['nom', 'prenom', 'pseudo', 'mail']) && $register->validateMail(Post::get('mail'))){
             
             if($profile->alreadyUse(Post::get('pseudo'), 'username') && $profile->alreadyUse(Post::get('mail'), 'email')){
-                $i = 0;
+                $compteur = 0;
                 $user = new UserModel;
                 $pseudo = strip_tags(Post::get('pseudo'));
                 $mail = Post::get('mail');
@@ -60,21 +60,21 @@ class ProfileController extends Controller
 
                 if($pseudo != Session::get3d('user', 'username')){
                     $user->setUsername($pseudo);
-                    $i++;
+                    $compteur++;
                 }
                 if($mail != Session::get3d('user', 'email')){
                     $user->setEmail($mail);
-                    $i++;
+                    $compteur++;
                 }
                 if($nom != Session::get3d('user', 'name')){
                     $user->setName($nom);
-                    $i++;
+                    $compteur++;
                 }
                 if($prenom != Session::get3d('user', 'surname')){
                     $user->setSurname($prenom);
-                    $i++;
+                    $compteur++;
                 }
-                if($i > 0){
+                if($compteur > 0){
                     $user->update();
                     
                     $main = new MainController;
@@ -175,31 +175,31 @@ class ProfileController extends Controller
     public function isEmpty(array $donnees, array $champs)
     {
         Session::put('erreur', []);
-        $i = 0;
+        $compteur = 0;
         foreach($champs as $champ){
             if(!isset($donnees[$champ]) || empty($donnees[$champ])){
                 if($champ == 'mdp'){
-                    Session::put3d('erreur', $i, "Le champ mot de passe ne peut pas être vide");
-                    $i++;
+                    Session::put3d('erreur', $compteur, "Le champ mot de passe ne peut pas être vide");
+                    $compteur++;
                 } else
                 if($champ == 'old'){
-                    Session::put3d('erreur', $i, "Le champ ancien mot de passe ne peut pas être vide");
-                    $i++;
+                    Session::put3d('erreur', $compteur, "Le champ ancien mot de passe ne peut pas être vide");
+                    $compteur++;
                 } else
                 if($champ == 'new'){
-                    Session::put3d('erreur', $i, "Le champ nouveau mot de passe ne peut pas être vide");
-                    $i++;
+                    Session::put3d('erreur', $compteur, "Le champ nouveau mot de passe ne peut pas être vide");
+                    $compteur++;
                 } else
                 if($champ == 'new2'){
-                    Session::put3d('erreur', $i, "Le champ confirmer mot de passe ne peut pas être vide");
-                    $i++;
+                    Session::put3d('erreur', $compteur, "Le champ confirmer mot de passe ne peut pas être vide");
+                    $compteur++;
                 } else {
-                    Session::put3d('erreur', $i, "Le champ ".$champ." ne peut pas être vide.");
-                    $i++;
+                    Session::put3d('erreur', $compteur, "Le champ ".$champ." ne peut pas être vide.");
+                    $compteur++;
                 }
             }
         }
-        if($i > 0){
+        if($compteur > 0){
             return false;
         }
         return true;
@@ -207,31 +207,31 @@ class ProfileController extends Controller
 
     public function validatePic(array $donnees)
     {
-        $i = 0;
+        $compteur = 0;
         $maxSize = 500000;
         $validExt = array('jpg', 'jpeg', 'png');
 
         if($donnees['error'] > 0){
-            Session::put3d('erreur', $i, "Une erreur est survenue durant le transfert du fichier.");
-            $i++;
+            Session::put3d('erreur', $compteur, "Une erreur est survenue durant le transfert du fichier.");
+            $compteur++;
         }
         if($donnees['size'] > $maxSize){
-            Session::put3d('erreur', $i, "Le fichier envoyé est trop volumineux.");
-            $i++;
+            Session::put3d('erreur', $compteur, "Le fichier envoyé est trop volumineux.");
+            $compteur++;
         }
         
         $fileExt = pathinfo($donnees['name']);
 
         if(!in_array($fileExt['extension'], $validExt)){
-            Session::put3d('erreur', $i, 'Seuls les fichiers ".jpg", ".jpeg", ".png" sont acceptés');
-            $i++;
+            Session::put3d('erreur', $compteur, 'Seuls les fichiers ".jpg", ".jpeg", ".png" sont acceptés');
+            $compteur++;
         }
 
         if(!stristr($donnees['type'], "image")){
-            Session::put3d('erreur', $i, "Le fichier envoyé n'est pas une image");
-            $i++;
+            Session::put3d('erreur', $compteur, "Le fichier envoyé n'est pas une image");
+            $compteur++;
         }
-        if($i > 0){
+        if($compteur > 0){
             return false;
         }
         return true;
@@ -241,10 +241,10 @@ class ProfileController extends Controller
     {
         $user = new UserModel;
         $tab = $user->findAllBy($type);
-        for($i = 0; $i < count($tab); $i++){
+        for($compteur = 0; $compteur < count($tab); $compteur++){
 
-            if ($donnee == $tab[$i]["$type"] && $tab[$i]["$type"] != Session::get3d('user', "$type")){
-                Session::put3d('erreur', $i, ucfirst($type)." déjà utilisé");
+            if ($donnee == $tab[$compteur]["$type"] && $tab[$compteur]["$type"] != Session::get3d('user', "$type")){
+                Session::put3d('erreur', $compteur, ucfirst($type)." déjà utilisé");
                 return false;
             }
         }
