@@ -71,17 +71,15 @@
 
                 if($valeur['valid'] != 0 && $valeur['idPost'] == $id){
 
-                    echo
-                    "
-                    <div id='comment".strip_tags($idComment)."'>
-                    <div><h6 id='pseudocomment'>".strip_tags($pseudo['username'])." <span>".strip_tags($date)."</span></h6></div>
+            ?>
+                    <div id='comment<?= strip_tags($idComment) ?>'>
+                    <div><h6 id='pseudocomment'><?= strip_tags($pseudo['username']) ?> <span><?= strip_tags($date) ?></span></h6></div>
                     <div id='commentaire'>
-                    ".$valeur['content']."
+                    <?= $valeur['content'] ?>
                     </div>
                     </div>
                     <hr>
-                    "
-                    ;
+            <?php
 
                 }
             }

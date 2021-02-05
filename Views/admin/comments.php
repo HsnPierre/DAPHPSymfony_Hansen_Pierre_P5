@@ -24,42 +24,37 @@
             $idComment = $valeur['idComment'];
 
             if($valeur['valid'] == 0){
-                echo
-                "
-                <div id='comment".strip_tags($idComment)."' class='justify-content-center row'>
-                <div class='text-center'><h6 id='pseudocomment'>".strip_tags($pseudo['username'])." <span>".strip_tags($date)."</span></h6></div>
-                <div class='justify-content-center row' id='commentaire'>
-                <div class='col-8 text-center'>".strip_tags($valeur['content'])."</div>
-                </div>
-                <form method='post'>
-                    <div class='text-center'>
-                        <button class='btn btn-primary' type='submit' name='oui' value=".strip_tags($idComment).">Valider</button>               
-                        <button class='btn btn-danger' type='submit' name='non' value=".strip_tags($idComment).">Supprimer</button>                 
-                    </div>
-                </form>
-                </div>
-                <hr>
-                "
-                ;
-                $i++;
+    ?>
+    <div id='comment<?= strip_tags($idComment) ?>' class='justify-content-center row'>
+        <div class='text-center'><h6 id='pseudocomment'><?= strip_tags($pseudo['username']) ?> <span><?= strip_tags($date) ?></span></h6></div>
+        <div class='justify-content-center row' id='commentaire'>
+            <div class='col-8 text-center'><?= strip_tags($valeur['content']) ?></div>
+        </div>
+        <form method='post'>
+            <div class='text-center'>
+                <button class='btn btn-primary' type='submit' name='oui' value=<?= strip_tags($idComment) ?>>Valider</button>               
+                <button class='btn btn-danger' type='submit' name='non' value=<?= strip_tags($idComment) ?>>Supprimer</button>                 
+            </div>
+        </form>
+    </div>
+    <hr>
+    <?php $i++; 
             } else {
-                echo
-                "
-                <div id='comment".strip_tags($idComment)."' class='justify-content-center row'>
-                <div class='text-center'><h6 id='pseudocomment'>".strip_tags($pseudo['username'])." <span>".strip_tags($date)."</span></h6></div>
-                <div class='justify-content-center row' id='commentaire'>
-                <div class='col-8 text-center'>".strip_tags($valeur['content'])."</div>
-                </div>
-                <form method='post'>
-                    <div class='text-center'>              
-                        <button class='btn btn-danger' type='submit' name='non' value=".strip_tags($idComment).">Supprimer</button>                 
-                    </div>
-                </form>
-                </div>
-                <hr>
-                "
-                ;
-                $i++;
+    ?>
+    <div id='comment<?= strip_tags($idComment) ?>' class='justify-content-center row'>
+        <div class='text-center'><h6 id='pseudocomment'><?= strip_tags($pseudo['username']) ?> <span><?= strip_tags($date) ?></span></h6></div>
+        <div class='justify-content-center row' id='commentaire'>
+            <div class='col-8 text-center'><?= strip_tags($valeur['content']) ?></div>
+        </div>
+        <form method='post'>
+            <div class='text-center'>              
+                <button class='btn btn-danger' type='submit' name='non' value=<?= strip_tags($idComment) ?>>Supprimer</button>                 
+            </div>
+        </form>
+    </div>
+    <hr>
+    <?php
+        $i++;
             }
         }
         if($i == 0){

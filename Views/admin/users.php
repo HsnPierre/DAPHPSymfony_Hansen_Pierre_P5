@@ -45,37 +45,33 @@
         $idUser = $valeur['idUser'];
 
         if(!in_array('Administrateur', json_decode($valeur['role']))){
-
-            echo
-            "
+    ?>
             <form method='post'>
-            <div id='user".strip_tags($idUser)."' class='d-flex align-items-center'>
-                <p class='col-2'>".strip_tags($valeur['username'])."</p>
-                <p class='col-3'>".strip_tags($valeur['name'])." ".strip_tags($valeur['surname'])."</p>
-                <p class='col-3'>".strip_tags($valeur['email'])."</p>
+            <div id='user<?= strip_tags($idUser) ?>' class='d-flex align-items-center'>
+                <p class='col-2'><?= strip_tags($valeur['username']) ?></p>
+                <p class='col-3'><?= strip_tags($valeur['name']) ?> <?= strip_tags($valeur['surname']) ?></p>
+                <p class='col-3'><?= strip_tags($valeur['email']) ?></p>
                 <p class='col-2'>Utilisateur</p>
-                <button class='col-2 btn' name='setadmin' value=".strip_tags($idUser).">Promouvoir</button>
+                <button class='col-2 btn' name='setadmin' value=<?= strip_tags($idUser) ?>>Promouvoir</button>
             </div>
             </form>
             <hr>
-            "
-            ;
+    <?php
             $i++;
 
         } elseif(!in_array('Host', json_decode($valeur['role']))) {
-            echo
-            "
+    ?>
             <form method='post'>
-            <div id='user".strip_tags($idUser)."' class='d-flex align-items-center p-2 bg-secondary text-light'>
-                <p class='col-2'>".strip_tags($valeur['username'])."</p>
-                <p class='col-3'>".strip_tags($valeur['name'])." ".strip_tags($valeur['surname'])."</p>
-                <p class='col-3'>".strip_tags($valeur['email'])."</p>
+            <div id='user<?= strip_tags($idUser) ?>' class='d-flex align-items-center p-2 bg-secondary text-light'>
+                <p class='col-2'><?= strip_tags($valeur['username']) ?></p>
+                <p class='col-3'><?= strip_tags($valeur['name']) ?> <?= strip_tags($valeur['surname']) ?></p>
+                <p class='col-3'><?= strip_tags($valeur['email']) ?></p>
                 <p class='col-2'>Administrateur</p>
-                <button class='col-2 btn btn-light' name='unsetadmin' value=".strip_tags($idUser).">Destituer</button>
+                <button class='col-2 btn btn-light' name='unsetadmin' value=<?= strip_tags($idUser) ?>>Destituer</button>
             </div>
             </form>
             <hr>
-            "
+    <?php
             ;
             $i++;
         } 
