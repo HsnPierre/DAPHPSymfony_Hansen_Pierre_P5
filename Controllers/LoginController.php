@@ -42,7 +42,7 @@ class LoginController extends Controller
 
                 if(password_verify(Post::get('mdp'), $user->getPassword())){
                     $user->setSession();
-                    header('Location: '. $_SERVER['HTTP_REFERER']);
+                    header('Location: '. filter_input_array(INPUT_SERVER, 'HTTP_REFERER'));
                     exit;
                 }else{
                     Session::put3d('erreur', 0, "Le pseudonyme et/ou le mot de passe est incorrect");
