@@ -64,8 +64,8 @@
         <div class='container' id='showComment'>
 
             <?php
+            $i = 0;
             foreach($valeurs as $valeur){
-                $pseudo = $user->findOneById('username', $valeur['idUser']);
                 $date = date('\(d.m.y, H:i\)', strtotime($valeur['date']));
                 $idComment = $valeur['idComment'];
 
@@ -73,14 +73,14 @@
 
             ?>
                     <div id='comment<?= strip_tags($idComment) ?>'>
-                    <div><h6 id='pseudocomment'><?= strip_tags($pseudo['username']) ?> <span><?= strip_tags($date) ?></span></h6></div>
+                    <div><h6 id='pseudocomment'><?= strip_tags($pseudo[$i]['username']) ?> <span><?= strip_tags($date) ?></span></h6></div>
                     <div id='commentaire'>
                     <?= $valeur['content'] ?>
                     </div>
                     </div>
                     <hr>
             <?php
-
+                $i++;
                 }
             }
             ?>

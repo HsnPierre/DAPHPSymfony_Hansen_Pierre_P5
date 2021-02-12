@@ -21,7 +21,7 @@ class BlogController extends Controller
         $tmp = $blog->showPost('date', 'DESC');
         extract($tmp);
 
-        $donnees = array ("title" => "Blog", "subtitle" => "Mes différentes actualités", "image" => "https://zupimages.net/up/21/03/t0tn.jpg", "valeurs" => $valeurs, "user" => $user);
+        $donnees = array ("title" => "Blog", "subtitle" => "Mes différentes actualités", "image" => "https://zupimages.net/up/21/03/t0tn.jpg", "valeurs" => $valeurs, "nom" => $nom, "prenom" => $prenom);
 
         $this->render('blog/index', $donnees);
         
@@ -69,9 +69,19 @@ class BlogController extends Controller
         $post = new PostModel;
         $user = new UserModel;
 
+        $nom = [];
+        $prenom = [];
+
         $valeurs = $post->findOrderBy($type, $order);
 
-        $result = array ("valeurs" => $valeurs, "user" => $user);
+        foreach($valeurs as $valeur){
+            $nom[] = $user->findOneById('name', $valeur['idUser']);
+            $prenom[] = $user->findOneById('surname', $valeur['idUser']);
+
+            $tmp = $user->findOneById('surname', $valeur['idUser']);
+        }
+
+        $result = array ("valeurs" => $valeurs, "nom" => $nom, "prenom" => $prenom);
 
         return $result;
     }

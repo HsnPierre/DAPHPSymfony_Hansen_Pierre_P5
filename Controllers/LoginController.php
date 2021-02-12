@@ -25,6 +25,7 @@ class LoginController extends Controller
     {
         $login = new LoginController;
         Session::put('erreur', []);
+        $i = 0;
 
         if(!empty(Post::raw())){
             if($login->validate(Post::raw(), ['pseudo', 'mdp'])){
@@ -34,8 +35,7 @@ class LoginController extends Controller
                 $userArray = $userModel->findOneBy('username', Post::get('pseudo'));
 
                 if(!$userArray){
-                Session::put3d('erreur', 0, "Le pseudonyme et/ou le mot de passe est incorrect");
-                header('Location: /login');
+                    Session::put3d('erreur', $i, "Le pseudonyme et/ou le mot de passe est incorrect");
                 }
 
                 $user = $userModel->hydrate($userArray);
@@ -45,12 +45,9 @@ class LoginController extends Controller
                     header('Location: '. filter_input(INPUT_SERVER, 'HTTP_REFERER'));
                     exit;
                 }else{
-                    Session::put3d('erreur', 0, "Le pseudonyme et/ou le mot de passe est incorrect");
-                    header('Location: /login');
+                    Session::put3d('erreur', $i, "Le pseudonyme et/ou le mot de passe est incorrect");
                 }
 
-            } else {
-                header('Location: /login');
             }
         }
     }
@@ -59,7 +56,6 @@ class LoginController extends Controller
     {
         Session::put('erreur', []);
         $compteur = 0;
-
         foreach($champs as $champ){
             if(!isset($donnees[$champ]) || empty($donnees[$champ])){
                 if($champ == 'pseudo'){

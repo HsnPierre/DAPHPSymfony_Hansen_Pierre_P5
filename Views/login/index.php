@@ -1,22 +1,20 @@
 <div class="container">
-    <?php use App\Core\Session; if(Session::get('valide') !== null): ?>
-    <div class="alert alert-success text-center" role="alert">
-            <?= Session::get('valide'); Session::forget('valide'); ?>
-    </div>
-    <?php endif; ?>
+    <?php use App\Core\Session ?>
+
     <h2 class="text-center">Se connecter</h2>
+
     <?php if(Session::get('erreur') !== null): ?>
-    <div class="alert alert-danger text-center" role ="alert">
-        <?php
-            for($i = 0; $i < count(Session::get('erreur')); $i++){
-        ?>
-                <?= Session::get3d('erreur', $i).'<br>' ?>
-        <?php
-            }
-            Session::forget('erreur'); 
-        ?>
-    </div>
-    <?php endif; ?>
+            <div class="alert alert-danger text-center" role ="alert">
+                <?php
+                    for($i = 0; $i < count(Session::get('erreur')); $i++){
+                ?>
+                        <?= Session::get3d('erreur', $i).'<br>'; ?>
+                <?php
+                    }
+                    Session::forget('erreur'); 
+                ?>
+            </div>
+        <?php endif; ?>
     <form method="post" id="connexion">
         <div class="form-group">
             <label for="pseudo" class="form-label">Pseudo</label>

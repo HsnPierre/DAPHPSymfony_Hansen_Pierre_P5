@@ -25,3 +25,11 @@ Modifiez les champs suivants (ligne 12-15):
 "private const DBUSER = '';" Le nom d'utilisateur   
 "private const DBPASS = '';" Le mot de passe  
 "private const DBNAME = '';" Le nom de la base saisi plus haut
+
+#### Etape 4- **Configurez le host**
+
+Dans le dossier "public" -> "index.php" modifiez la constante 'HOST' afin de correspondre à votre configuration.  
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5fe600dbcfda4669a5ddee26fcd3324b)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=HsnPierre/DAPHPSymfony_Hansen_Pierre_P5&amp;utm_campaign=Badge_Grade)
+
+

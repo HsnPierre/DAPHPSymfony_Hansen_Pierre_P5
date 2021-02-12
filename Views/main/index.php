@@ -21,8 +21,6 @@
         $i = 0;
         foreach($valeurs as $valeur){
             if($i < 3) {
-                $nom = $user->findOneById('name', $valeur['idUser']);
-                $prenom = $user->findOneById('surname', $valeur['idUser']);
                 $date = date('\P\o\s\t\é \l\e d.m.y, \à H:i', strtotime($valeur['date']));
                 $id = $valeur['idPost'];
 
@@ -34,7 +32,7 @@
                         <h3 class='post-title text-center'><a href='blog/post/<?= strip_tags($id) ?>'><?= strip_tags($valeur['title']) ?></a></h3>
                         <h5 class='post-subtitle text-center'><?= strip_tags($valeur['description']) ?></h5>
                         <p class='text-center'><?= strip_tags($date) ?> (<?= strip_tags($dateEdit) ?>)</p>
-                        <p class='text-center'><?= strip_tags($prenom['surname']) ?> <?= strip_tags($nom['name']) ?> (édité par <?= strip_tags($valeur['editor']) ?>)</p>
+                        <p class='text-center'><?= strip_tags($prenom[$i]['surname']) ?> <?= strip_tags($nom[$i]['name']) ?> (édité par <?= strip_tags($valeur['editor']) ?>)</p>
                     </div>
         <?php
                     $i++;
@@ -45,7 +43,7 @@
                         <h3 class='post-title text-center'><a href='blog/post/<?= strip_tags($id) ?>'><?= strip_tags($valeur['title']) ?></a></h3>
                         <h5 class='post-subtitle text-center'><?= strip_tags($valeur['description']) ?></h5>
                         <p class='text-center'><?= strip_tags($date) ?></p>
-                        <p class='text-center'><?= strip_tags($prenom['surname']) ?> <?= strip_tags($nom['name']) ?></p>
+                        <p class='text-center'><?= strip_tags($prenom[$i]['surname']) ?> <?= strip_tags($nom[$i]['name']) ?></p>
                     </div>
         <?php
                     $i++;

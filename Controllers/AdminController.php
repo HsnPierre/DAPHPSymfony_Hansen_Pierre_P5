@@ -44,7 +44,7 @@ class AdminController extends Controller
 
         extract($tmp);
 
-        $donnees = array ("title" => 'Dashboard', "valeurs" => $valeurs, "user" => $user);
+        $donnees = array ("title" => 'Dashboard', "valeurs" => $valeurs, "nom" => $nom, "prenom" => $prenom);
 
         $this->render('admin/index', $donnees, 'dashboard');
     }
@@ -82,7 +82,7 @@ class AdminController extends Controller
 
         extract($tmp);
 
-        $donnees = array ("title" => 'Dashboard', "valeurs" => $valeurs, "user" => $user);
+        $donnees = array ("title" => 'Dashboard', "valeurs" => $valeurs, "nom" => $nom, "prenom" => $prenom);
 
         $this->render('admin/index', $donnees, 'dashboard');
     }
@@ -116,7 +116,7 @@ class AdminController extends Controller
 
         extract($tmp);
 
-        $donnees = array ("title" => 'Dashboard', "valeurs" => $valeurs, "user" => $user);
+        $donnees = array ("title" => 'Dashboard', "valeurs" => $valeurs, "pseudo" => $pseudo);
 
         $this->render('admin/comments', $donnees, 'dashboard');
 

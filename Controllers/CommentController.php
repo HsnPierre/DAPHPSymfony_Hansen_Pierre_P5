@@ -14,8 +14,14 @@ class CommentController extends Controller
         $comments = new CommentModel;
         $user = new UserModel;
         $valeurs = $comments->findOrderBy('date', 'DESC');
+
+        $pseudo = [];
+
+        foreach($valeurs as $valeur){
+            $pseudo[] = $user->findOneById('username', $valeur['idUser']);
+        }
                 
-        $donnees = array ("valeurs" => $valeurs, "user" => $user, "id" => $identifiant);
+        $donnees = array ("valeurs" => $valeurs, "pseudo" => $pseudo, "id" => $identifiant);
 
         $this->render('blog/post', $donnees, 'post');
     }
@@ -27,7 +33,13 @@ class CommentController extends Controller
         $infos = array("valid" => $valid);
         $valeurs = $comment->findBy($infos);
 
-        $result = array ("valeurs" => $valeurs, "user" => $user);
+        $pseudo = [];
+
+        foreach($valeurs as $valeur){
+            $pseudo[] = $user->findOneById('username', $valeur['idUser']);
+        }
+
+        $result = array ("valeurs" => $valeurs, "pseudo" => $pseudo);
 
         return $result;
     }

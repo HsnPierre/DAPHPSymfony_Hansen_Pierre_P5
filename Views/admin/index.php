@@ -32,9 +32,8 @@
     <hr>
 
     <?php
+        $i = 0;
         foreach($valeurs as $valeur){
-            $nom = $user->findOneById('name', $valeur['idUser']);
-            $prenom = $user->findOneById('surname', $valeur['idUser']);
             $date = date('\P\o\s\t\é \l\e d.m.y, \à H:i', strtotime($valeur['date']));
             $id = $valeur['idPost'];
 
@@ -48,7 +47,7 @@
                 <h3 class='post-title text-center'><?= strip_tags($valeur['title']) ?></h3>
                 <h5 class='post-subtitle'><?= strip_tags($valeur['description']) ?></h5>
                 <?= html_entity_decode($valeur['content'], ENT_HTML5, UTF-8) ?>
-                <p><?= strip_tags($prenom['surname']) ?> <?= strip_tags($nom['name']) ?> (édité par <?= strip_tags($valeur['editor']) ?>)</p>
+                <p><?= strip_tags($prenom[$i]['surname']) ?> <?= strip_tags($nom[$i]['name']) ?> (édité par <?= strip_tags($valeur['editor']) ?>)</p>
                     <div>
                         <form action=' ' method='post' id='delete' class='text-center'>
                             <div class='form-check col'>
@@ -64,6 +63,7 @@
                 </div>
                 <hr>
     <?php 
+            $i++;
             } else {
     ?>
                 <div id='post<?= strip_tags($id) ?>'>
@@ -71,7 +71,7 @@
                 <h3 class='post-title text-center'><?= strip_tags($valeur['title']) ?></h3>
                 <h5 class='post-subtitle'><?= strip_tags($valeur['description']) ?></h5>
                 <?= html_entity_decode($valeur['content'], ENT_HTML5, UTF-8) ?>
-                <p><?= strip_tags($prenom['surname']) ?> <?= strip_tags($nom['name']) ?></p>
+                <p><?= strip_tags($prenom[$i]['surname']) ?> <?= strip_tags($nom[$i]['name']) ?></p>
                     <div class=''>
                         <form action=' ' method='post' id='delete' class='text-center'>
                             <div class='form-check col'>
@@ -87,6 +87,7 @@
                 </div>
                 <hr>
     <?php 
+            $i++;
             }
         }
 
