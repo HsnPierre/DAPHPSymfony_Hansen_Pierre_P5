@@ -23,10 +23,9 @@
             if($i < 3) {
                 $date = date('\P\o\s\t\é \l\e d.m.y, \à H:i', strtotime($valeur['date']));
                 $id = $valeur['idPost'];
-
-                if(isset($valeur['editor']) && isset($valeur['dateEdit'])){
-                    $dateEdit = date('\M\i\s \à \j\o\u\r \l\e d.m.y, \à H:i', strtotime($valeur['dateEdit']));
         ?>
+        <?php if(isset($valeur['editor']) && isset($valeur['dateEdit'])): ?>
+        <?php $dateEdit = date('\M\i\s \à \j\o\u\r \l\e d.m.y, \à H:i', strtotime($valeur['dateEdit'])); ?>
                     <div class='post-preview col' id='post<?= strip_tags($id) ?>'>
                         <div class='text-center'><a href='blog/post/<?= strip_tags($id) ?>'><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
                         <h3 class='post-title text-center'><a href='blog/post/<?= strip_tags($id) ?>'><?= strip_tags($valeur['title']) ?></a></h3>
@@ -34,10 +33,8 @@
                         <p class='text-center'><?= strip_tags($date) ?> (<?= strip_tags($dateEdit) ?>)</p>
                         <p class='text-center'><?= strip_tags($prenom[$i]['surname']) ?> <?= strip_tags($nom[$i]['name']) ?> (édité par <?= strip_tags($valeur['editor']) ?>)</p>
                     </div>
-        <?php
-                    $i++;
-                } else {
-        ?>
+        <?php $i++ ?>
+        <?php else: ?>
                     <div class='post-preview col' id='post<?= strip_tags($id) ?>'>
                         <div class='text-center'><a href='blog/post/<?= strip_tags($id) ?>'><img src='https://www.heberger-image.fr/images/2021/01/14/post53a53974587df487.jpg' alt='Post Image' border='0' /></a></div>
                         <h3 class='post-title text-center'><a href='blog/post/<?= strip_tags($id) ?>'><?= strip_tags($valeur['title']) ?></a></h3>
@@ -45,9 +42,9 @@
                         <p class='text-center'><?= strip_tags($date) ?></p>
                         <p class='text-center'><?= strip_tags($prenom[$i]['surname']) ?> <?= strip_tags($nom[$i]['name']) ?></p>
                     </div>
+        <?php $i++; ?>
+        <?php endif; ?>
         <?php
-                    $i++;
-                }
             }
         }
         ?>
@@ -108,16 +105,26 @@
 <div class="container" id="contactform">
     <h2 class="text-center">Me contacter</h2>
     <form action="#contactform" method="post" id="contact">
-        <?php if(null !== Session::get('erreur')): ?>
+
+        <?php if(null !== Session::get3d('erreur', 0)): ?>
             <div class="alert alert-danger text-center" role ="alert">
                 <?= Session::get('erreur'); Session::forget('erreur'); ?>
             </div>
         <?php endif; ?>
-        <?php if(null !== Session::get('erreur')): ?>
+
+        <?php if(null !== Session::get3d('erreur', 0)): ?>
             <div class="alert alert-danger text-center" role ="alert">
-                <?= Session::get('erreur'); Session::forget('erreur'); ?>
+                <?php
+                    for($i = 0; $i < count(Session::get('erreur')); $i++){
+                ?>
+                        <?= Session::get3d('erreur', $i).'<br>'; ?>
+                <?php
+                    }
+                    Session::forget('erreur'); 
+                ?>
             </div>
         <?php endif; ?>
+
         <div class="row g-3 align-items-center">
             <div class="form-group col">
                 <label for="nom" class="form-label">Nom</label>

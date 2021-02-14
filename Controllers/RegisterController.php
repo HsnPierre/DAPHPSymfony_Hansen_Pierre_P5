@@ -16,32 +16,27 @@ class RegisterController extends Controller
         }
 
         if(Post::get('rgpd') !== null){
-            if($register->isEmpty(Post::raw(), ['nom', 'prenom', 'pseudonyme', 'mail', 'password', 'password2']) && $register->validateMail(Post::get('mail')) && $register->validatePass(Post::get('password'), Post::get('password2'))){
+            if($register->isEmpty(Post::raw(), ['nom', 'prenom', 'pseudonyme', 'mail', 'password', 'password2']) && $register->validateMail(Post::get('mail')) && $register->alreadyUse(Post::get('pseudonyme'), 'username') && $register->alreadyUse(Post::get('mail'), 'email') && $register->validatePass(Post::get('password'), Post::get('password2'))){
                 $mail = Post::get('mail');
                 $pass = password_hash(Post::get('password'), PASSWORD_BCRYPT);
                 $nom = strip_tags(Post::get('nom'));
                 $prenom = strip_tags(Post::get('prenom'));
                 $pseudo = strip_tags(Post::get('pseudonyme'));
+    
+                $user = new UserModel;
 
-                
+                $user->setUsername($pseudo);
+                $user->setPassword($pass);
+                $user->setName($nom);
+                $user->setSurname($prenom);
+                $user->setEmail($mail);
+                $user->setRole(json_encode(['Utilisateur']));
+                $user->setRgpd(1);
 
-                if($register->alreadyUse($pseudo, 'username') && $register->alreadyUse($mail, 'email')){
-                    
-                    $user = new UserModel;
+                $user->create();
 
-                    $user->setUsername($pseudo);
-                    $user->setPassword($pass);
-                    $user->setName($nom);
-                    $user->setSurname($prenom);
-                    $user->setEmail($mail);
-                    $user->setRole(json_encode(['Utilisateur']));
-                    $user->setRgpd(1);
-
-                    $user->create();
-
-                    Session::put('valide', "L'inscription a bien été prise en compte, vous pouvez dorénavant vous connecter");
-                    header('Location: /login');
-                }       
+                Session::put('valide', "L'inscription a bien été prise en compte, vous pouvez dorénavant vous connecter");
+                header('Location: /login');     
             }
         } elseif(Post::raw() !== null) {
             Session::put('ereur', "Vous devez accepter les conditions pour pouvoir vous inscrire.");
@@ -95,22 +90,27 @@ class RegisterController extends Controller
 
         if(!preg_match($pattern, $pass)){
             Session::put3d('erreur', $compteur, 'Le mot de passe doit contenir au minimum');
+            $compteur++;
             if(!preg_match('/^(?=.*[a-z]).{12,}$/', $pass)){
                 Session::put3d('erreur', $compteur, "une minuscule");
+                $compteur++;
             }   
             if(!preg_match('/^(?=.*[A-Z]).{12,}$/', $pass)){
                 Session::put3d('erreur', $compteur, "une majuscule");
+                $compteur++;
             }   
             if(!preg_match('/^(?=.*[0-9]).{12,}$/', $pass)){
                 Session::put3d('erreur', $compteur, "un chiffre");
+                $compteur++;
             }   
             if(!preg_match('/^(?=.*[!@#$%^&*-]).{12,}$/', $pass)){
                 Session::put3d('erreur', $compteur, "un caractère spécial");
+                $compteur++;
             }
             if(!preg_match('/^.{12,}$/', $pass)){
                 Session::put3d('erreur', $compteur, "et contenir au minimum 12 caractères");
+                $compteur++;
             } 
-            $compteur++;
         }
 
         if ($pass != $pass2){

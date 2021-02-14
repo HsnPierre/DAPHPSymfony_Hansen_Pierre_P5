@@ -92,7 +92,7 @@ class CommentController extends Controller
             Session::put('idComment', Post::get('oui'));
             $comment->setValid(1);
             $comment->update();
-            header('Location :'.filter_input(INPUT_SERVER, 'HTTP_REFERER'));
+            header('Refresh:0');
         } else if(Post::get('non') !== null){
             $identifiant = Post::get('non');
             $comment->delete($identifiant);

@@ -77,8 +77,6 @@ class BlogController extends Controller
         foreach($valeurs as $valeur){
             $nom[] = $user->findOneById('name', $valeur['idUser']);
             $prenom[] = $user->findOneById('surname', $valeur['idUser']);
-
-            $tmp = $user->findOneById('surname', $valeur['idUser']);
         }
 
         $result = array ("valeurs" => $valeurs, "nom" => $nom, "prenom" => $prenom);
