@@ -154,7 +154,7 @@
         
         <h2 class='text-center'>Editer une annonce</h2>
 
-        <?php if(Session::get('erreur') !== null): ?>
+        <?php if(null !== Session::get3d('erreur', 0)): ?>
             <div class="alert alert-danger text-center" role ="alert">
                 <?php
                     for($i = 0; $i < count(Session::get('erreur')); $i++){
