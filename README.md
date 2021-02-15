@@ -30,6 +30,6 @@ Modifiez les champs suivants (ligne 12-15):
 
 Dans le dossier "public" -> "index.php" modifiez la constante 'HOST' afin de correspondre à votre configuration.  
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5fe600dbcfda4669a5ddee26fcd3324b)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=HsnPierre/DAPHPSymfony_Hansen_Pierre_P5&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5fe600dbcfda4669a5ddee26fcd3324b)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=HsnPierre/DAPHPSymfony_Hansen_Pierre_P5&amp;utm_campaign=Badge_Grade)  
 
 
